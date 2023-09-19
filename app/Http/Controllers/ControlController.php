@@ -37,6 +37,7 @@ class ControlController extends Controller
     return view('controls.control', ['users' => $users]);
 
 }
+
 public function recette(Request $request)
 {
 
