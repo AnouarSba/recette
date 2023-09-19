@@ -17,6 +17,7 @@ class CreateLignesTable extends Migration
                 $table->id();
 
             $table->string('name');
+            $table->string('ordre');
             $table->integer('Length')->nullable();
             $table->json('arrets')->nullable();
             $table->text('maps')->nullable();

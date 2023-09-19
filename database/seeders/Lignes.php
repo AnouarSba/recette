@@ -13,37 +13,13 @@ class Lignes extends Seeder
      */
     public function run(): void
     {
-        Ligne::create( [
-            'id'=>1,
-            'name'=>'L1',
-            'Length'=>4,
-            'arrets'=>'[\"3\",\"1\",\"2\",\"4\"]',
-            'deleted_at'=>'2022-10-16 12:45:38',
-            'created_at'=>'2022-08-15 19:55:06',
-            'updated_at'=>'2022-10-16 12:45:38',
-            'maps'=>'ssxuEtpzBLc@KiBKwAE_AIuAE}AJUNUXIr@Er@IlAKzAYPEp@JRGZSJa@Fm@Yy@[Oi@CWJYM]_@eCcEeCyDyFgJsAuBoD}FuA_CiC_EcAkBmAoBMUwCuEs@aCeAwEm@sC}@gEw@uD{@uD{BkJSs@?m@Bi@Ci@YQ_@JO\\IPuFjDgBbA}HxEsBhAgF`D{BlAeHpCuIjBq@BYESQWKYHMJM@eDD}@KeAYi@_@i@a@}@}@uBuAmA}@qAaA{CwBq@[_@Om@OcA_@SK]i@@WFiAFi@^cCj@uEHkADa@PMd@s@?s@KeAQo@Q]AuBAgAD}B@uAEGy@AiCCu@IcCDwAIi@AsBK{ACW?Ap@MnGCfA',
-            'color'=>'0xffff0000'
-            ] );
-            
-            
-                        
-            Ligne::create( [
-            'id'=>2,
-            'name'=>'L2',
-            'Length'=>5,
-            'arrets'=>'[\"1\",\"2\",\"3\",\"5\",\"4\"]',
-            'deleted_at'=>'2022-10-16 12:45:41',
-            'created_at'=>'2022-08-16 15:13:43',
-            'updated_at'=>'2022-10-16 12:45:41',
-            'maps'=>NULL,
-            'color'=>NULL
-            ] );
             
             
                         
             Ligne::create( [
             'id'=>3,
             'name'=>'Ligne 03B',
+            'ordre' => 8,
             'Length'=>11,
             'arrets'=>'[\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"40\",\"41\",\"42\",\"38\",\"43\"]',
             'deleted_at'=>NULL,
@@ -58,6 +34,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>4,
             'name'=>'Ligne 09 ',
+            'ordre' => 2,
             'Length'=>14,
             'arrets'=>'[\"29\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\"]',
             'deleted_at'=>NULL,
@@ -72,6 +49,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>5,
             'name'=>'Ligne 16',
+            'ordre' => 1,
             'Length'=>18,
             'arrets'=>'[\"29\",\"44\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"65\",\"66\"]',
             'deleted_at'=>NULL,
@@ -86,6 +64,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>6,
             'name'=>'Ligne 11',
+            'ordre' => 3,
             'Length'=>16,
             'arrets'=>'[\"67\",\"68\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\"]',
             'deleted_at'=>NULL,
@@ -100,6 +79,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>7,
             'name'=>'Ligne 25',
+            'ordre' => 4,
             'Length'=>13,
             'arrets'=>'[\"67\",\"68\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"131\"]',
             'deleted_at'=>NULL,
@@ -114,6 +94,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>8,
             'name'=>'ligne 26',
+            'ordre' => 6,
             'Length'=>22,
             'arrets'=>'[\"67\",\"68\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"131\",\"132\"]',
             'deleted_at'=>NULL,
@@ -128,6 +109,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>9,
             'name'=>'Ligne 27',
+            'ordre' => 5,
             'Length'=>13,
             'arrets'=>'[\"67\",\"68\",\"70\",\"71\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"131\"]',
             'deleted_at'=>NULL,
@@ -142,6 +124,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>10,
             'name'=>'Ligne 28 ',
+            'ordre' => 7,
             'Length'=>19,
             'arrets'=>'[\"67\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\"]',
             'deleted_at'=>NULL,
@@ -156,6 +139,7 @@ class Lignes extends Seeder
             Ligne::create( [
             'id'=>11,
             'name'=>'Ligne Touristique : Lac sidi mohamed benali',
+            'ordre' => 9,
             'Length'=>11,
             'arrets'=>'[\"29\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\"]',
             'deleted_at'=>NULL,

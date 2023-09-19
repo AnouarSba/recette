@@ -67,7 +67,7 @@ public function recette(Request $request)
     $kabid = Kabid::where('id','>','2')->get();
     $ligne = Ligne::get();
     $bus = Bus::get();
-    return view('pages.dashboard', ['today'=>$r, 'kabids' => $kabid, 'lignes' => $ligne, 'buses' => $bus]);
+    return redirect()->route('home');
 
 }
     public function ExportExcel($etat_rec, $etat_bus, $etat_ligne){
@@ -82,8 +82,29 @@ public function recette(Request $request)
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(1);
-        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
-        $spreadSheet->getActiveSheet()->fromArray($etat_bus);
+        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+
+// Add some data
+
+$range = $this->create_columns_range('A', 'ZZ');
+$k=0;
+for ($i=0; $i <150 ; $i+=5) { 
+    $k++;
+    $j=$i+4;
+$spreadSheet->setActiveSheetIndex(1)
+        ->setCellValue($range[$i].'1', 'A'.$k);
+        $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+$spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+        $begin = $range[$i]."1";
+        $end = $range[$j]."1";
+        $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
+}
+
+	
+	  
+    
+   
+$spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'A2');
         
         $spreadSheet->getActiveSheet()->setTitle('Etat_bus');
         $spreadSheet->createSheet();
@@ -111,9 +132,17 @@ public function recette(Request $request)
      *This function loads the customer data from the database then converts it
      * into an Array that will be exported to Excel
      */
+    function create_columns_range($start = 'A', $end = 'ZZ'){
+        $return_range = [];
+        for ($i = $start; $i !== $end; $i++){
+            $return_range[] = $i;
+        }
+        return $return_range;
+    }
     function exportData(Request $request){
         $req = $request->validate([
             'start_date' => 'required|date',
+            'brigade' => 'required',
            ]);
            $from= $req['start_date'];	
            $types= ['','A','B','C','D'];
@@ -144,22 +173,60 @@ public function recette(Request $request)
                 
             );
         }
-      /*  $data = Flixy::query()
-        ->join('kabids', 'kabids.id', '=', 'flixies.flixy_id')->where('flixy_type','App\Models\Kabid')->whereBetween('flixies.created_at', [$from, $to])->select("flixy_id", "name", DB::raw("sum(amount) as flexy"))
-        ->groupBy('flixy_id')->orderBy('flexy', 'DESC')
-        ->get();*/
-    
-        $data_array2 [] = array("Num","Name","Flexy");
-       /* $i = 0;
+        if ($req['brigade'] == 0) {
+            $data = Recette::query();
+           } else {
+            $data = Recette::query()->where('brigade',$req['brigade']);
+           }
+            $data = $data
+            ->join('buses', 'buses.id', '=', 'recettes.bus_id')
+           /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+            ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
+            ->where('b_date', $from)
+            ->select("buses.name as bname",   DB::raw("sum(t20) as t20"),   DB::raw("sum(t25) as t25"),   DB::raw("sum(t30) as t30"))
+            ->groupBy(['bname'])->orderBy('bus_id', 'ASC')
+            ->get();
+        $arr = array("15","20","25","30","40");
+        $arrs=[];
+        for($i=0;$i<29;$i++)
+        array_push($arrs, ...$arr);
+        
+        $data_array2 [] = $arrs;
+      $d=[];
+      $arr =[];
+      $arrs =[];
         foreach($data as $data_item)
-        { $i++;
-            $data_array2[] = array(
-                'Num' =>$i,
-                'Name' => $data_item->name,
-                'Flexy' => $data_item->flexy
-            );
+        {   
+            $arr[$data_item->bname]= [$data_item->t20,$data_item->t25,$data_item->t30];
+            array_push($arrs,$data_item->bname);
         }
-        $data = Vent::query()
+
+            for ($i=1; $i <=30 ; $i++) { 
+                $j= ($i<10)? "A0".$i : "A".$i; 
+                if (in_array($j, $arrs)) {
+                    
+                 $t15=0;
+            $t40=0;
+            $t20 = ($arr[$j][0] > 0)? $arr[$j][0] *20 : 0;
+            $t25 = ($arr[$j][1] > 0)? $arr[$j][1] *25 : 0;
+            $t30 = ($arr[$j][2] > 0)? $arr[$j][2] *30 : 0;
+             array_push($d,$t15);
+             array_push($d,$t20);
+             array_push($d,$t25);
+             array_push($d,$t30);
+             array_push($d,$t40);
+            } else {
+                array_push($d,0);
+                array_push($d,0);
+                array_push($d,0);
+                array_push($d,0);
+                array_push($d,0);
+
+            }
+        }
+        
+            
+             $data_array2 [] =$d; /*  $data = Vent::query()
         ->join('controls', 'controls.id', '=', 'vents.c_id')->where('c_type','App\Models\Control')
         ->whereBetween('vents.created_at', [$from, $to])
         ->select("c_id", "name", DB::raw("count(vents.id) as cmpt"))
