@@ -27,13 +27,21 @@
                                 @error('start_date') <span class="text-danger error">{{ $message }}</span>@enderror
                             </div>
 
+                            <select name="brigade" id="brigade" required>
+                                <option value="0">يوم كامل</option>
+                                <option value="1">صباح</option>
+                                <option value="2">مساء</option>
+                                <!--   @php
 
+        for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
+                            </select>
 
                             <div class="col-auto">
                                 <label for="exampleFormControlInput1"> </label>
                                 <br>
                                 <button type="submit" class="btn btn-primary mb-2"> Envoyer</button>
                             </div>
+
                         </div>
                     </form>
 

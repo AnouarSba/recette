@@ -118,8 +118,12 @@ public function recette(Request $request)
            $from= $req['start_date'];	
            $types= ['','A','B','C','D'];
         $data_array [] = array("Num","Receveur","Recette");
-       
-        $data = Recette::query()
+       if ($req['brigade'] == 0) {
+        $data = Recette::query();
+       } else {
+        $data = Recette::query()->where('brigade',$req['brigade']);
+       }
+        $data = $data
         ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
        /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
         ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
