@@ -94,6 +94,8 @@ public function recette(Request $request)
         $spreadSheet->getActiveSheet()->fromArray($etat_ligne);
         
         $spreadSheet->getActiveSheet()->setTitle('Etat_ligne');
+        $spreadSheet->setActiveSheetIndex(0);
+
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="Etat_ExportedData.xls"');
