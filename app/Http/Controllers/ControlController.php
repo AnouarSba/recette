@@ -100,8 +100,6 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }
 
-	
-	  
     
    
 $spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'A2');
@@ -111,8 +109,24 @@ $spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'A2');
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(2);
-        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
-        $spreadSheet->getActiveSheet()->fromArray($etat_ligne);
+        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
+        $k=0;
+$l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+$c=[4,5,8,10,8,12,12,1,3,9];
+for ($i=0; $i <64 ;$i+=$c[$k-1]) { 
+        
+$spreadSheet->setActiveSheetIndex(2)
+        ->setCellValue($range[$i].'1', 'Ligne'.$l[$k]);
+        $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+$spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+    $k++;
+    $begin = $range[$i]."1";
+    $end = $range[$c[$k-1]-1]."1";
+
+        $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
+}
+	  
+        $spreadSheet->getActiveSheet()->fromArray($etat_ligne,Null,'A2');
         
         $spreadSheet->getActiveSheet()->setTitle('Etat_ligne');
         $spreadSheet->setActiveSheetIndex(0);
@@ -226,13 +240,97 @@ $spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'A2');
         }
         
             
-             $data_array2 [] =$d; /*  $data = Vent::query()
-        ->join('controls', 'controls.id', '=', 'vents.c_id')->where('c_type','App\Models\Control')
-        ->whereBetween('vents.created_at', [$from, $to])
-        ->select("c_id", "name", DB::raw("count(vents.id) as cmpt"))
-        ->groupBy('c_id')->orderBy('cmpt', 'DESC')
-        ->get();*/
-        $data_array3 [] = array("Num","Name","Count");/*
+             $data_array2 [] =$d; 
+             
+
+
+             if ($req['brigade'] == 0) {
+                $data = Recette::query();
+               } else {
+                $data = Recette::query()->where('brigade',$req['brigade']);
+               }
+                $data = $data
+                ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+               /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
+                ->where('b_date', $from)
+                ->select("lignes.name as lname","lignes.ordre as ordre", "type",  "t20",  "t25",  "t30")
+               // ->groupBy(['lname'])
+               ->orderBy('lignes.ordre', 'ASC')
+                ->get();
+                $j=0;
+                $i=0;
+                $end= end($data);
+                $endkey = key($end);
+                $count = [];
+                foreach($data as $key => $data_item)
+                {   
+                    if ($data_item->ordre != $j) {
+                        $j = $data_item->ordre;
+                    array_push($count,$i);
+
+                        $i=0;
+                        # code...
+                    }else $i++
+                    $arr[$j][$i]= [$data_item->t20,$data_item->t25,$data_item->t30];
+                    array_push($arrs,$j);
+                    if ($key == $endkey) {
+                        array_push($count,$i);
+                    }
+                }
+                    $k=0
+                    for ($i=1; $i <=9 ; $i++) { 
+                        
+                        if (in_array($i, $arrs)) {
+                            $k++;
+                            if ($i==1) {
+                               for ($j=0; $j < $count[$k] ; $j++) { 
+                                array_push($d,$arr[$i][$j]);
+                               }
+                               for ($j=0; $j <4- $count[$k] ; $j++) { 
+                                array_push($d,0);
+                               }
+                            }
+                            if ($i==2) {
+                                for ($j=0; $j < $count[$k] ; $j++) { 
+                                 array_push($d,$arr[$i][$j]);
+                                }
+                                for ($j=0; $j <5- $count[$k] ; $j++) { 
+                                 array_push($d,0);
+                                }
+                             }
+        
+                    }
+                }
+            $arr = [];
+            for ($i=0; $i <9 ;$i++) { 
+            array_push($arr,20);
+            }
+            for ($i=0; $i <13 ;$i++) { 
+                array_push($arr,15);
+                array_push($arr,20);
+                }
+                for ($i=0; $i <4 ;$i++) { 
+                    array_push($arr,15);
+                    array_push($arr,20);
+                    array_push($arr,25);
+                    }
+                    for ($i=0; $i <4 ;$i++) { 
+                        array_push($arr,15);
+                        array_push($arr,20);
+                        array_push($arr,30);
+                        }
+                    array_push($arr,20);
+
+                    for ($i=0; $i <3 ;$i++) { 
+                        array_push($arr,20);
+                        }
+                        for ($i=0; $i <3 ;$i++) { 
+                            array_push($arr,15);
+                            array_push($arr,20);
+                            array_push($arr,25);
+                            }
+        $data_array3 [] = $arr;/*
         $i = 0;
         foreach($data as $data_item)
         { $i++;
