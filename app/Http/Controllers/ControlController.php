@@ -242,8 +242,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
             
              $data_array2 [] =$d; 
              
-
-
+           
              if ($req['brigade'] == 0) {
                 $data = Recette::query();
                } else {
@@ -271,14 +270,14 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 
                         $i=0;
                         # code...
-                    }else $i++
+                    }else $i++;
                     $arr[$j][$i]= [$data_item->t20,$data_item->t25,$data_item->t30];
                     array_push($arrs,$j);
                     if ($key == $endkey) {
                         array_push($count,$i);
                     }
                 }
-                    $k=0
+                    $k=0;
                     for ($i=1; $i <=9 ; $i++) { 
                         
                         if (in_array($i, $arrs)) {
@@ -301,7 +300,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                              }
         
                     }
-                }
+                }*/
             $arr = [];
             for ($i=0; $i <9 ;$i++) { 
             array_push($arr,20);
@@ -329,7 +328,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                             array_push($arr,15);
                             array_push($arr,20);
                             array_push($arr,25);
-                            }
+                            }*/
         $data_array3 [] = $arr;/*
         $i = 0;
         foreach($data as $data_item)
