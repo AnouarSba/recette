@@ -313,12 +313,12 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                 for ($i=0; $i <4 ;$i++) { 
                     array_push($arr,15);
                     array_push($arr,20);
-                    array_push($arr,25);
+                    array_push($arr,30);
                     }
                     for ($i=0; $i <4 ;$i++) { 
                         array_push($arr,15);
                         array_push($arr,20);
-                        array_push($arr,30);
+                        array_push($arr,25);
                         }
                     array_push($arr,20);
 
@@ -358,17 +358,17 @@ $c=[4,5,8,10,8,12,12,3,9];
                     if ((($j==3 || $j==4 || $j==5) && $i%2==0) ) {
                         $i++;
                     }
-                    if($j==6 || $j==9 ){
+                    if($j==6  ){
                         $i++;
                     ${$cl.$j.$i}= $data_item->t20*20;
                     $i++;
-                    ${$cl.$j.$i}= $data_item->t25*25;                
+                    ${$cl.$j.$i}= $data_item->t30*30;                
                 }
-                    elseif(($j==7 )){
+                    elseif(($j==7 || $j==9)){
                         $i++;
                         ${$cl.$j.$i}= $data_item->t20*20;
                         $i++;
-                        ${$cl.$j.$i}= $data_item->t30*30;                
+                        ${$cl.$j.$i}= $data_item->t25*25;                
                     }
                     else
                     ${$cl.$j.$i}= $data_item->t20*20;
