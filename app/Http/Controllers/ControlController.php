@@ -259,7 +259,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                 ->get();
                 $j=0;
                 $i=0;
-                $end= end($data);
+ /*               $end= end($data);
                 $endkey = key($end);
                 $count = [];
                 foreach($data as $key => $data_item)
@@ -277,7 +277,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                         array_push($count,$i);
                     }
                 }
-                    $k=0;
+                    /*$k=0;
                     for ($i=1; $i <=9 ; $i++) { 
                         
                         if (in_array($i, $arrs)) {
@@ -299,9 +299,10 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                                 }
                              }
         
-                    }
-                }*/
+                    }*/
+                
             $arr = [];
+            
             for ($i=0; $i <9 ;$i++) { 
             array_push($arr,20);
             }
@@ -328,8 +329,71 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                             array_push($arr,15);
                             array_push($arr,20);
                             array_push($arr,25);
-                            }*/
-        $data_array3 [] = $arr;/*
+                            }
+        $data_array3 [] = $arr;
+        $arp= [];
+        $cl='cl';
+            $k=1;
+            $j=0;
+         //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+$c=[4,5,8,10,8,12,12,3,9];
+            for ($i=1; $i <=9 ; $i++) { 
+                $l=$c[$k-1];
+                $k++;
+                for ($j=0; $j < $l; $j++) { 
+                    
+                    ${$cl.$i.$j} =0;
+                }
+            } 
+            foreach($data as $key => $data_item)
+                {   
+                    if ($data_item->ordre != $j) {
+                        $j = $data_item->ordre;
+                  //  array_push($count,$i);
+
+                        $i=0;
+                        # code...
+                    }else $i++;
+
+                    if ((($j==3 || $j==4 || $j==5) && $i%2==0) ) {
+                        $i++;
+                    }
+                    if($j==6 || $j==9 ){
+                        $i++;
+                    ${$cl.$j.$i}= $data_item->t20*20;
+                    $i++;
+                    ${$cl.$j.$i}= $data_item->t25*25;                
+                }
+                    elseif(($j==7 )){
+                        $i++;
+                        ${$cl.$j.$i}= $data_item->t20*20;
+                        $i++;
+                        ${$cl.$j.$i}= $data_item->t30*30;                
+                    }
+                    else
+                    ${$cl.$j.$i}= $data_item->t20*20;
+                /*    array_push($arrs,$j);
+                    if ($key == $endkey) {
+                        array_push($count,$i);
+                    }*/
+                }
+                $k=1;
+                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+       $c=[4,5,8,10,8,12,12,3,9];
+                   for ($i=1; $i <=9 ; $i++) { 
+                    if ($i==8) {
+                        array_push($arp,0);
+                    }
+                       $l=$c[$k-1];
+                       $k++;
+                       for ($j=0; $j < $l; $j++) { 
+                           
+                           array_push($arp,${$cl.$i.$j});
+                       }
+                   } 
+
+            $data_array3 [] = $arp;
+        /*
         $i = 0;
         foreach($data as $data_item)
         { $i++;
