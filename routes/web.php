@@ -35,9 +35,9 @@ Route::post('Infraction_s',[ ControlController::class, 'Infra_save'])->name('Inf
 Route::get('Infraction_r/{infra}',[ ControlController::class, 'Infra_rapport'])->name('Infra_rapport')->middleware('auth');
 Route::get('Coffre/{c}',[ ControlController::class, 'Coffre_rapport'])->name('Coffre_rapport')->middleware('auth');
 
-Route::get('Alert_list',[ ControlController::class, 'alert_list'])->middleware('auth'); 
+Route::get('list',[ ControlController::class, 'list'])->name('list')->middleware('auth'); 
   
-Route::post('Alert_list',[ ControlController::class, 'alert_list'])->name('Alert_list')->middleware('auth'); 
+Route::post('Alert_list',[ ControlController::class, 'alert_list'])->middleware('auth'); 
 Route::post('Coffre_list',[ ControlController::class, 'coffre_list'])->name('Coffre_list')->middleware('auth'); 
 Route::post('Alert_t',[ ControlController::class, 'alert_trait'])->name('Alert_trait')->middleware('auth');
 Route::post('Alert_s',[ ControlController::class, 'alert_save'])->name('Alert_save')->middleware('auth');

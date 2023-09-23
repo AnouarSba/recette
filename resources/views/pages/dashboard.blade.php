@@ -111,14 +111,29 @@
         for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
         </select>
         <br>
+        <br>
         <div class="row">
-            <label dir="rtl" for="receveur">القابض</label>
-            <select style="width:25%" name="name" id="name" required>
+            <div class="col-1">
+                            <label dir="rtl" for="receveur">القابض</label>
+
+            </div>
+            <div class="col-4">
+                <select  name="name" id="name" required>
                 <option value="">-- القابض --</option>
                 @foreach($kabids as $kabid)
                 <option value="{{$kabid->id}}">{{$kabid->name}}</option>
                 @endforeach
             </select>
+            </div>
+            <div class="col-1">
+                <label dir="rtl" for="receveur">التعبئة</label>
+            </div>
+
+            <div class="col-4">
+
+            
+            <input type="number"  name="flexy" id="flexy">
+            </div>
         </div>
         <div>
             <table style="width:100%">
@@ -233,6 +248,9 @@ function empty() {
     }
     if (document.getElementById("s30").value == "") {
         document.getElementById("s30").value = 0;
+    }
+    if (document.getElementById("flexy").value == "") {
+        document.getElementById("flexy").value = 0;
     }
 }
 </script>

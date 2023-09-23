@@ -13,6 +13,7 @@ class Recette extends Model
         'emp_id',
         'bus_id',
         'ligne_id',
+        'flexy',
         't20',
         't25',
         't30',

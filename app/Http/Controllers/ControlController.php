@@ -46,6 +46,7 @@ public function recette(Request $request)
     $name = $request->name;
     $brigade = $request->brigade;
     $recette = $request->recette;
+    $flexy = $request->flexy;
     $dette = $request->dettes;
     $ligne = $request->ligne_id;
     $bus_id = $request->bus_id;
@@ -61,7 +62,7 @@ public function recette(Request $request)
     $r30 = $request->r30;
     $date = $request->date;
    // DB::statement("SET SQL_MODE=''");
-    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade, 'type' => $type, 'recette' => $recette, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
+    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
    
     $r = explode(' ',Carbon::today())[0];
     $kabid = Kabid::where('id','>','2')->get();
@@ -416,9 +417,18 @@ $c=[4,5,8,10,8,12,12,3,9];
     {
         return view('pages.Coffre');
     }
-    public function Alerts()
+    public function list()
     {
-        return view('pages.Alerts');
+        $data = Recette::query()
+        ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
+        ->join('buses', 'buses.id', '=', 'recettes.bus_id')
+        ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+        ->select("kabids.name as kname", "buses.name as bname", "lignes.name as lname", "t20","t25","t30","s20","s25","s30","r20","r25","brigade","recette","recettes.type","flexy")
+        ->get();
+        $k = Kabid::select('id', 'name')->get();
+        $l = Ligne::select('id', 'name')->get();
+        $b = Bus::select('id', 'name')->get();
+        return view('pages.edit', ['data' => $data, 'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
     }
     public function Accidents()
     {
