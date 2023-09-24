@@ -7,6 +7,7 @@ use App\Models\Infraction;
 use App\Models\Kabid;
 use App\Models\Ligne;
 use App\Models\Bus;
+use App\Models\Validation;
 
 use Carbon\carbon;
 
@@ -33,6 +34,11 @@ class HomeController extends Controller
         $kabid = Kabid::where('id','>','2')->get();
         $ligne = Ligne::get();
         $bus = Bus::get();
-        return view('pages.dashboard', ['today'=>$r, 'kabids' => $kabid, 'lignes' => $ligne, 'buses' => $bus]);
+        $day = date('d/m/y',strtotime("-1 days"));
+        $m = date('m',strtotime("-1 days"));
+        $data = Validation::whereMonth('c_date',$m)->get();
+        
+
+        return view('pages.dashboard', ['data'=>$data, 'm' => $m, 'day' => $day, 'buses' => $bus]);
     }
 }
