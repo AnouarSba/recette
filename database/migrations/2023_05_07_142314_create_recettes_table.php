@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('emp_id')->length(2);
             $table->integer('bus_id')->length(2);
             $table->integer('type')->length(2);
+            $table->integer('rotation')->nullable()->default(0)->length(2);
             $table->integer('ligne_id')->length(2);
             $table->integer('brigade')->length(1);
             $table->float('flexy', 8,2)->default(0);

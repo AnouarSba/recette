@@ -16,6 +16,9 @@ class Validation extends Model
         'tc',
         'tsc',
         'money',
+        'sbm',
+        'sbs',
+        'sbn',
 
         'rq',
         'c_date'

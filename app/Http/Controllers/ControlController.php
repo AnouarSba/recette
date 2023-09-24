@@ -62,8 +62,9 @@ public function recette(Request $request)
     $r25 = $request->r25;
     $r30 = $request->r30;
     $date = $request->date;
+    $rotation = $request->rotation;
    // DB::statement("SET SQL_MODE=''");
-    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
+    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
    
     $r = explode(' ',Carbon::today())[0];
     $kabid = Kabid::where('id','>','2')->get();
@@ -78,15 +79,27 @@ public function confirm(Request $request)
 
 
     $y = Auth::id();
+    $smm= Recette::where('b_date', $request->input('date') )->where('brigade', 1)->select( DB::raw("sum(recette) as recette"))->get();
+    $sms= Recette::where('b_date', $request->input('date') )->where('brigade', 2)->select( DB::raw("sum(recette) as recette"))->get();
+    $smn= Recette::where('b_date', $request->input('date') )->where('brigade', 3)->select( DB::raw("sum(recette) as recette"))->get();
+    $smn= ($smn[0]->recette !=null)? $smn[0]->recette : 0 ;
+    $sms= ($sms[0]->recette !=null)? $sms[0]->recette : 0 ;
+    $smm= ($smm[0]->recette !=null)? $smm[0]->recette : 0 ;
+   
     $valid = Validation::updateOrCreate(
         ['c_date' => $request->input('date')],
         ['user_id' => $y,
 
-            'money' => $request->input('recette'),
+            'sbm' => $smm,
+            'sbs' => $sms,
+            'sbn' => $smn,
+            'money' => $smm+$sms+$smn,
 
+            'tsc' => $request->input('tsc'),
+            'tc' => $request->input('tc'),
             'flexy' => $request->input('flexy')]
     );
-    $brigade = 1;
+    $brigade =  $request->brigade;
     $date = $request->date;
    // DB::statement("SET SQL_MODE=''");
    
@@ -454,6 +467,7 @@ $c=[4,5,8,10,8,12,12,3,9];
             $brigade= $request->val['brigade'];
             $type= $request->val['type'];
             $flexy= $request->val['flexy'];
+            $rotation= $request->val['rotation'];
             $rc = Recette::where('id', $request->val['id'])->first();
             if ($rc) {
     
@@ -473,6 +487,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                     'r25'		=>	$r25,
                     'r30'		=>	$r30,
                     'recette'		=>	$recette,
+                    'rotation'		=>	$rotation,
                     'flexy'		=>	$flexy,
             ]);
                     return  ['تم التحديث بنجاح',$brigade,$rc->b_date];
@@ -518,10 +533,18 @@ $c=[4,5,8,10,8,12,12,3,9];
         ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
         ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
         ->get();
+        $valid = Validation::where('c_date', $request->start_date)->first();
+        if ($valid) {
+           $cr = $valid->tc;
+           $cs = $valid->tsc;
+        }else {
+            $cr = 0;
+            $cs=0;
+        }
         $k = Kabid::select('id', 'name')->get();
         $l = Ligne::select('id', 'name')->get();
         $b = Bus::select('id', 'name')->get();
-        return view('pages.edit', ['data' => $data, 'brigade' => $request->brigade, 'start_date' => $request->start_date,'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
+        return view('pages.edit', ['data' => $data, 'cr' => $cr, 'cs' => $cs, 'brigade' => $request->brigade, 'start_date' => $request->start_date,'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
     }
     public function Accidents()
     {

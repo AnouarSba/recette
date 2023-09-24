@@ -335,22 +335,22 @@ button {
             </a>
 
             <ul class="nav flex-column mb-auto text-center">
+                @if(Illuminate\Support\Facades\Auth::user()->id>3)
                 <li class="nav-item active">
                     <a href="#section-1" class="nav-link  text-dark py-2" aria-current="page" title="الرئيسية"
                         data-bs-toggle="tooltip" data-bs-placement="right">
                         <i class="bi bi-house" style="font-size:27px;"></i>
                     </a>
                 </li>
-                @if(Illuminate\Support\Facades\Auth::user()->id>3)
+                @endif
 
                 <li class="nav-item ">
-                    <a href="#section-2" class="nav-link text-dark py-2  rounded-0" title="ملأ البيانات"
+                    <a href="#section-2" class="nav-link text-dark py-2  rounded-0" title="مراقبة البيانات"
                         data-bs-toggle="tooltip" data-bs-placement="right">
                         <i class="bi bi-file-earmark-plus" style="font-size:27px;"></i>
                     </a>
                 </li>
 
-                @endif
             </ul>
             <div class="dropdown border-top position-absolute bottom-0">
                 <a href="#" style="color:#333;"
@@ -376,50 +376,10 @@ button {
                             class="bi bi-list text-light"></i></button>
                 </div>
             </nav>
+            @if(Illuminate\Support\Facades\Auth::user()->id>3)
 
             <!-- Page content-->
             <section id="section-1" class="pt-5">
-                <div class="container-fluid" dir="rtl">
-                    <br>
-                    <form method="POST" action="{{ route('list') }}">
-                        @csrf
-                        <div class="row align-items-center">
-
-
-                            <div class="col-auto">
-                                <label for="exampleFormControlInput1" style="float: right" dir="rtl">يوم</label>
-                                <input type="date" class="form-control" id="game-date-time-text" name="start_date"
-                                    value="{{ now()->setTimezone('T')->format('Y-m-d') }}">
-                                @error('start_date') <span class="text-danger error">{{ $message }}</span>@enderror
-                            </div>
-
-                            <div class="col-auto">
-                                <label for="exampleFormControlInput1">&nbsp; </label>
-                                <select name="brigade" class="form-control" id="brigade" required>
-                                    <option value="0">يوم كامل</option>
-                                    <option value="1">صباح</option>
-                                    <option value="2">مساء</option>
-                                    <!--   @php
-
-for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
-                                </select>
-                                @error('type_id') <span class="text-danger error">{{ $message }}</span>@enderror
-                            </div>
-
-
-                            <div class="col-auto">
-                                <label for="exampleFormControlInput1">&nbsp; </label>
-                                <br>
-                                <button type="submit" class="btn btn-primary mb-2"> متابعة</button>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-            </section>
-            @if(Illuminate\Support\Facades\Auth::user()->id>3)
-
-            <section id="section-2" class="pt-5">
                 <div class="container-fluid">
 
 
@@ -427,6 +387,7 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
             z-index: 99;
             position: relative;
             font-size: 25px;">
+
                         <input type="date" name="date" value="{{$today}}">
                         <select name="brigade" id="brigade" required>
                             <option value="">-- الفترة --</option>
@@ -459,6 +420,15 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
 
 
                                 <input type="number" name="flexy" id="flexy">
+                            </div>
+                            <div class="col-1">
+                                <label dir="rtl" for="rotation">rotation</label>
+                            </div>
+
+                            <div class="col-4">
+
+
+                                <input type="number" name="rotation" id="rotation">
                             </div>
                         </div>
                         <div>
@@ -535,6 +505,47 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
                 </div>
             </section>
             @endif
+
+            <section id="section-2" class="pt-5">
+                
+                <div class="container-fluid" dir="rtl">
+                    <br>
+                    <form method="POST" action="{{ route('list') }}">
+                        @csrf
+                        <div class="row align-items-center">
+
+
+                            <div class="col-auto">
+                                <label for="exampleFormControlInput1" style="float: right" dir="rtl">يوم</label>
+                                <input type="date" class="form-control" id="game-date-time-text" name="start_date"
+                                    value="{{ now()->setTimezone('T')->format('Y-m-d') }}">
+                                @error('start_date') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+
+                            <div class="col-auto">
+                                <label for="exampleFormControlInput1">&nbsp; </label>
+                                <select name="brigade" class="form-control" id="brigade" required>
+                                    <option value="0">يوم كامل</option>
+                                    <option value="1">صباح</option>
+                                    <option value="2">مساء</option>
+                                    <!--   @php
+
+for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
+                                </select>
+                                @error('type_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                            </div>
+
+
+                            <div class="col-auto">
+                                <label for="exampleFormControlInput1">&nbsp; </label>
+                                <br>
+                                <button type="submit" class="btn btn-primary mb-2"> متابعة</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -549,10 +560,15 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
     <div class="container" dir="rtl" style="color:black">
         <table class="tbl" style="width:80%">
             <thead style="background-color:lightgrey; font-size">
-                <th>يوم</th>
-                <th>مداخيل التذاكر الكلاسيكية</th>
+                <th rowspan="2"  style="width:40px">يوم</th>
+                <th  colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                <th >الفترة الصباحية</th>
+                <th >الفترة المسائية</th>
+                <th colspan="3" >الدفع الالكتروني</th>
+                <th>مداخيل بطافة رحلات </th>
+                <th>مداخيل بطاقة المتمدرس </th>
                 <th>مداخيل التعبئة </th>
-                <th>القيمة الاجمالية </th>
+                <th rowspan="2">القيمة الاجمالية </th>
             </thead>
             <tbody>
                 @php
@@ -564,18 +580,22 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
                 $tt+=$t;
                 @endphp
                 <tr>
-                    <td>{{$d->c_date}}</td>
+                    <td style="text-wrap: nowrap;">{{$d->c_date}}</td>
                     <td>{{$d->money}}</td>
+                    <td>{{$d->sbm}}</td>
+                    <td>{{$d->sbs}}</td>
                     <td>{{$d->flexy}}</td>
                     <td>{{$t}}</td>
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3"></td>
+                    <td colspan="5">المجموع</td>
                     <td>{{$tt}}</td>
                 </tr>
             </tbody>
         </table>
+        <a href="{{route('control')}}"><button class="btn btn-primary">طباعة</button></a>
+
         @if(Illuminate\Support\Facades\Auth::user()->id==2)
         <a href="{{route('control')}}"><button class="btn btn-primary">الاحصاء</button></a>
         @endif

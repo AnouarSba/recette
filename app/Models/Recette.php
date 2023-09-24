@@ -14,6 +14,7 @@ class Recette extends Model
         'bus_id',
         'ligne_id',
         'flexy',
+        'rotation',
         't20',
         't25',
         't30',

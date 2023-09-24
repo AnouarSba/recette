@@ -113,6 +113,7 @@
                   <th>سلسلة 20دج</th>
                   <th>سلسلة 25دج</th>
                   <th>سلسلة 30دج</th>
+                  <th>rotation</th>
                   <th>التعبئة</th>
                   <th>المداخيل</th>
                   <th>الديون</th>
@@ -152,6 +153,7 @@
                   <td data-field="r20">{{$data_item->r20}}</td>
                   <td data-field="r25">{{$data_item->r25}}</td>
                   <td data-field="r30">{{$data_item->r30}}</td>
+                  <td data-field="rotation">{{$data_item->rotation}}</td>
                   <td data-field="flexy">{{$data_item->flexy}}</td>
                   <td data-field="recette">{{$data_item->recette}}</td>
                   <td data-field="dette">{{$dette}}</td>
@@ -182,9 +184,19 @@
         @if(Illuminate\Support\Facades\Auth::user()->id==3)
         <form action="{{route('confirm')}}" method="POST" style="display: contents">
           @csrf
+         <span style="margin: 7px 10px;
+    color: black;
+    text-align: center;
+    justify-content: center;
+    font-size: large;">عدد بطاقة رحلات </span><input style="height: 40px"  type="number" name="tc" value="{{$cr}}" id="tc">
+          <span style="margin: 7px 10px;
+    color: black;
+    text-align: center;
+    justify-content: center;
+    font-size: large;">عدد بطاقة المتمدرس </span><input style="height: 40px" type="number" name="tsc" value="{{$cs}}" id="tsc">
           <input type="hidden" name="flexy" value="{{$tf}}" id="flexy">
-          <input type="hidden" name="recette" value="{{$tr}}" id="recette">
           <input type="hidden" name="date" value="{{$start_date}}" id="date">
+          <input type="hidden" name="brigade" value="{{$brigade}}" id="brigade">
           <input type="submit" style="width:10%; margin-right:2%" class="btn btn-danger" value="تأكيد">
         </form>
         @endif
