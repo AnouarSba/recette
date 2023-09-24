@@ -27,7 +27,11 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ControlController;
 Route::get('Recette',[ ControlController::class, 'recette'])->name('recette')->middleware('auth'); 
+Route::get('update',[ ControlController::class, 'update'])->name('update')->middleware('auth'); 
+Route::get('delete',[ ControlController::class, 'delete'])->name('delete')->middleware('auth'); 
+Route::post('confirm',[ ControlController::class, 'confirm'])->name('confirm')->middleware('auth'); 
 Route::post('Export',[ ControlController::class, 'exportData'])->name('etat')->middleware('auth'); 
+	Route::get('logout', [ControlController::class, 'logout'])->name('logout')->middleware('auth');
   
 Route::post('Infraction_list',[ ControlController::class, 'Infra_list'])->name('Infra_list')->middleware('auth');
 Route::post('Infraction_t',[ ControlController::class, 'infra_trait'])->name('Infra_trait')->middleware('auth');
@@ -35,7 +39,8 @@ Route::post('Infraction_s',[ ControlController::class, 'Infra_save'])->name('Inf
 Route::get('Infraction_r/{infra}',[ ControlController::class, 'Infra_rapport'])->name('Infra_rapport')->middleware('auth');
 Route::get('Coffre/{c}',[ ControlController::class, 'Coffre_rapport'])->name('Coffre_rapport')->middleware('auth');
 
-Route::get('list',[ ControlController::class, 'list'])->name('list')->middleware('auth'); 
+Route::post('list',[ ControlController::class, 'list'])->name('list')->middleware('auth'); 
+Route::get('list',[ ControlController::class, 'list'])->name('get_list')->middleware('auth'); 
   
 Route::post('Alert_list',[ ControlController::class, 'alert_list'])->middleware('auth'); 
 Route::post('Coffre_list',[ ControlController::class, 'coffre_list'])->name('Coffre_list')->middleware('auth'); 
@@ -69,7 +74,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');
 	Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static'); 
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
-	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 	Route::resource('videos', MediaController::class); 
 	Route::get('/Infractions',[ ControlController::class, 'Infractions'])->name('Infractions'); 
 	Route::post('/add_infra',[ ControlController::class, 'store_infra'])->name('store_infra'); 

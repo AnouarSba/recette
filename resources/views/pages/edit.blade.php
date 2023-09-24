@@ -56,7 +56,44 @@
             <button class="btn btn-default pull-right add-row"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add Row</button>
           </div>
         </div>-->
-      
+      <br>
+        @if (isset($_GET['confirm']))
+            <script>
+              alert("لقد تم التأكيد")
+            </script>
+        @endif
+      <form method="POST" hidden action="{{ route('list') }}">
+        @csrf
+        <div class="row align-items-center">
+
+
+            <div class="col-auto" >
+                <label for="exampleFormControlInput1" style="float: right" dir="rtl">يوم</label>
+                <input type="date" class="form-control" id="game-date-time-text" name="start_date"
+                    value="{{ ($start_date)? $start_date : now()->setTimezone('T')->format('Y-m-d') }}">
+                @error('start_date') <span class="text-danger error">{{ $message }}</span>@enderror
+            </div>
+
+            <div class="col-auto">
+                <label for="exampleFormControlInput1">&nbsp; </label>
+                <select name="brigade" class="form-control" id="brigade" required>
+                    <option value="0" {{ ($brigade == 0)? 'selected' : ''}}>يوم كامل</option>
+                    <option value="1" {{ ($brigade == 1)? 'selected' : ''}}>صباح</option>
+                    <option value="2" {{ ($brigade == 2)? 'selected' : ''}}>مساء</option>
+                   
+                </select>
+                @error('type_id') <span class="text-danger error">{{ $message }}</span>@enderror
+            </div>
+
+
+            <div class="col-auto">
+                <label for="exampleFormControlInput1">&nbsp; </label>
+                <br>
+                <button type="submit" class="btn sbm btn-primary mb-2"> متابعة</button>
+            </div>
+
+        </div>
+    </form>
         <div class="row">
           <div class="col-md-12">
             <table class="table table-bordered" id="editableTable">
@@ -83,13 +120,24 @@
                 </tr>
               </thead>
               <tbody>
+                @php
+                    $tr=0;
+                    $tf=0;
+                    $td=0;
+                    $ts=0;
+                @endphp
                 @foreach ($data as $data_item )
                 @php
                     $dette = $data_item->s20*20*100 - $data_item->t20*20 + $data_item->s25*25*100 - $data_item->t25 * 25  + $data_item->s30*30*100 - $data_item->s30*30;
                     $types = ['','A','B','C','D'];
                     $brigades = ['','الصباحية','المسائية','الليلية'];
+                    $tr+=$data_item->recette;
+                    $tf+=$data_item->flexy;
+                    $td+=$dette;
+                    $ts=$tr+$tf;
                     @endphp
-                    <tr data-id="{{$data_item->id}}">
+                    <tr id="{{$data_item->r_id}}" data-id="{{$data_item->r_id}}">
+                  <td data-field="id" hidden>{{$data_item->r_id}}</td>
                   <td data-field="kname">{{$data_item->kname}}</td>
                   <td data-field="lname">{{$data_item->lname}}</td>
                   <td data-field="bname">{{$data_item->bname}}</td>
@@ -112,17 +160,36 @@
                       <i class="fa fa-pencil"></i>
                     </a>
                     
-                  <!--  <a class="button button-small edit" title="Delete">
+                   <a class="button button-small edit" title="Delete">
                       <i class="fa fa-trash"></i>
-                    </a> -->
+                    </a> 
                   </td>
                 </tr>
                 @endforeach
-
+                <tr >
+                  <td colspan="14"></td>
+                  
+                  <td >{{$tf}}</td>
+                  <td >{{$tr}}</td>
+                  <td >{{$td}}</td>
+                  <td >{{$ts}}</td>
               </tbody>
             </table>
           </div>
         </div>
+      </div>
+      <div class="row" dir="rtl">
+        @if(Illuminate\Support\Facades\Auth::user()->id==3)
+        <form action="{{route('confirm')}}" method="POST" style="display: contents">
+          @csrf
+          <input type="hidden" name="flexy" value="{{$tf}}" id="flexy">
+          <input type="hidden" name="recette" value="{{$tr}}" id="recette">
+          <input type="hidden" name="date" value="{{$start_date}}" id="date">
+          <input type="submit" style="width:10%; margin-right:2%" class="btn btn-danger" value="تأكيد">
+        </form>
+        @endif
+        <a style="width:10%; margin-right:2%" href="{{route('confirm')}}"><button style="width: 100%" class="btn btn-success">طباعة</button></a>
+        <a style="width:10%; margin-right:2%" href="{{route('home')}}"><button style="width: 100%" class="btn btn-primary">العودة</button></a>
       </div>
 
 
@@ -132,6 +199,24 @@
 
 @push('js')
 <script>
+  function ch(v) {
+
+x = document.getElementById("t20").value * 20;
+y = document.getElementById("t25").value * 25;
+z = document.getElementById("t30").value * 30;
+xs = document.getElementById("s20").value * 20;
+ys = document.getElementById("s25").value * 25;
+zs = document.getElementById("s30").value * 30;
+/*document.getElementById("tp20").textContent = x;
+document.getElementById("tp25").textContent = y;
+document.getElementById("tp30").textContent = z;
+*/
+
+document.getElementById("somme").value = x + y + z;
+document.getElementById("recette").value = x + y + z;
+document.getElementById("dette").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
+document.getElementById("dettes").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
+}
     (function($, window, document, undefined) {
   var pluginName = "editable",
     defaults = {
@@ -146,7 +231,10 @@
       save: function() {},
       cancel: function() {}
     };
-
+/*
+    $('td').on('click', function () {
+  console.log($(this).parent())
+})*/
   function editable(element, options) {
     this.element = element;
     this.options = $.extend({}, defaults, options);
@@ -193,8 +281,8 @@
         var input,
           field = $(this).data('field'),
           value = $(this).text(),
+          s='',
           width = $(this).width();
-
         values[field] = value;
 
         $(this).empty();
@@ -204,24 +292,48 @@
         }
 
         if (field in instance.options.dropdowns) {
-          input = $('<select></select>');
+
+          input = $('<select required name="'+field+'" id="'+field+'"></select>');
 
           for (var i = 0; i < instance.options.dropdowns[field].length; i++) {
-            input.append('<option value="'+instance.options.dropdowns[field+'id'][i]+'">'+instance.options.dropdowns[field][i]+'</option>');
+            if (value == instance.options.dropdowns[field][i]) {
+              s='selected';
+            } else s='';
+            input.append('<option value="'+instance.options.dropdowns[field+'id'][i]+'" '+s+' >'+instance.options.dropdowns[field][i]+'</option>');
             
-          };
-
-          input.val(value)
+          }
+          input
             .data('old-value', value)
             .dblclick(instance._captureEvent);
         } else {
-          if (field == 'recette' || field== 'dette') {
-            input = $('<input type="text" disabled />')
+          if (field == 'recette' ) {
+            input = $('<input name="somme" id="somme" type="text" disabled />')
+            .val(value)
+            .data('old-value', value)
+            .dblclick(instance._captureEvent);
+            inputh = $('<input name="recette" id="recette" type="hidden"  />')
+            .val(value)
+            .data('old-value', value)
+            .dblclick(instance._captureEvent);
+            inputh.appendTo(this);
+          }else if (field== 'dette') {
+            input = $('<input name="'+field+'" id="'+field+'" type="hidden"  />')
+            .val(value)
+            .data('old-value', value)
+            .dblclick(instance._captureEvent);
+            inputh = $('<input name="dettes" id="dettes" type="text" disabled />')
+            .val(value)
+            .data('old-value', value)
+            .dblclick(instance._captureEvent);
+            inputh.appendTo(this);
+          }else if (field== 'id') {
+           
+            input = $('<input name="id" id="id" type="hidden"  />')
             .val(value)
             .data('old-value', value)
             .dblclick(instance._captureEvent);
           }else 
-          input = $('<input type="text" />')
+          input = $('<input  onkeyup="ch(1)"  name="'+field+'" id="'+field+'" type="text" />')
             .val(value)
             .data('old-value', value)
             .dblclick(instance._captureEvent);
@@ -236,7 +348,6 @@
 
       this.options.edit.bind(this.element)(values);
     },
-
     save: function() {
       var instance = this,
 
@@ -305,9 +416,30 @@ l_array.push('');
 
         $(this).empty()
           .text(value);}
-
+          values[$(this).data('field')] = value;
       });
-
+      console.log(values);
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url:"{{ route('update') }}",
+            type:"get",
+            data:{
+                val:values,
+            },
+            success:function(response)
+            {
+                alert(response[0]);
+                $('.sbm').click();
+            },
+            error:function(jqXHR, textStatus, errorThrown) {
+                alert('خلل ما')
+            }
+        });
+    
       this.options.save.bind(this.element)(values);
     },
 
@@ -456,7 +588,24 @@ function myFunction() {
 $("#editableTable").find("a[title='Delete']").click(function(e){  
   var x;
     if (confirm("Are you sure you want to delete entire row?") == true) {
-        $(this).closest("tr").remove();
+
+      $.ajax({
+            url:"{{ route('delete') }}",
+            type:"get",
+            data:{
+                val:($(this).closest("tr")).attr('id'),
+            },
+            success:function(response)
+            {
+                alert(response[0]);
+                $('.sbm').click();
+             
+            },
+            error:function(jqXHR, textStatus, errorThrown) {
+                alert('خلل ما')
+            }
+        });
+              $(this).closest("tr").remove();
     } else {
         
     }     

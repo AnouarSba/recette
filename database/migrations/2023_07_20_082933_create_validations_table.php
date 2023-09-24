@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id')->length(2);
             $table->float('money', 10,2)->default(0);
-            $table->integer('tc', 4)->default(0);
-            $table->integer('tsc', 4)->default(0);
+            $table->integer('tc')->default(0);
+            $table->integer('tsc')->default(0);
             $table->float('flexy', 8,2)->default(0);
          //   $table->time('time');
             $table->date('c_date');
-            $table->text('rq');
+            $table->text('rq')->nullable();
 
             $table->timestamps();
         });

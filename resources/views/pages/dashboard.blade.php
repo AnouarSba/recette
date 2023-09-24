@@ -77,6 +77,129 @@
     padding: 10px;
 }
 </style>
+
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css'>
+
+<style>
+    
+#wrapper {
+  position: relative;
+}
+
+.left{
+  position:relative;
+  left:15px;
+  
+}
+
+#sidebar-wrapper {
+  position: fixed;
+  min-height: 100vh;
+  margin-left: -15rem;
+  transition: all 0.25s ease-out;
+  background: #8d7b68;
+  width: 75px;
+  z-index: 10;
+  padding-left: 6px;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 100%;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  margin-left: 6rem;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+  margin-left: 0;
+}
+
+.active {
+  position: relative;
+  background: #c8b6a6;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+  box-shadow: -3px 0px 3px 0px #444;
+}
+.nav .nav-item {
+  margin: 3px 0;
+}
+.nav .nav-item > a {
+    border: 0px solid #375c5d;
+    background: transparent;
+    color: #8d7b68;
+    border-radius: 50% !important;
+    height:60px;
+    width:60px;
+    margin: 7px;
+}
+
+.nav .nav-item.active > a {
+  border: 0px solid #375c5d;
+  background: #f1dec9;
+  color: #8d7b68;
+  border-radius: 50% !important;
+  margin: 7px;
+  padding: 0px 0px;
+}
+.nav .nav-item.active::before {
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 30px;
+  background: #00000000;
+  right: 5px;
+  top: -30px;
+  border-bottom-right-radius: 50%;
+  box-shadow: 7px 3px 0px 0px #c8b6a6;
+}
+.nav .nav-item.active::after {
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  right: 5px;
+  bottom: -30px;
+  border-top-right-radius: 50%;
+  box-shadow: 7px -3px 0px 0px #c8b6a6;
+}
+
+section {
+  min-height: 100vh;
+}
+
+.border-top {
+  border-top: 1px solid #c8b6a6 !important;
+}
+
+@media (max-width: 767px) {
+  #page-content-wrapper {
+    margin-left: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+    </style>
 @section('content')
 <div class="container-fluid py-1">
     <div class="row">
@@ -84,122 +207,225 @@
 
 
         @else
-        @include('layouts.navbars.auth.topnav', ['title' => 'الرئيسية'])
+      {{--  @include('layouts.navbars.auth.topnav', ['title' => 'الرئيسية'])
         @include('layouts.navbars.auth.sidenav')
-
+--}}
 
         @endif
-        @if(isset($ctrl_b))
+        @if(isset($add))
         <script>
-        alert('انت تراقب الحافلة {{$buses[$ctrl_b]->name}}')
+        alert('تمت العملية بنجاح')
         </script>
         @endif
     </div>
 
     @if(Illuminate\Support\Facades\Auth::user()->id>2)
-    <form action="{{ route('recette') }}" dir="rtl" style="margin-left:10px; margin-top:10px;
-    z-index: 99;
-    position: relative;
-    font-size: 25px;">
-        <input type="date" name="date" value="{{$today}}">
-        <select name="brigade" id="brigade" required>
-            <option value="">-- الفترة --</option>
-            <option value="1">صباح</option>
-            <option value="2">مساء</option>
-            <!--   @php
 
-        for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
-        </select>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-1">
-                            <label dir="rtl" for="receveur">القابض</label>
+ <div class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div class="" id="sidebar-wrapper">
+        <a href="//etus22.dz" style="color:#F1DEC9;" class="d-block p-3 text-center text-decoration-none logo mb-4" title="الموقع الرسمي" data-bs-toggle="tooltip" data-bs-placement="right">
+          <i class="bi bi-browser-chrome" style="font-size:27px;"></i>
+        </a>
+    
+        <ul class="nav flex-column mb-auto text-center">
+          <li class="nav-item active">
+            <a href="#section-1" class="nav-link  text-dark py-2" aria-current="page" title="الرئيسية" data-bs-toggle="tooltip" data-bs-placement="right">
+              <i class="bi bi-house" style="font-size:27px;"></i>
+            </a>
+          </li>
+    @if(Illuminate\Support\Facades\Auth::user()->id>3)
 
-            </div>
-            <div class="col-4">
-                <select  name="name" id="name" required>
-                <option value="">-- القابض --</option>
-                @foreach($kabids as $kabid)
-                <option value="{{$kabid->id}}">{{$kabid->name}}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="col-1">
-                <label dir="rtl" for="receveur">التعبئة</label>
-            </div>
-
-            <div class="col-4">
-
-            
-            <input type="number"  name="flexy" id="flexy">
-            </div>
+          <li class="nav-item ">
+            <a href="#section-2" class="nav-link text-dark py-2  rounded-0" title="ملأ البيانات" data-bs-toggle="tooltip" data-bs-placement="right">
+              <i class="bi bi-file-earmark-plus" style="font-size:27px;"></i>
+            </a>
+          </li>
+          
+          @endif
+        </ul>
+        <div class="dropdown border-top position-absolute bottom-0">
+          <a href="#" style="color:#333;" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-box-arrow-right" style="font-size:27px;"></i>    
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{ route('logout') }}">خروج</a></li>
+          </ul>
         </div>
-        <div>
-            <table style="width:100%">
-                <thead>
-                    <th>الخط</th>
-                    <th>الحافلة</th>
-                    <th>الانطلاق</th>
-                    <th>تذاكر 20دج</th>
-                    <th>تذاكر 25دج</th>
-                    <th>تذاكر 30دج</th>
-                    <th>عدد دفاتر 20دج</th>
-                    <th>عدد دفاتر 25دج</th>
-                    <th>عدد دفاتر 30دج</th>
-                    <th>رقم سلسلة 20دج</th>
-                    <th>رقم سلسلة 25دج</th>
-                    <th>رقم سلسلة 30دج</th>
-                </thead>
-                <tbody>
-                    <tr>
+      </div>
+      <!-- Page content wrapper-->
+      <div id="page-content-wrapper">
+    
+        <!-- Top navigation-->
+        <nav class="navbar position-fixed">
+          <div class="container-fluid">
+            <button style="background-color:#8D7B68;" class="btn" id="sidebarToggle"><i class="bi bi-list text-light"></i></button>
+          </div>
+        </nav>
+    
+        <!-- Page content-->
+        <section id="section-1" class="pt-5">
+          <div class="container-fluid" dir="rtl">
+<br>            
+            <form method="POST" action="{{ route('list') }}">
+                @csrf
+                <div class="row align-items-center">
 
 
-                        <td><select name="ligne_id" id="ligne_id" required>
-                                <option value="">-- الخط --</option>
+                    <div class="col-auto" >
+                        <label for="exampleFormControlInput1" style="float: right" dir="rtl">يوم</label>
+                        <input type="date" class="form-control" id="game-date-time-text" name="start_date"
+                            value="{{ now()->setTimezone('T')->format('Y-m-d') }}">
+                        @error('start_date') <span class="text-danger error">{{ $message }}</span>@enderror
+                    </div>
 
-                                @foreach($lignes as $ligne)
-                                <option value="{{$ligne->id}}">{{$ligne->name}}</option>
-                                @endforeach
-                            </select></td>
-                        <td><select name="bus_id" id="bus_id" required>
+                    <div class="col-auto">
+                        <label for="exampleFormControlInput1">&nbsp; </label>
+                        <select name="brigade" class="form-control" id="brigade" required>
+                            <option value="0">يوم كامل</option>
+                            <option value="1">صباح</option>
+                            <option value="2">مساء</option>
+                            <!--   @php
 
-                                <option value="">-- الحافلة --</option>
-                                @foreach($buses as $bus)
-                                <option value="{{$bus->id}}">{{$bus->name}}</option>
-                                @endforeach
-                            </select></td>
-                        <td><select name="type" id="type" required>
+for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
+                        </select>
+                        @error('type_id') <span class="text-danger error">{{ $message }}</span>@enderror
+                    </div>
 
-                                <option value="">-- اختر --</option>
-                                <option value="1">A</option>
-                                <option value="2">B</option>
-                                <option value="3">C</option>
-                                <option value="4">D</option>
-                            </select></td>
 
-                        <td><input type="number" onkeyup="ch(1)" style="width:80px" name="t20" id="t20"></td>
-                        <td><input type="number" onkeyup="ch(2)" style="width:80px" name="t25" id="t25"></td>
-                        <td><input type="number" onkeyup="ch(3)" style="width:80px" name="t30" id="t30"></td>
-                        <td><input type="number" onkeyup="ch(4)" style="width:80px" name="s20" id="s20"></td>
-                        <td><input type="number" onkeyup="ch(5)" style="width:80px" name="s25" id="s25"></td>
-                        <td><input type="number" onkeyup="ch(6)" style="width:80px" name="s30" id="s30"></td>
-                        <td><input type="text" style="width:100px" name="r20" id="r20"></td>
-                        <td><input type="text" style="width:100px" name="r25" id="r25"></td>
-                        <td><input type="text" style="width:100px" name="r30" id="r30"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            المداخيل
-            <input type="number" name="somme" id="somme" disabled>
-            <input type="hidden" name="recette" id="recette">
-            الديون
-            <input type="number" name="dette" id="dette" disabled>
-            <input type="hidden" name="dettes" id="dettes">
-            <input type="submit" onclick="empty()" value="تأكيد">
-        </div>
-    </form>
+                    <div class="col-auto">
+                        <label for="exampleFormControlInput1">&nbsp; </label>
+                        <br>
+                        <button type="submit" class="btn btn-primary mb-2"> متابعة</button>
+                    </div>
+
+                </div>
+            </form>
+          </div>
+        </section>
+        @if(Illuminate\Support\Facades\Auth::user()->id>3)
+    
+        <section id="section-2" class="pt-5">
+          <div class="container-fluid">
+
+
+            <form action="{{ route('recette') }}" dir="rtl" style="margin-left:10px; margin-top:10px;
+            z-index: 99;
+            position: relative;
+            font-size: 25px;">
+                <input type="date" name="date" value="{{$today}}">
+                <select name="brigade" id="brigade" required>
+                    <option value="">-- الفترة --</option>
+                    <option value="1">صباح</option>
+                    <option value="2">مساء</option>
+                    <!--   @php
+        
+                for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> -->
+                </select>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-1">
+                                    <label dir="rtl" for="receveur">القابض</label>
+        
+                    </div>
+                    <div class="col-4">
+                        <select  name="name" id="name" required>
+                        <option value="">-- القابض --</option>
+                        @foreach($kabids as $kabid)
+                        <option value="{{$kabid->id}}">{{$kabid->name}}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    <div class="col-1">
+                        <label dir="rtl" for="receveur">التعبئة</label>
+                    </div>
+        
+                    <div class="col-4">
+        
+                    
+                    <input type="number"  name="flexy" id="flexy">
+                    </div>
+                </div>
+                <div>
+                    <table style="width:100%">
+                        <thead>
+                            <th>الخط</th>
+                            <th>الحافلة</th>
+                            <th>الانطلاق</th>
+                            <th>تذاكر 20دج</th>
+                            <th>تذاكر 25دج</th>
+                            <th>تذاكر 30دج</th>
+                            <th>عدد دفاتر 20دج</th>
+                            <th>عدد دفاتر 25دج</th>
+                            <th>عدد دفاتر 30دج</th>
+                            <th>رقم سلسلة 20دج</th>
+                            <th>رقم سلسلة 25دج</th>
+                            <th>رقم سلسلة 30دج</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+        
+        
+                                <td><select name="ligne_id" id="ligne_id" required>
+                                        <option value="">-- الخط --</option>
+        
+                                        @foreach($lignes as $ligne)
+                                        <option value="{{$ligne->id}}">{{$ligne->name}}</option>
+                                        @endforeach
+                                    </select></td>
+                                <td><select name="bus_id" id="bus_id" required>
+        
+                                        <option value="">-- الحافلة --</option>
+                                        @foreach($buses as $bus)
+                                        <option value="{{$bus->id}}">{{$bus->name}}</option>
+                                        @endforeach
+                                    </select></td>
+                                <td><select name="type" id="type" required>
+        
+                                        <option value="">-- اختر --</option>
+                                        <option value="1">A</option>
+                                        <option value="2">B</option>
+                                        <option value="3">C</option>
+                                        <option value="4">D</option>
+                                    </select></td>
+        
+                                <td><input type="number" onkeyup="ch(1)" style="width:80px" name="t20" id="t20"></td>
+                                <td><input type="number" onkeyup="ch(2)" style="width:80px" name="t25" id="t25"></td>
+                                <td><input type="number" onkeyup="ch(3)" style="width:80px" name="t30" id="t30"></td>
+                                <td><input type="number" onkeyup="ch(4)" style="width:80px" name="s20" id="s20"></td>
+                                <td><input type="number" onkeyup="ch(5)" style="width:80px" name="s25" id="s25"></td>
+                                <td><input type="number" onkeyup="ch(6)" style="width:80px" name="s30" id="s30"></td>
+                                <td><input type="text" style="width:100px" name="r20" id="r20"></td>
+                                <td><input type="text" style="width:100px" name="r25" id="r25"></td>
+                                <td><input type="text" style="width:100px" name="r30" id="r30"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    المداخيل
+                    <input type="number" name="somme" id="somme" disabled>
+                    <input type="hidden" name="recette" id="recette">
+                    الديون
+                    <input type="number" name="dette" id="dette" disabled>
+                    <input type="hidden" name="dettes" id="dettes">
+                    <input type="submit" onclick="empty()" value="تأكيد">
+                </div>
+            </form>          </div>
+        </section>
+        @endif
+      </div>
+    </div>
+
+    
+
+
+
+
+
     @endif
 
     @include('layouts.footers.auth.footer')
@@ -254,4 +480,45 @@ function empty() {
     }
 }
 </script>
+    <!-- partial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+    
+    <script>
+        $(document).ready(function () {
+/*
+$(".nav").on("mouseenter", "li", function () {  $(this).addClass("hover").siblings().removeClass("hover");}); 
+  */
+  $(".nav").on("click", "li", function () {
+    $(this).addClass("active").siblings().removeClass("active");
+  });
+});
+
+const tooltipTriggerList = document.querySelectorAll(
+  '[data-bs-toggle="tooltip"]'
+);
+const tooltipList = [...tooltipTriggerList].map(
+  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+);
+
+window.addEventListener("DOMContentLoaded", (event) => {
+  // Toggle the side navigation
+  const sidebarToggle = document.body.querySelector("#sidebarToggle");
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", (event) => {
+      event.preventDefault();
+      document.body.classList.toggle("sb-sidenav-toggled");
+      localStorage.setItem(
+        "sb|sidebar-toggle",
+        document.body.classList.contains("sb-sidenav-toggled")
+      );
+      // content will slide on left
+      const content = document.getElementById("page-content-wrapper");
+      content.classList.toggle("left");
+    });
+  }
+});
+    </script>
+   
 @endpush

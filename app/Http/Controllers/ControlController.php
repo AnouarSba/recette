@@ -17,6 +17,7 @@ use App\Models\Bus;
 use App\Models\Ligne;
 use App\Models\Arret;
 use App\Models\Recette;
+use App\Models\Validation;
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
 
@@ -69,6 +70,27 @@ public function recette(Request $request)
     $ligne = Ligne::get();
     $bus = Bus::get();
     return redirect()->route('home');
+
+}
+
+public function confirm(Request $request)
+{
+
+
+    $y = Auth::id();
+    $valid = Validation::updateOrCreate(
+        ['c_date' => $request->input('date')],
+        ['user_id' => $y,
+
+            'money' => $request->input('recette'),
+
+            'flexy' => $request->input('flexy')]
+    );
+    $brigade = 1;
+    $date = $request->date;
+   // DB::statement("SET SQL_MODE=''");
+   
+    return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
     public function ExportExcel($etat_rec, $etat_bus, $etat_ligne){
@@ -413,22 +435,93 @@ $c=[4,5,8,10,8,12,12,3,9];
     {
         return view('pages.Infractions');
     }
-    public function Coffre()
+    public function update(Request $request)
     {
-        return view('pages.Coffre');
+        if ($request->val ){
+            $kname= $request->val['kname'];
+            $bname= $request->val['bname'];
+            $lname= $request->val['lname'];
+            $recette= $request->val['recette'];
+            $t20= $request->val['t20'];
+            $t25= $request->val['t25'];
+            $t30= $request->val['t30'];
+            $s20= $request->val['s20'];
+            $s25= $request->val['s25'];
+            $s30= $request->val['s30'];
+            $r20= $request->val['r20'];
+            $r25= $request->val['r25'];
+            $r30= $request->val['r30'];
+            $brigade= $request->val['brigade'];
+            $type= $request->val['type'];
+            $flexy= $request->val['flexy'];
+            $rc = Recette::where('id', $request->val['id'])->first();
+            if ($rc) {
+    
+                $rc->update([
+                    'emp_id'		=>	$kname,
+                    'bus_id'		=>	$bname,
+                    'ligne'		=>	$lname,
+                    'type'		=>	$type,
+                    'brigade'		=>	$brigade,
+                    't20'		=>	$t20,
+                    't25'		=>	$t25,
+                    't30'		=>	$t30,
+                    's20'		=>	$s20,
+                    's25'		=>	$s25,
+                    's30'		=>	$s30,
+                    'r20'		=>	$r20,
+                    'r25'		=>	$r25,
+                    'r30'		=>	$r30,
+                    'recette'		=>	$recette,
+                    'flexy'		=>	$flexy,
+            ]);
+                    return  ['تم التحديث بنجاح',$brigade,$rc->b_date];
+
+            }
+        }
+        return false;
     }
-    public function list()
+
+    public function delete(Request $request)
     {
-        $data = Recette::query()
+        if ($request->val ){
+            $rc = Recette::where('id', $request->val)->first();
+            if ($rc) {
+    
+                $rc->delete();
+                    return  ['تم الحذف ',$rc->brigade,$rc->b_date];
+
+            }
+        }
+        return false;
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
+    public function list(Request $request)
+    {
+        if ($request->brigade >=1) {
+            $data = Recette::query()->where('b_date', $request->start_date)->where('brigade',$request->brigade);
+        }
+        else
+        $data = Recette::query()->where('b_date', $request->start_date);
+
+        $data = $data
         ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
         ->join('buses', 'buses.id', '=', 'recettes.bus_id')
         ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-        ->select("kabids.name as kname", "buses.name as bname", "lignes.name as lname", "t20","t25","t30","s20","s25","s30","r20","r25","brigade","recette","recettes.type","flexy")
+        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
         ->get();
         $k = Kabid::select('id', 'name')->get();
         $l = Ligne::select('id', 'name')->get();
         $b = Bus::select('id', 'name')->get();
-        return view('pages.edit', ['data' => $data, 'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
+        return view('pages.edit', ['data' => $data, 'brigade' => $request->brigade, 'start_date' => $request->start_date,'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
     }
     public function Accidents()
     {
