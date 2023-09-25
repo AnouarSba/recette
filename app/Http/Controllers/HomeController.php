@@ -38,7 +38,6 @@ class HomeController extends Controller
         $m = date('m',strtotime("-1 days"));
         $data = Validation::whereMonth('c_date',$m)->get();
         
-
         return view('pages.dashboard', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
     }
 }

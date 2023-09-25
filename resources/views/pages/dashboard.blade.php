@@ -560,15 +560,19 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
     <div class="container" dir="rtl" style="color:black">
         <table class="tbl" style="width:80%">
             <thead style="background-color:lightgrey; font-size">
-                <th rowspan="2"  style="width:40px">يوم</th>
-                <th  colspan="2">مداخيل التذاكر الكلاسيكية</th>
-                <th >الفترة الصباحية</th>
-                <th >الفترة المسائية</th>
-                <th colspan="3" >الدفع الالكتروني</th>
-                <th>مداخيل بطافة رحلات </th>
-                <th>مداخيل بطاقة المتمدرس </th>
-                <th>مداخيل التعبئة </th>
-                <th rowspan="2">القيمة الاجمالية </th>
+                <tr>
+                    <th rowspan="2"  style="width:40px">يوم</th>
+                    <th  colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                    <th colspan="3" >الدفع الالكتروني</th>
+                    <th rowspan="2">القيمة الاجمالية </th>
+                </tr>
+                <tr>
+                    <th >الفترة الصباحية</th>
+                    <th >الفترة المسائية</th>
+                    <th>مداخيل بطافة رحلات </th>
+                    <th>مداخيل بطاقة المتمدرس </th>
+                    <th>مداخيل التعبئة </th>
+                </tr>
             </thead>
             <tbody>
                 @php
@@ -576,20 +580,27 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
                 @endphp
                 @foreach($data as $d)
                 @php
-                $t=$d->money+$d->flexy;
+                $tc = $d->tc*200;$tsc = $d->tsc*300;$f = $d->flexy;
+                $t=$d->money+$f+$tsc+$tc;
                 $tt+=$t;
                 @endphp
                 <tr>
-                    <td style="text-wrap: nowrap;">{{$d->c_date}}</td>
-                    <td>{{$d->money}}</td>
+                    <td rowspan="2" style="text-wrap: nowrap;">{{$d->c_date}}</td>
                     <td>{{$d->sbm}}</td>
                     <td>{{$d->sbs}}</td>
-                    <td>{{$d->flexy}}</td>
-                    <td>{{$t}}</td>
+                    <td>{{$tc}}</td>
+                    <td>{{$tsc}}</td>
+                    <td>{{$f}}</td>
+                    <td rowspan="2">{{$t}}</td>
+                </tr>
+                <tr>
+                                        <td colspan="2" >{{$d->money}}</td>
+                                        <td colspan="3" >{{$tsc + $tc +$f}}</td>
+
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="5">المجموع</td>
+                    <td colspan="6">المجموع</td>
                     <td>{{$tt}}</td>
                 </tr>
             </tbody>
