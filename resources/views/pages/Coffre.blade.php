@@ -4,7 +4,7 @@
 @include('layouts.navbars.auth.topnav', ['title' => 'مراقبة الصندوق'])
 @if(isset($ctrl))
 <script>
-alert('لقد قمت بمراقبة الصندوق')
+alert('لقد قمت بمراقبة الصندوق') 
 </script>
 @endif
 <div class="container-fluid py-4">
