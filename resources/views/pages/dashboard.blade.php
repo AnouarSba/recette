@@ -404,7 +404,7 @@ button {
                                 <label dir="rtl" for="receveur">القابض</label>
 
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <select name="name" id="name" required>
                                     <option value="">-- القابض --</option>
                                     @foreach($kabids as $kabid)
@@ -416,7 +416,7 @@ button {
                                 <label dir="rtl" for="receveur">التعبئة</label>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-3">
 
 
                                 <input type="number" name="flexy" id="flexy">
@@ -425,7 +425,7 @@ button {
                                 <label dir="rtl" for="rotation">rotation</label>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-3">
 
 
                                 <input type="number" name="rotation" id="rotation">

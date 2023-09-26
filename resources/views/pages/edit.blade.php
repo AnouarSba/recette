@@ -169,7 +169,7 @@
                 </tr>
                 @endforeach
                 <tr >
-                  <td colspan="14"></td>
+                  <td colspan="15"></td>
                   
                   <td >{{$tf}}</td>
                   <td >{{$tr}}</td>
@@ -184,12 +184,17 @@
         @if(Illuminate\Support\Facades\Auth::user()->id==3)
         <form action="{{route('confirm')}}" method="POST" style="display: contents">
           @csrf
-         <span style="margin: 7px 10px;
+        <span style="margin: 7px 10px;
+    color: black;
+    text-align: center;
+    justify-content: center;
+    font-size: large;">تعبئة المراقبين</span><input style="height: 40px"  type="number" name="cf" value="{{$cf}}" id="tc">
+          <span style="margin: 7px 10px;
     color: black;
     text-align: center;
     justify-content: center;
     font-size: large;">عدد بطاقة رحلات </span><input style="height: 40px"  type="number" name="tc" value="{{$cr}}" id="tc">
-          <span style="margin: 7px 10px;
+     <span style="margin: 7px 10px;
     color: black;
     text-align: center;
     justify-content: center;

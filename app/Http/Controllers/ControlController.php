@@ -97,7 +97,7 @@ public function confirm(Request $request)
 
             'tsc' => $request->input('tsc'),
             'tc' => $request->input('tc'),
-            'flexy' => $request->input('flexy')]
+            'flexy' => $request->input('flexy') + $request->input('cf')]
     );
     $brigade =  $request->brigade;
     $date = $request->date;
@@ -106,7 +106,7 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-    public function ExportExcel($etat_rec, $etat_bus, $etat_ligne){
+    public function ExportExcel($etat_rec, $etat_bus, $etat_ligne,$rotation_b,$rotation_l){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
@@ -165,6 +165,69 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->getActiveSheet()->fromArray($etat_ligne,Null,'A2');
         
         $spreadSheet->getActiveSheet()->setTitle('Etat_ligne');
+
+
+
+        $spreadSheet->createSheet();
+            
+        /* Add some data */
+        $spreadSheet->setActiveSheetIndex(3);
+        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
+     /*   $k=0;
+$l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+$c=[4,5,8,10,8,12,12,1,3,9];
+for ($i=0; $i <64 ;$i+=$c[$k-1]) { 
+        
+$spreadSheet->setActiveSheetIndex(2)
+        ->setCellValue($range[$i].'1', 'Ligne'.$l[$k]);
+        $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+$spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+    $k++;
+    $begin = $range[$i]."1";
+    $end = $range[$c[$k-1]-1]."1";
+
+        $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
+}*/
+	  
+        $spreadSheet->getActiveSheet()->fromArray($rotation_b,Null,'A2');
+        
+        $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
+
+
+
+
+
+        $spreadSheet->createSheet();
+            
+        /* Add some data */
+        $spreadSheet->setActiveSheetIndex(4);
+        $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
+      $k=0;
+$l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+$c=[4,5,4,5,3,4,4,1,3,9];
+for ($i=0; $i <64 ;$i+=$c[$k-1]) { 
+        
+$spreadSheet->setActiveSheetIndex(4)
+        ->setCellValue($range[$i].'1', 'Ligne'.$l[$k]);
+        $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+$spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP);
+    $k++;
+    $begin = $range[$i]."1";
+    $end = $range[$c[$k-1]-1]."1";
+
+        $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
+}
+	  
+        $spreadSheet->getActiveSheet()->fromArray($rotation_l,Null,'A2');
+        
+        $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
+
+
+
+
+
+
+
         $spreadSheet->setActiveSheetIndex(0);
 
             $Excel_writer = new Xls($spreadSheet);
@@ -233,7 +296,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
            /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
             ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
             ->where('b_date', $from)
-            ->select("buses.name as bname",   DB::raw("sum(t20) as t20"),   DB::raw("sum(t25) as t25"),   DB::raw("sum(t30) as t30"))
+            ->select("buses.name as bname",   DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"),   DB::raw("sum(t25) as t25"),   DB::raw("sum(t30) as t30"))
             ->groupBy(['bname'])->orderBy('bus_id', 'ASC')
             ->get();
         $arr = array("15","20","25","30","40");
@@ -244,11 +307,13 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $data_array2 [] = $arrs;
       $d=[];
       $arr =[];
+      $arr_br =[];
       $arrs =[];
         foreach($data as $data_item)
         {   
             $arr[$data_item->bname]= [$data_item->t20,$data_item->t25,$data_item->t30];
             array_push($arrs,$data_item->bname);
+            array_push($arr_br,$data_item->rotation);
         }
 
             for ($i=1; $i <=30 ; $i++) { 
@@ -289,7 +354,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
                 ->where('b_date', $from)
-                ->select("lignes.name as lname","lignes.ordre as ordre", "type",  "t20",  "t25",  "t30")
+                ->select("lignes.name as lname","lignes.ordre as ordre", "type",  "t20",  "t25",  "t30","rotation")
                // ->groupBy(['lname'])
                ->orderBy('lignes.ordre', 'ASC')
                 ->get();
@@ -429,6 +494,24 @@ $c=[4,5,8,10,8,12,12,3,9];
                    } 
 
             $data_array3 [] = $arp;
+            $data_array4=[];
+            $arr=[];
+            $arr_t=[];
+            $k=0;
+            for ($i=1; $i <31 ; $i++) { 
+                $j= ($i<10)? "A0".$i : "A".$i; 
+                array_push($arr_t,$j);
+                if (in_array($j, $arrs)) {
+                   array_push($arr,$arr_br[$k]);
+                   $k++;
+            } else {
+                array_push($arr,0);
+                        }
+
+            }
+            $data_array4[]= $arr_t;
+            $data_array4[]= $arr;
+            $data_array5=[];
         /*
         $i = 0;
         foreach($data as $data_item)
@@ -439,7 +522,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 'Count' => $data_item->cmpt
             );
         }*/
-        return $this->ExportExcel($data_array,$data_array2,$data_array3);
+        return $this->ExportExcel($data_array,$data_array2,$data_array3,$data_array4,$data_array5);
     }
 
 
@@ -531,20 +614,26 @@ $c=[4,5,8,10,8,12,12,3,9];
         ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
         ->join('buses', 'buses.id', '=', 'recettes.bus_id')
         ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
+        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "rotation","t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
         ->get();
+        $s=0;
+        foreach($data as $d){
+            $s+=$d->flexy;
+        }
         $valid = Validation::where('c_date', $request->start_date)->first();
         if ($valid) {
            $cr = $valid->tc;
+           $cf = $valid->flexy-$s;
            $cs = $valid->tsc;
         }else {
             $cr = 0;
             $cs=0;
+            $cf=0;
         }
         $k = Kabid::select('id', 'name')->get();
         $l = Ligne::select('id', 'name')->get();
         $b = Bus::select('id', 'name')->get();
-        return view('pages.edit', ['data' => $data, 'cr' => $cr, 'cs' => $cs, 'brigade' => $request->brigade, 'start_date' => $request->start_date,'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
+        return view('pages.edit', ['data' => $data, 'cr' => $cr,'cf' => $cf, 'cs' => $cs, 'brigade' => $request->brigade, 'start_date' => $request->start_date,'buses' => $b, 'kabids' => $k, 'lignes' => $l]);
     }
     public function Accidents()
     {
