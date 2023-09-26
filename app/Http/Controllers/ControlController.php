@@ -203,9 +203,9 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->setActiveSheetIndex(4);
         $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
       $k=0;
-$l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-$c=[4,5,4,5,3,4,4,1,3,9];
-for ($i=0; $i <64 ;$i+=$c[$k-1]) { 
+$l=[16,9,11,27,25,26,28,03,'-T lac'];
+$c=[4,5,4,3,5,5,4,3,4];
+for ($i=0; $i <34 ;$i+=$c[$k-1]) { 
         
 $spreadSheet->setActiveSheetIndex(4)
         ->setCellValue($range[$i].'1', 'Ligne'.$l[$k]);
@@ -221,8 +221,6 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->getActiveSheet()->fromArray($rotation_l,Null,'A2');
         
         $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
-
-
 
 
 
@@ -345,11 +343,11 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
              
            
              if ($req['brigade'] == 0) {
-                $data = Recette::query();
+                $datal = Recette::query();
                } else {
-                $data = Recette::query()->where('brigade',$req['brigade']);
+                $datal = Recette::query()->where('brigade',$req['brigade']);
                }
-                $data = $data
+                $datal = $datal
                 ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
@@ -446,7 +444,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                     ${$cl.$i.$j} =0;
                 }
             } 
-            foreach($data as $key => $data_item)
+            foreach($datal as $key => $data_item)
                 {   
                     if ($data_item->ordre != $j) {
                         $j = $data_item->ordre;
@@ -512,6 +510,52 @@ $c=[4,5,8,10,8,12,12,3,9];
             $data_array4[]= $arr_t;
             $data_array4[]= $arr;
             $data_array5=[];
+            $arp= [];
+            $cl='cl';
+                $k=1;
+                $j=0;
+             //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+             $c=[4,5,4,3,5,5,4,3,4];
+             for ($i=1; $i <9 ; $i++) { 
+                    $l=$c[$k-1];
+                    $k++;
+                    for ($j=0; $j < $l; $j++) { 
+                        
+                        ${$cl.$i.$j} =0;
+                    }
+                } 
+                $j=0;
+                foreach($datal as $key => $data_item)
+                    {   
+                        if ($data_item->ordre != $j) {
+                            $j = $data_item->ordre;
+                      //  array_push($count,$i);
+    
+                            $i=0;
+                            # code...
+                        }else $i++;
+    
+                        
+                        ${$cl.$j.$i}= $data_item->rotation;
+                    /*    array_push($arrs,$j);
+                        if ($key == $endkey) {
+                            array_push($count,$i);
+                        }*/
+                    }
+                    $k=1;
+                    //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                    $c=[4,5,4,3,5,5,4,3,4];
+                    for ($i=1; $i <9 ; $i++) { 
+                           $l=$c[$k-1];
+                           $k++;
+                           for ($j=0; $j < $l; $j++) { 
+                               
+                               array_push($arp,${$cl.$i.$j});
+                           }
+                       } 
+    
+                $data_array5 [] = $arp;
+          
         /*
         $i = 0;
         foreach($data as $data_item)

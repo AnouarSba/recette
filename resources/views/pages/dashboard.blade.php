@@ -428,7 +428,7 @@ button {
                             <div class="col-3">
 
 
-                                <input type="number" name="rotation" id="rotation">
+                                <input type="number" step='0.5' name="rotation" id="rotation">
                             </div>
                         </div>
                         <div>
@@ -507,7 +507,7 @@ button {
             @endif
 
             <section id="section-2" class="pt-5">
-                
+
                 <div class="container-fluid" dir="rtl">
                     <br>
                     <form method="POST" action="{{ route('list') }}">
@@ -561,14 +561,14 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
         <table class="tbl" style="width:80%">
             <thead style="background-color:lightgrey; font-size">
                 <tr>
-                    <th rowspan="2"  style="width:40px">يوم</th>
-                    <th  colspan="2">مداخيل التذاكر الكلاسيكية</th>
-                    <th colspan="3" >الدفع الالكتروني</th>
+                    <th rowspan="2" style="width:40px">يوم</th>
+                    <th colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                    <th colspan="3">الدفع الالكتروني</th>
                     <th rowspan="2">القيمة الاجمالية </th>
                 </tr>
                 <tr>
-                    <th >الفترة الصباحية</th>
-                    <th >الفترة المسائية</th>
+                    <th>الفترة الصباحية</th>
+                    <th>الفترة المسائية</th>
                     <th>مداخيل بطافة رحلات </th>
                     <th>مداخيل بطاقة المتمدرس </th>
                     <th>مداخيل التعبئة </th>
@@ -594,8 +594,8 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
                     <td rowspan="2">{{$t}}</td>
                 </tr>
                 <tr>
-                                        <td colspan="2" >{{$d->money}}</td>
-                                        <td colspan="3" >{{$tsc + $tc +$f}}</td>
+                    <td colspan="2">{{$d->money}}</td>
+                    <td colspan="3">{{$tsc + $tc +$f}}</td>
 
                 </tr>
                 @endforeach
