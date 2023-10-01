@@ -388,8 +388,8 @@ button {
             position: relative;
             font-size: 25px;">
 
-                        <input type="date" name="date" value="{{$today}}">
-                        <select name="brigade" id="brigade" required>
+                        <input type="date" name="date" id="dd" value="{{$today}}">
+                        <select name="brigade" id="brigad" required>
                             <option value="">-- الفترة --</option>
                             <option value="1">صباح</option>
                             <option value="2">مساء</option>
@@ -405,7 +405,7 @@ button {
 
                             </div>
                             <div class="col-3">
-                                <select name="name" id="name" required>
+                                <select name="name"  onchange="ck();" id="name" required>
                                     <option value="">-- القابض --</option>
                                     @foreach($kabids as $kabid)
                                     <option value="{{$kabid->id}}">{{$kabid->name}}</option>
@@ -627,6 +627,54 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
 <script src="./assets/js/plugins/chartjs.min.js"></script>
 
 <script>
+checkCookie();
+
+    function ck() {
+      var x=  document.getElementById("dd").value;
+      var y=  document.getElementById("brigad").value;
+      setCookie("date", x, 365);
+      setCookie("brigade", y, 365);
+    
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("date");
+  if (user != "") {
+    document.getElementById("dd").value = user;
+    document.getElementById("name").focus();
+  } else {
+    document.getElementById("dd").focus();
+  }
+  let br = getCookie("brigade");
+  if (br != "") {
+    document.getElementById("brigad").value = br;
+  } else {
+    document.getElementById("dd").focus();
+  }
+}
+
 function ch(v) {
 
     x = document.getElementById("t20").value * 20;
