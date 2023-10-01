@@ -205,7 +205,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
       $k=0;
 $l=[16,9,11,27,25,26,28,03,'-T lac'];
 $c=[4,5,4,3,5,5,4,3,4];
-for ($i=0; $i <34 ;$i+=$c[$k-1]) { 
+for ($i=0; $i <40 ;$i+=$c[$k-1]) { 
         
 $spreadSheet->setActiveSheetIndex(4)
         ->setCellValue($range[$i].'1', 'Ligne'.$l[$k]);
@@ -601,7 +601,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 $rc->update([
                     'emp_id'		=>	$kname,
                     'bus_id'		=>	$bname,
-                    'ligne'		=>	$lname,
+                    'ligne_id'		=>	$lname,
                     'type'		=>	$type,
                     'brigade'		=>	$brigade,
                     't20'		=>	$t20,
