@@ -313,6 +313,7 @@ document.getElementById("dettes").value = xs * 100 - x + ys * 100 - y + zs * 100
           input = $('<select required name="'+field+'" id="'+field+'"></select>');
 
           for (var i = 0; i < instance.options.dropdowns[field].length; i++) {
+              
             if (value == instance.options.dropdowns[field][i]) {
               s='selected';
             } else s='';
@@ -538,7 +539,7 @@ function editTable(){
       knameid: k_array_ids,
       lname: l_array,
       lnameid: l_array_ids,
-      brigade: ['صباحية', 'مسائية'],
+      brigade: ['الصباحية', 'المسائية'],
       brigadeid: [1, 2],
       type: ['A', 'B','C','D'],
       typeid: [1, 2, 3, 4]

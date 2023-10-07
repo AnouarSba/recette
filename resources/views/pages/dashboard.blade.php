@@ -554,11 +554,24 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
     @php
     $mnth = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
     @endphp
-    <b style="font-size: 24px">مداخيل شهر {{$mnth[$m-1]}} ليوم {{$day}}</b>
-
-
-    <div class="container" dir="rtl" style="color:black">
-        <table class="tbl" style="width:80%">
+    <b style="font-size: 24px">مداخيل شهر {{$mnth[$m-1]}}  {{$day}}</b>
+    <br>
+    <div style="    display: inline-flex;
+    color: black;
+    font-size: 16px;
+    flex-flow: nowrap;
+    font-size: 32px;" dir="rtl" >البحث عن مداخيل 
+   &nbsp; &nbsp;  <form method="post" action="{{route('home')}}">
+        @csrf
+    <select name="month" style=>
+        @for($i=0;$i<12; $i++)
+        <option value="{{$i+1}}" {{($m== $i+1)? 'selected' : ''}}>{{$mnth[$i]}}</option>
+        @endfor
+    </select>
+    <input type="submit" class="btn btn-secondary" value="ابحث">
+</form></div>
+    <div class="container" dir="rtl" style="color:black; height:100%; overflow:scroll">
+        <table class="tbl" style="width:80%; overflow:scroll">
             <thead style="background-color:lightgrey; font-size">
                 <tr>
                     <th rowspan="2" style="width:40px">يوم</th>
