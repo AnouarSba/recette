@@ -620,7 +620,7 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
         </table>
         <a href="{{route('control')}}"><button class="btn btn-primary">طباعة</button></a>
 
-        @if(Illuminate\Support\Facades\Auth::user()->id==2)
+        @if(Illuminate\Support\Facades\Auth::user()->id<=2)
         <a href="{{route('control')}}"><button class="btn btn-primary">الاحصاء</button></a>
         @endif
     </div>

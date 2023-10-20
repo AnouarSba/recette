@@ -30,7 +30,7 @@
                             <div class="col-auto">
                                 <label for="exampleFormControlInput1">&nbsp; </label>
                                 <select name="brigade" class="form-control" id="brigade" required>
-                                    <option value="0">يوم كامل</option>
+                                   <!-- <option value="0">يوم كامل</option>-->
                                     <option value="1">صباح</option>
                                     <option value="2">مساء</option>
                                     <!--   @php

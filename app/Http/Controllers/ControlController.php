@@ -527,8 +527,11 @@ $c=[4,5,8,10,8,12,12,3,9];
                 $j=0;
                 foreach($datal as $key => $data_item)
                     {   
-                        if ($data_item->ordre != $j) {
-                            $j = $data_item->ordre;
+                        $o= $data_item->ordre;
+                        if($o == 4) $o=5;
+                        elseif($o == 5) $o=4;
+                        if ($o != $j) {
+                            $j = $o;
                       //  array_push($count,$i);
     
                             $i=0;
