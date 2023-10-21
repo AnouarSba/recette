@@ -18,6 +18,10 @@ use App\Models\Ligne;
 use App\Models\Arret;
 use App\Models\Recette;
 use App\Models\Validation;
+use DateTime;
+use DateInterval;
+use DatePeriod;
+
 use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
 
@@ -255,26 +259,49 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
             'start_date' => 'required|date',
             'brigade' => 'required',
            ]);
-           $from= $req['start_date'];	
-           $types= ['','A','B','C','D'];
-        $data_array [] = array("Num","Receveur","Recette");
-       if ($req['brigade'] == 0) {
-        $data = Recette::query();
-       } else {
-        $data = Recette::query()->where('brigade',$req['brigade']);
-       }
-        $data = $data
-        ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
-       /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-        ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
-        ->where('b_date', $from)
-        ->select("kabids.name as kname",   DB::raw("sum(recette) as recette"))
-        ->groupBy(['kname'])->orderBy('emp_id', 'ASC')
-        ->get();
-        $i = 0;
+   
+           $from= '2023-09-01';	
+           $to= '2023-09-30'; //$req['end_date'];	
+
+    /*    $current_month_first_day = new DateTime('first day of this month'); // first day of the current month
+    $current_month_last_day  = date('t');  // last day of the current month
+    $interval = new DateInterval('P1D');*/
+    // Step 1: Setting the Start and End Dates
+$start_date = date_create($from);
+$end_date = date_create($to);
+ 
+// Step 2: Defining the Date Interval
+$interval = new DateInterval('P1D');
+ 
+// Step 3: Creating the Date Range
+$period = new DatePeriod($start_date, $interval, $end_date);
+ 
+  //  $period = new DatePeriod($current_month_first_day, $interval, $current_month_last_day - 1);
+       $date = date('Y-m-d');
+       
+       $types= ['','A','B','C','D'];
+       $data_array= [];
+      
+       foreach ($period as  $value) {
+        if ( $value->format("Y-m-d") <= $date) {
+            
+            $data = Recette::query()
+            ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
+           /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+            ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
+            ->where('b_date', $value->format("Y-m-d"))
+            ->select("kabids.name as kname",   DB::raw("sum(recette) as recette"))
+            ->groupBy(['kname'])->orderBy('emp_id', 'ASC')
+            ->get();
+            $i = 0;
+            if($data != []){
+                
+            $data_array[] = array($value->format("Y-m-d"));
+            $data_array[] = [];
+            $data_array [] = array("Num","Receveur","Recette");
         foreach($data as $data_item)
         { $i++;
-            $data_array[] = array(
+           $arr = array(
                 'Num' =>$i,
                 'Receveur' => $data_item->kname,
                 'Recette' => $data_item->recette,
@@ -283,26 +310,31 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
                 'Bus' => $types[$data_item->type],*/
                 
             );
-        }
-        if ($req['brigade'] == 0) {
-            $data = Recette::query();
-           } else {
-            $data = Recette::query()->where('brigade',$req['brigade']);
-           }
-            $data = $data
+            array_push($data_array,$arr);
+        }}
+        else $data_array[]=[];
+    }
+    }
+        $arr = array("15","20","25","30","40");
+        $arrt=[];
+        for($i=0;$i<29;$i++)
+        array_push($arrt, ...$arr);
+        
+        $data_array2 [] = $arrt;
+   
+    foreach ($period as  $value) {
+        if ( $value->format("Y-m-d") <= $date) {
+                  
+            $data = Recette::query()->where('brigade',1)
             ->join('buses', 'buses.id', '=', 'recettes.bus_id')
            /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
             ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
-            ->where('b_date', $from)
+            ->where('b_date', $value->format("Y-m-d"))
             ->select("buses.name as bname",   DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"),   DB::raw("sum(t25) as t25"),   DB::raw("sum(t30) as t30"))
             ->groupBy(['bname'])->orderBy('bus_id', 'ASC')
             ->get();
-        $arr = array("15","20","25","30","40");
-        $arrs=[];
-        for($i=0;$i<29;$i++)
-        array_push($arrs, ...$arr);
-        
-        $data_array2 [] = $arrs;
+      $s=0;
+
       $d=[];
       $arr =[];
       $arr_br =[];
@@ -323,7 +355,8 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
             $t20 = ($arr[$j][0] > 0)? $arr[$j][0] *20 : 0;
             $t25 = ($arr[$j][1] > 0)? $arr[$j][1] *25 : 0;
             $t30 = ($arr[$j][2] > 0)? $arr[$j][2] *30 : 0;
-             array_push($d,$t15);
+        $s+=$t20+$t25+$t30;
+        array_push($d,$t15);
              array_push($d,$t20);
              array_push($d,$t25);
              array_push($d,$t30);
@@ -338,20 +371,109 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
             }
         }
         
+        array_push($d,$s);
             
              $data_array2 [] =$d; 
-             
-           
-             if ($req['brigade'] == 0) {
-                $datal = Recette::query();
-               } else {
-                $datal = Recette::query()->where('brigade',$req['brigade']);
-               }
-                $datal = $datal
+    }      
+   }
+
+   $data_array2 [] =[]; 
+   $data_array2 [] =[]; 
+   $data_array2 [] =[]; 
+   $data_array2 [] = $arrt;
+   $arrs =[];
+
+   foreach ($period as  $value) {
+    if ( $value->format("Y-m-d") <= $date) {
+              
+        $data = Recette::query()->where('brigade',2)
+        ->join('buses', 'buses.id', '=', 'recettes.bus_id')
+       /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+        ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
+        ->where('b_date', $value->format("Y-m-d"))
+        ->select("buses.name as bname",   DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"),   DB::raw("sum(t25) as t25"),   DB::raw("sum(t30) as t30"))
+        ->groupBy(['bname'])->orderBy('bus_id', 'ASC')
+        ->get();
+  $s=0;
+  $d=[];
+  $arr =[];
+  $arr_br =[];
+  $arrs =[];
+    foreach($data as $data_item)
+    {   
+        $arr[$data_item->bname]= [$data_item->t20,$data_item->t25,$data_item->t30];
+        array_push($arrs,$data_item->bname);
+        array_push($arr_br,$data_item->rotation);
+    }
+
+        for ($i=1; $i <=30 ; $i++) { 
+            $j= ($i<10)? "A0".$i : "A".$i; 
+            if (in_array($j, $arrs)) {
+                
+             $t15=0;
+        $t40=0;
+        $t20 = ($arr[$j][0] > 0)? $arr[$j][0] *20 : 0;
+        $t25 = ($arr[$j][1] > 0)? $arr[$j][1] *25 : 0;
+        $t30 = ($arr[$j][2] > 0)? $arr[$j][2] *30 : 0;
+        $s+=$t20+$t25+$t30;
+         array_push($d,$t15);
+         array_push($d,$t20);
+         array_push($d,$t25);
+         array_push($d,$t30);
+         array_push($d,$t40);
+        } else {
+            array_push($d,0);
+            array_push($d,0);
+            array_push($d,0);
+            array_push($d,0);
+            array_push($d,0);
+
+        }
+    }
+    
+    array_push($d,$s);
+        
+         $data_array2 [] =$d; 
+}      
+}
+$arr = [];
+            
+for ($i=0; $i <9 ;$i++) { 
+array_push($arr,20);
+}
+for ($i=0; $i <13 ;$i++) { 
+    array_push($arr,15);
+    array_push($arr,20);
+    }
+    for ($i=0; $i <4 ;$i++) { 
+        array_push($arr,15);
+        array_push($arr,20);
+        array_push($arr,30);
+        }
+        for ($i=0; $i <4 ;$i++) { 
+            array_push($arr,15);
+            array_push($arr,20);
+            array_push($arr,25);
+            }
+        array_push($arr,20);
+
+        for ($i=0; $i <3 ;$i++) { 
+            array_push($arr,20);
+            }
+            for ($i=0; $i <3 ;$i++) { 
+                array_push($arr,15);
+                array_push($arr,20);
+                array_push($arr,25);
+                }
+$data_array3 [] = $arr;
+foreach ($period as  $value) {
+    if ( $value->format("Y-m-d") <= $date) {
+              
+                $datal = Recette::query()->where('brigade',1)
                 ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
-                ->where('b_date', $from)
+                ->where('b_date', $value->format("Y-m-d"))
                 ->select("lignes.name as lname","lignes.ordre as ordre", "type",  "t20",  "t25",  "t30","rotation")
                // ->groupBy(['lname'])
                ->orderBy('lignes.ordre', 'ASC')
@@ -400,36 +522,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         
                     }*/
                 
-            $arr = [];
-            
-            for ($i=0; $i <9 ;$i++) { 
-            array_push($arr,20);
-            }
-            for ($i=0; $i <13 ;$i++) { 
-                array_push($arr,15);
-                array_push($arr,20);
-                }
-                for ($i=0; $i <4 ;$i++) { 
-                    array_push($arr,15);
-                    array_push($arr,20);
-                    array_push($arr,30);
-                    }
-                    for ($i=0; $i <4 ;$i++) { 
-                        array_push($arr,15);
-                        array_push($arr,20);
-                        array_push($arr,25);
-                        }
-                    array_push($arr,20);
-
-                    for ($i=0; $i <3 ;$i++) { 
-                        array_push($arr,20);
-                        }
-                        for ($i=0; $i <3 ;$i++) { 
-                            array_push($arr,15);
-                            array_push($arr,20);
-                            array_push($arr,25);
-                            }
-        $data_array3 [] = $arr;
+          
         $arp= [];
         $cl='cl';
             $k=1;
@@ -492,6 +585,131 @@ $c=[4,5,8,10,8,12,12,3,9];
                    } 
 
             $data_array3 [] = $arp;
+                }}
+                $data_array3 [] = [];
+                $data_array3 [] = [];
+                $data_array3 [] = [];
+
+                foreach ($period as  $value) {
+                    if ( $value->format("Y-m-d") <= $date) {
+                              
+                                $datal = Recette::query()->where('brigade',2)
+                                ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                               /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                                ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
+                                ->where('b_date', $value->format("Y-m-d"))
+                                ->select("lignes.name as lname","lignes.ordre as ordre", "type",  "t20",  "t25",  "t30","rotation")
+                               // ->groupBy(['lname'])
+                               ->orderBy('lignes.ordre', 'ASC')
+                                ->get();
+                                $j=0;
+                                $i=0;
+                 /*               $end= end($data);
+                                $endkey = key($end);
+                                $count = [];
+                                foreach($data as $key => $data_item)
+                                {   
+                                    if ($data_item->ordre != $j) {
+                                        $j = $data_item->ordre;
+                                    array_push($count,$i);
+                
+                                        $i=0;
+                                        # code...
+                                    }else $i++;
+                                    $arr[$j][$i]= [$data_item->t20,$data_item->t25,$data_item->t30];
+                                    array_push($arrs,$j);
+                                    if ($key == $endkey) {
+                                        array_push($count,$i);
+                                    }
+                                }
+                                    /*$k=0;
+                                    for ($i=1; $i <=9 ; $i++) { 
+                                        
+                                        if (in_array($i, $arrs)) {
+                                            $k++;
+                                            if ($i==1) {
+                                               for ($j=0; $j < $count[$k] ; $j++) { 
+                                                array_push($d,$arr[$i][$j]);
+                                               }
+                                               for ($j=0; $j <4- $count[$k] ; $j++) { 
+                                                array_push($d,0);
+                                               }
+                                            }
+                                            if ($i==2) {
+                                                for ($j=0; $j < $count[$k] ; $j++) { 
+                                                 array_push($d,$arr[$i][$j]);
+                                                }
+                                                for ($j=0; $j <5- $count[$k] ; $j++) { 
+                                                 array_push($d,0);
+                                                }
+                                             }
+                        
+                                    }*/
+                                
+                          
+                        $arp= [];
+                        $cl='cl';
+                            $k=1;
+                            $j=0;
+                         //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $c=[4,5,8,10,8,12,12,3,9];
+                            for ($i=1; $i <=9 ; $i++) { 
+                                $l=$c[$k-1];
+                                $k++;
+                                for ($j=0; $j < $l; $j++) { 
+                                    
+                                    ${$cl.$i.$j} =0;
+                                }
+                            } 
+                            foreach($datal as $key => $data_item)
+                                {   
+                                    if ($data_item->ordre != $j) {
+                                        $j = $data_item->ordre;
+                                  //  array_push($count,$i);
+                
+                                        $i=0;
+                                        # code...
+                                    }else $i++;
+                
+                                    if ((($j==3 || $j==4 || $j==5) && $i%2==0) ) {
+                                        $i++;
+                                    }
+                                    if($j==6  ){
+                                        $i++;
+                                    ${$cl.$j.$i}= $data_item->t20*20;
+                                    $i++;
+                                    ${$cl.$j.$i}= $data_item->t30*30;                
+                                }
+                                    elseif(($j==7 || $j==9)){
+                                        $i++;
+                                        ${$cl.$j.$i}= $data_item->t20*20;
+                                        $i++;
+                                        ${$cl.$j.$i}= $data_item->t25*25;                
+                                    }
+                                    else
+                                    ${$cl.$j.$i}= $data_item->t20*20;
+                                /*    array_push($arrs,$j);
+                                    if ($key == $endkey) {
+                                        array_push($count,$i);
+                                    }*/
+                                }
+                                $k=1;
+                                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                       $c=[4,5,8,10,8,12,12,3,9];
+                                   for ($i=1; $i <=9 ; $i++) { 
+                                    if ($i==8) {
+                                        array_push($arp,0);
+                                    }
+                                       $l=$c[$k-1];
+                                       $k++;
+                                       for ($j=0; $j < $l; $j++) { 
+                                           
+                                           array_push($arp,${$cl.$i.$j});
+                                       }
+                                   } 
+                
+                            $data_array3 [] = $arp;
+                                }}
             $data_array4=[];
             $arr=[];
             $arr_t=[];
@@ -525,13 +743,10 @@ $c=[4,5,8,10,8,12,12,3,9];
                     }
                 } 
                 $j=0;
-                foreach($datal as $key => $data_item)
+                foreach($datal as $data_item)
                     {   
-                        $o= $data_item->ordre;
-                        if($o == 4) $o=5;
-                        elseif($o == 5) $o=4;
-                        if ($o != $j) {
-                            $j = $o;
+                        if ($data_item->ordre != $j) {
+                            $j = $data_item->ordre;
                       //  array_push($count,$i);
     
                             $i=0;
