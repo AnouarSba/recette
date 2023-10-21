@@ -110,22 +110,28 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-    public function ExportExcel($etat_rec, $etat_bus, $etat_ligne,$rotation_b,$rotation_l){
+    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
-            $spreadSheet = new Spreadsheet();
+
+            $spreadSheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/word/Etat.xlsx');
+
+            //change it
+           
+
+         //   $spreadSheet = new Spreadsheet();
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
             $spreadSheet->getActiveSheet()->fromArray($etat_rec);
-        $spreadSheet->getActiveSheet()->setTitle('Etat_receveur');
-            $spreadSheet->createSheet();
+       // $spreadSheet->getActiveSheet()->setTitle('Etat_receveur');
+            //$spreadSheet->createSheet();
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(1);
         $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 // Add some data
-
+/*
 $range = $this->create_columns_range('A', 'ZZ');
 $k=0;
 for ($i=0; $i <150 ; $i+=5) { 
@@ -139,18 +145,19 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $end = $range[$j]."1";
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }
-
+*/
     
    
-$spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'A2');
+$spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'B8');
+$spreadSheet->getActiveSheet()->fromArray($etat_bus2,Null,'B44');
         
-        $spreadSheet->getActiveSheet()->setTitle('Etat_bus');
-        $spreadSheet->createSheet();
+       // $spreadSheet->getActiveSheet()->setTitle('Etat_bus');
+        //$spreadSheet->createSheet();
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(2);
         $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
-        $k=0;
+ /*       $k=0;
 $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
 $c=[4,5,8,10,8,12,12,1,3,9];
 for ($i=0; $i <64 ;$i+=$c[$k-1]) { 
@@ -165,14 +172,15 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }
-	  
-        $spreadSheet->getActiveSheet()->fromArray($etat_ligne,Null,'A2');
+	  */
+        $spreadSheet->getActiveSheet()->fromArray($etat_ligne,Null,'B4');
+        $spreadSheet->getActiveSheet()->fromArray($etat_ligne2,Null,'B40');
         
-        $spreadSheet->getActiveSheet()->setTitle('Etat_ligne');
+       // $spreadSheet->getActiveSheet()->setTitle('Etat_ligne');
 
 
 
-        $spreadSheet->createSheet();
+        //$spreadSheet->createSheet();
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(3);
@@ -193,20 +201,21 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }*/
 	  
-        $spreadSheet->getActiveSheet()->fromArray($rotation_b,Null,'A2');
+        $spreadSheet->getActiveSheet()->fromArray($rotation_b,Null,'B5');
+        $spreadSheet->getActiveSheet()->fromArray($rotation_b2,Null,'AH5');
         
-        $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
+       // $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
 
 
 
 
 
-        $spreadSheet->createSheet();
+        //$spreadSheet->createSheet();
             
         /* Add some data */
         $spreadSheet->setActiveSheetIndex(4);
         $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
-      $k=0;
+  /*    $k=0;
 $l=[16,9,11,27,25,26,28,03,'-T lac'];
 $c=[4,5,4,3,5,5,4,3,4];
 for ($i=0; $i <37 ;$i+=$c[$k-1]) { 
@@ -221,10 +230,11 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }
-	  
-        $spreadSheet->getActiveSheet()->fromArray($rotation_l,Null,'A2');
+	*/  
+        $spreadSheet->getActiveSheet()->fromArray($rotation_l,Null,'B5');
+        $spreadSheet->getActiveSheet()->fromArray($rotation_l2,Null,'AO5');
         
-        $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
+       // $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
 
 
 
@@ -232,12 +242,23 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 
         $spreadSheet->setActiveSheetIndex(0);
 
-            $Excel_writer = new Xls($spreadSheet);
+          /*  $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="Etat_ExportedData.xls"');
             header('Cache-Control: max-age=0');
             ob_end_clean();
-            $Excel_writer->save('php://output');
+            $Excel_writer->save('php://output');*/
+            
+//set the header first, so the result will be treated as an xlsx file.
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+//make it an attachment so we can define filename
+header('Content-Disposition: attachment;filename="result.xlsx"');
+
+//create IOFactory object
+$writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+//save into php output
+$writer->save('php://output');
             exit();
         } catch (Exception $e) {
             return;
@@ -261,7 +282,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
            ]);
    
            $from= '2023-09-01';	
-           $to= '2023-09-30'; //$req['end_date'];	
+           $to= '2023-09-31'; //$req['end_date'];	
 
     /*    $current_month_first_day = new DateTime('first day of this month'); // first day of the current month
     $current_month_last_day  = date('t');  // last day of the current month
@@ -320,9 +341,10 @@ $period = new DatePeriod($start_date, $interval, $end_date);
         for($i=0;$i<29;$i++)
         array_push($arrt, ...$arr);
         
-        $data_array2 [] = $arrt;
-   
-    foreach ($period as  $value) {
+      //  $data_array2 [] = $arrt;
+      $data_array4=[];
+      $data_array42=[];
+      foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
                   
             $data = Recette::query()->where('brigade',1)
@@ -345,7 +367,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             array_push($arrs,$data_item->bname);
             array_push($arr_br,$data_item->rotation);
         }
-
+        $data_array4[]= $arr_br;
             for ($i=1; $i <=30 ; $i++) { 
                 $j= ($i<10)? "A0".$i : "A".$i; 
                 if (in_array($j, $arrs)) {
@@ -377,10 +399,10 @@ $period = new DatePeriod($start_date, $interval, $end_date);
     }      
    }
 
+ /*  $data_array2 [] =[]; 
    $data_array2 [] =[]; 
    $data_array2 [] =[]; 
-   $data_array2 [] =[]; 
-   $data_array2 [] = $arrt;
+   $data_array2 [] = $arrt;*/
    $arrs =[];
 
    foreach ($period as  $value) {
@@ -405,6 +427,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
         array_push($arrs,$data_item->bname);
         array_push($arr_br,$data_item->rotation);
     }
+    $data_array42[]= $arr_br;
 
         for ($i=1; $i <=30 ; $i++) { 
             $j= ($i<10)? "A0".$i : "A".$i; 
@@ -433,7 +456,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
     
     array_push($d,$s);
         
-         $data_array2 [] =$d; 
+         $data_array22 [] =$d; 
 }      
 }
 $arr = [];
@@ -465,7 +488,10 @@ for ($i=0; $i <13 ;$i++) {
                 array_push($arr,20);
                 array_push($arr,25);
                 }
-$data_array3 [] = $arr;
+                
+            $data_array5=[];
+            $data_array52=[];
+//$data_array3 [] = $arr;
 foreach ($period as  $value) {
     if ( $value->format("Y-m-d") <= $date) {
               
@@ -524,6 +550,7 @@ foreach ($period as  $value) {
                 
           
         $arp= [];
+        $lr= [];
         $cl='cl';
             $k=1;
             $j=0;
@@ -584,12 +611,63 @@ $c=[4,5,8,10,8,12,12,3,9];
                        }
                    } 
 
-            $data_array3 [] = $arp;
-                }}
-                $data_array3 [] = [];
-                $data_array3 [] = [];
-                $data_array3 [] = [];
 
+                   $clr='clr';
+                   $kr=1;
+                   $jr=0;
+                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $cr=[4,5,4,5,3,5,4,3,4];
+                for ($ir=1; $ir <=9 ; $ir++) { 
+                       $l=$cr[$kr-1];
+                       $kr++;
+                       for ($jr=0; $jr < $l; $jr++) { 
+                           
+                           ${$clr.$ir.$jr} =0;
+                       }
+                   } 
+                   $jr=0;
+                   foreach($datal as $data_item)
+                       {   
+                           if ($data_item->ordre != $jr) {
+                               $jr = $data_item->ordre;
+                         //  array_push($count,$ir);
+       
+                               $ir=0;
+                               # code...
+                           }else $ir++;
+       
+                           
+                           ${$clr.$jr.$ir}= $data_item->rotation;
+                       /*    array_push($arrs,$jr);
+                           if ($krey == $endkrey) {
+                               array_push($count,$ir);
+                           }*/
+                       }
+                       $kr=1;
+                       //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                       $c=[4,5,4,5,3,5,4,3,4];
+                       for ($ir=1; $ir <=9 ; $ir++) { 
+                              $l=$cr[$kr-1];
+                              $kr++;
+                              for ($jr=0; $jr < $l; $jr++) { 
+                                  
+                                  array_push($lr,${$clr.$ir.$jr});
+                              }
+                          } 
+       
+              
+
+
+
+
+
+
+
+            
+            $data_array3 [] = $arp;
+            $data_array5 [] = $lr;
+                }}
+            
                 foreach ($period as  $value) {
                     if ( $value->format("Y-m-d") <= $date) {
                               
@@ -648,6 +726,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                                 
                           
                         $arp= [];
+                        //$lr2= [];
                         $cl='cl';
                             $k=1;
                             $j=0;
@@ -707,11 +786,64 @@ $c=[4,5,8,10,8,12,12,3,9];
                                            array_push($arp,${$cl.$i.$j});
                                        }
                                    } 
-                
-                            $data_array3 [] = $arp;
+                                   
+                                   $lr=[];
+                                   $clr2='clr2';
+                                   $kr=1;
+                                   $jr=0;
+                                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                                $cr=[4,5,4,5,3,5,4,3,4];
+                                for ($ir=1; $ir <=9 ; $ir++) { 
+                                       $l=$cr[$kr-1];
+                                       $kr++;
+                                       for ($jr=0; $jr < $l; $jr++) { 
+                                           
+                                           ${$clr2.$ir.$jr} =0;
+                                       }
+                                   } 
+                                   $jr=0;
+                                   foreach($datal as $data_item)
+                                       {   
+                                           if ($data_item->ordre != $jr) {
+                                               $jr = $data_item->ordre;
+                                         //  array_push($count,$ir);
+                       
+                                               $ir=0;
+                                               # code...
+                                           }else $ir++;
+                       
+                                           
+                                           ${$clr2.$jr.$ir}= $data_item->rotation;
+                                       /*    array_push($arrs,$jr);
+                                           if ($krey == $endkrey) {
+                                               array_push($count,$ir);
+                                           }*/
+                                       }
+                                       $kr=1;
+                                       //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
+                                       $c=[4,5,4,5,3,5,4,3,4];
+                                       for ($ir=1; $ir <=9 ; $ir++) { 
+                                              $l=$cr[$kr-1];
+                                              $kr++;
+                                              for ($jr=0; $jr < $l; $jr++) { 
+                                                  
+                                                  array_push($lr,${$clr2.$ir.$jr});
+                                              }
+                                          } 
+                       
+                              
+
+
+
+
+
+
+
+                            $data_array32 [] = $arp;
+                            $data_array52 [] = $lr;
                                 }}
-            $data_array4=[];
-            $arr=[];
+         
+           /* $arr=[];
             $arr_t=[];
             $k=0;
             for ($i=1; $i <31 ; $i++) { 
@@ -724,16 +856,17 @@ $c=[4,5,8,10,8,12,12,3,9];
                 array_push($arr,0);
                         }
 
-            }
-            $data_array4[]= $arr_t;
-            $data_array4[]= $arr;
-            $data_array5=[];
+            }*/
+         //   $data_array4[]= $arr_t;
+          /*   $data_array4[]= $rb;
+            $data_array42[]= $rb2;
+           
             $arp= [];
             $cl='cl';
                 $k=1;
                 $j=0;
              //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-             $c=[4,5,4,3,5,5,4,3,4];
+             $c=[4,5,4,5,3,5,4,3,4];
              for ($i=1; $i <=9 ; $i++) { 
                     $l=$c[$k-1];
                     $k++;
@@ -758,7 +891,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                     /*    array_push($arrs,$j);
                         if ($key == $endkey) {
                             array_push($count,$i);
-                        }*/
+                        }*
                     }
                     $k=1;
                     //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
@@ -772,7 +905,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                            }
                        } 
     
-                $data_array5 [] = $arp;
+                $data_array5 [] = $arp;*/
           
         /*
         $i = 0;
@@ -784,7 +917,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 'Count' => $data_item->cmpt
             );
         }*/
-        return $this->ExportExcel($data_array,$data_array2,$data_array3,$data_array4,$data_array5);
+        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52);
     }
 
 
