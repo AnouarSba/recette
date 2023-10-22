@@ -302,7 +302,7 @@ $spreadSheet->getActiveSheet()->fromArray(['  المداخيل الاجمالي�
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
 //make it an attachment so we can define filename
-header('Content-Disposition: attachment;filename="result.xlsx"');
+header('Content-Disposition: attachment;filename="etat '.$d.'-'.$d2.' '.$month[$m].' '.$y.'.xlsx"');
 
 //create IOFactory object
 $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
@@ -345,6 +345,7 @@ $writer->save('php://output');
 $start_date = date_create($from);
 $end_date = date_create($to);
  
+$end_date = $end_date->add(DateInterval::createFromDateString('tomorrow'));
 // Step 2: Defining the Date Interval
 $interval = new DateInterval('P1D');
  
@@ -360,7 +361,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        $cart= [];
        $sp= [];
       
-       foreach ($period as  $value) {
+        foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
             
         $response = Http::get('https://etus22.deepertech.dz/api/stat_site/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
