@@ -335,7 +335,14 @@ button {
             </a>
 
             <ul class="nav flex-column mb-auto text-center">
-                @if(Illuminate\Support\Facades\Auth::user()->id>3)
+                @if(Illuminate\Support\Facades\Auth::user()->id==3)
+                <li class="nav-item active">
+                    <a href="#section-sp" class="nav-link  text-dark py-2" aria-current="page" title="مراقبة"
+                        data-bs-toggle="tooltip" data-bs-placement="right">
+                        <i class="bi bi-house" style="font-size:27px;"></i>
+                    </a>
+                </li>
+                @else
                 <li class="nav-item active">
                     <a href="#section-1" class="nav-link  text-dark py-2" aria-current="page" title="الرئيسية"
                         data-bs-toggle="tooltip" data-bs-placement="right">
@@ -505,7 +512,100 @@ button {
                 </div>
             </section>
             @endif
+            @if(Illuminate\Support\Facades\Auth::user()->id>2)
 
+            <!-- Page content-->
+            <section id="section-sp" class="pt-5">
+                <br>
+                @php
+                $mnth = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+                @endphp
+                <b style="font-size: 24px">مداخيل شهر {{$mnth[$m-1]}}  {{$day}}</b>
+                <br>
+                <div style="    display: inline-flex;
+                color: black;
+                font-size: 16px;
+                flex-flow: nowrap;
+                font-size: 32px;" dir="rtl" >البحث عن مداخيل 
+               &nbsp; &nbsp;  <form method="post" action="{{route('home')}}">
+                    @csrf
+                <select name="month" style=>
+                    @for($i=0;$i<12; $i++)
+                    <option value="{{$i+1}}" {{($m== $i+1)? 'selected' : ''}}>{{$mnth[$i]}}</option>
+                    @endfor
+                </select>
+                <input type="submit" class="btn btn-secondary" value="ابحث">
+            </form></div>
+                <div class="container" dir="rtl" style="color:black;  overflow:scroll">
+                    <table class="tbl" style="width:80%; overflow:scroll">
+                        <thead style="background-color:lightgrey; font-size">
+                            <tr>
+                                <th rowspan="2" style="width:40px">يوم</th>
+                                <th colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                                <th colspan="3">الدفع الالكتروني</th>
+                                <th rowspan="2">القيمة الاجمالية </th>
+                            </tr>
+                            <tr>
+                                <th>الفترة الصباحية</th>
+                                <th>الفترة المسائية</th>
+                                <th>مداخيل بطافة رحلات </th>
+                                <th>مداخيل بطاقة المتمدرس </th>
+                                <th>مداخيل التعبئة </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $totalc = 0;
+                            $tf = 0;
+                            $tt = 0;
+                            @endphp
+                            @foreach($data as $d)
+                            @php
+            $tc = $d->tc*200;$tsc = $d->tsc*300;$f = $d->flexy;
+                            $t=$d->money+$f+$tsc+$tc;
+                            $tt+=$t;
+            
+            
+                            $tc = $d->tc*200;
+                            $tsc = $d->tsc*300;
+                            $f = $d->flexy;
+                            $t=$d->money+$f+$tsc+$tc;
+            
+                            $totalc += $d->money;
+                            $tf += $f+$tsc+$tc;
+                            @endphp
+                            <tr>
+                                <td rowspan="2" style="text-wrap: nowrap;">{{$d->c_date}}</td>
+                                <td>{{$d->sbm}}</td>
+                                <td>{{$d->sbs}}</td>
+                                <td>{{$tc}}</td>
+                                <td>{{$tsc}}</td>
+                                <td>{{$f}}</td>
+                                <td rowspan="2">{{$t}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">{{$d->money}}</td>
+                                <td colspan="3">{{$tsc + $tc +$f}}</td>
+            
+                            </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="1">المجموع</td>
+                                <td colspan="2">{{$totalc}}</td>
+                                <td colspan="3">{{$tf}}</td>
+                                <td>{{$totalc +$tf}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{route('control')}}"><button class="btn btn-primary">طباعة</button></a>
+            
+                </div>
+            
+            
+            
+            
+@endif            
+            </section>
             <section id="section-2" class="pt-5">
 
                 <div class="container-fluid" dir="rtl">
@@ -589,13 +689,24 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
             </thead>
             <tbody>
                 @php
+                $totalc = 0;
+                $tf = 0;
                 $tt = 0;
                 @endphp
                 @foreach($data as $d)
                 @php
-                $tc = $d->tc*200;$tsc = $d->tsc*300;$f = $d->flexy;
+$tc = $d->tc*200;$tsc = $d->tsc*300;$f = $d->flexy;
                 $t=$d->money+$f+$tsc+$tc;
                 $tt+=$t;
+
+
+                $tc = $d->tc*200;
+                $tsc = $d->tsc*300;
+                $f = $d->flexy;
+                $t=$d->money+$f+$tsc+$tc;
+
+                $totalc += $d->money;
+                $tf += $f+$tsc+$tc;
                 @endphp
                 <tr>
                     <td rowspan="2" style="text-wrap: nowrap;">{{$d->c_date}}</td>
@@ -613,8 +724,10 @@ for($i=1; $i<=64 ; $i++){ echo " " ; } @endphp<option value="3">ليل</option> 
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="6">المجموع</td>
-                    <td>{{$tt}}</td>
+                    <td colspan="1">المجموع</td>
+                    <td colspan="2">{{$totalc}}</td>
+                    <td colspan="3">{{$tf}}</td>
+                    <td>{{$totalc +$tf}}</td>
                 </tr>
             </tbody>
         </table>

@@ -34,6 +34,8 @@ use App\Models\Flixy;
 use App\Models\Vent;
 use \PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\carbon;
+use Illuminate\Support\Facades\Http;
+
 class ControlController extends Controller
 {
     public function control(Request $request)
@@ -110,7 +112,7 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2){
+    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
@@ -119,6 +121,7 @@ public function confirm(Request $request)
 
             //change it
            
+            $spreadSheet->setActiveSheetIndex(0);
 
          //   $spreadSheet = new Spreadsheet();
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
@@ -146,6 +149,12 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
         $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");  
 }
 */
+
+$month = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Decembre"];
+$month_ar = ["جانفي","فيفري","مارس","أفريل","ماي","جوان","جويلية","أوت","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+$month_abrv = ["Janv","Févr","Mars","Avr","Mai","Juin","Juil","Août","Sept","Oct","Nov","Dec"];
+
+$spreadSheet->getActiveSheet()->fromArray([$month_ar[$m].' '.$y],Null,'T2');
     
    
 $spreadSheet->getActiveSheet()->fromArray($etat_bus,Null,'B8');
@@ -240,7 +249,47 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 
 
 
-        $spreadSheet->setActiveSheetIndex(0);
+       $spreadSheet->setActiveSheetIndex(5);
+       $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+       $spreadSheet->getActiveSheet()->fromArray([$d.' - '.$d2.' '.$month_ar[$m].' '.$y],Null,'T2');
+
+$spreadSheet->getActiveSheet()->fromArray([' مداخيل'.$d.' - '.$d2.' '.$month_ar[$m].' '.$y],Null,'A2');
+$spreadSheet->getActiveSheet()->fromArray([$month_abrv[$m]],Null,'X37');
+$spreadSheet->getActiveSheet()->fromArray(['عدد المسافرين المنقول/الحافلة '.$d.' - '.$d2.' '.$month_ar[$m].' '.$y],Null,'A46');
+
+$spreadSheet->setActiveSheetIndex(7);
+$spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+
+$spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'A2');
+
+
+$spreadSheet->setActiveSheetIndex(8);
+$spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+
+$spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
+
+
+$spreadSheet->setActiveSheetIndex(9);
+$spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+
+$spreadSheet->getActiveSheet()->fromArray([' مداخيل بيع بطاقة رحلات + الشحن '. $d.' - '.$d2.' '.$month_ar[$m].' '.$y],Null,'A3');
+
+$range = $this->create_columns_range('B', 'ZZ');
+for ($i=0; $i < count($cart) ; $i++) { 
+$spreadSheet->setActiveSheetIndex(9)
+        ->setCellValue($range[$i].'6', $cart[$i]);
+        $spreadSheet->setActiveSheetIndex(9)
+        ->setCellValue($range[$i].'7', $flexy[$i]);
+        $spreadSheet->setActiveSheetIndex(9)
+        ->setCellValue($range[$i].'8', $sp[$i]);
+
+$spreadSheet->setActiveSheetIndex(10);
+$spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
+
+$spreadSheet->getActiveSheet()->fromArray(['  المداخيل الاجمالية '.$d.' - '.$d2.' '.$month_ar[$m].' '.$y ],Null,'C7');
+        $spreadSheet->setActiveSheetIndex(1);
+
+}
 
           /*  $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
@@ -278,12 +327,17 @@ $writer->save('php://output');
     function exportData(Request $request){
         $req = $request->validate([
             'start_date' => 'required|date',
-            'brigade' => 'required',
+            'end_date' => 'required|date',
            ]);
-   
-           $from= '2023-09-01';	
-           $to= '2023-09-31'; //$req['end_date'];	
+           $from= $req['start_date'];	
+           $to= $req['end_date'];	
 
+        
+
+           $day =  $request->day;
+           $day2 =  $request->day2;
+           $month =  $request->month;
+           $year =  $request->year;
     /*    $current_month_first_day = new DateTime('first day of this month'); // first day of the current month
     $current_month_last_day  = date('t');  // last day of the current month
     $interval = new DateInterval('P1D');*/
@@ -302,10 +356,25 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        
        $types= ['','A','B','C','D'];
        $data_array= [];
+       $flexy= [];
+       $cart= [];
+       $sp= [];
       
        foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
             
+        $response = Http::get('https://etus22.deepertech.dz/api/stat_site/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
+    
+        if ($response->successful()) {
+            $responseData = $response->json(); // Extract JSON data from the response
+            // Process $responseData as needed
+            $flexy[] = $responseData[0];
+            $cart[] = $responseData[1]*200;
+            $sp[] = $responseData[2]*300;
+        } else {
+            // Handle unsuccessful response
+            return response()->json(['error' => 'Failed to send data to the other website'], 500);
+        }
             $data = Recette::query()
             ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
            /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
@@ -917,7 +986,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 'Count' => $data_item->cmpt
             );
         }*/
-        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52);
+        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52, $day,$day2,$month,$year,$flexy,$cart,$sp);
     }
 
 
