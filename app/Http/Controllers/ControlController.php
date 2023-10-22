@@ -112,7 +112,7 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp){
+    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp,$resp){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
@@ -267,6 +267,7 @@ $spreadSheet->setActiveSheetIndex(8);
 $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
+$spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
 
 
 $spreadSheet->setActiveSheetIndex(9);
@@ -282,14 +283,14 @@ $spreadSheet->setActiveSheetIndex(9)
         ->setCellValue($range[$i].'7', $flexy[$i]);
         $spreadSheet->setActiveSheetIndex(9)
         ->setCellValue($range[$i].'8', $sp[$i]);
-
+}
 $spreadSheet->setActiveSheetIndex(10);
 $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray(['  المداخيل الاجمالية '.$d.' - '.$d2.' '.$month_ar[$m].' '.$y ],Null,'C7');
         $spreadSheet->setActiveSheetIndex(1);
 
-}
+
 
           /*  $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
@@ -360,11 +361,13 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        $flexy= [];
        $cart= [];
        $sp= [];
+       $resp= [];
       
         foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
             
         $response = Http::get('https://etus22.deepertech.dz/api/stat_site/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
+        $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
     
         if ($response->successful()) {
             $responseData = $response->json(); // Extract JSON data from the response
@@ -372,6 +375,13 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             $flexy[] = $responseData[0];
             $cart[] = $responseData[1]*200;
             $sp[] = $responseData[2]*300;
+        } else {
+            // Handle unsuccessful response
+            return response()->json(['error' => 'Failed to send data to the other website'], 500);
+        }
+        if ($response2->successful()) {
+            $resp[] = $response2->json(); // Extract JSON data from the response
+           
         } else {
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
@@ -987,7 +997,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 'Count' => $data_item->cmpt
             );
         }*/
-        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52, $day,$day2,$month,$year,$flexy,$cart,$sp);
+        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52, $day,$day2,$month,$year,$flexy,$cart,$sp, $resp);
     }
 
 
