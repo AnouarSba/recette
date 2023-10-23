@@ -269,7 +269,8 @@ $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
 $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
 for ($i=44; $i < count($resp_h); $i++) { 
-  $spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q'.$i);  # code...
+  $spreadSheet->setActiveSheetIndex(8)
+        ->setCellValue('Q'.$i, $resp_h[$i-44]);
 }
 
 
@@ -385,8 +386,9 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
         }
         if ($response2->successful()) {
+            
             $resp[] = $response2[1]; // Extract JSON data from the response
-           $resp_h[] = $response2[0]; 
+           $resp_h[] = array($response2[0]); 
         } else {
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
