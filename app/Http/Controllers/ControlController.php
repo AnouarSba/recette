@@ -112,7 +112,7 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp,$resp){
+    public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp,$resp,$resp_h){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
@@ -268,6 +268,7 @@ $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
 $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
+$spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q44');
 
 
 $spreadSheet->setActiveSheetIndex(9);
@@ -362,6 +363,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        $cart= [];
        $sp= [];
        $resp= [];
+       $resp_h = [];
       
         foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
@@ -380,8 +382,8 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
         }
         if ($response2->successful()) {
-            $resp[] = $response2->json(); // Extract JSON data from the response
-           
+            $resp[] = $response2[1]->json(); // Extract JSON data from the response
+           $resp_h[] = $response2[0]->json(); 
         } else {
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
@@ -997,7 +999,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                 'Count' => $data_item->cmpt
             );
         }*/
-        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52, $day,$day2,$month,$year,$flexy,$cart,$sp, $resp);
+        return $this->ExportExcel($data_array,$data_array2,$data_array22,$data_array3,$data_array32,$data_array4,$data_array42,$data_array5,$data_array52, $day,$day2,$month,$year,$flexy,$cart,$sp, $resp, $resp_h);
     }
 
 
