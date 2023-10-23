@@ -268,7 +268,10 @@ $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
 $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
-$spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q44');
+for ($i=44; $i < count($resp_h); $i++) { 
+  $spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q'.$i);  # code...
+}
+
 
 
 $spreadSheet->setActiveSheetIndex(9);
