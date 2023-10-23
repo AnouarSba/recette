@@ -382,8 +382,8 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
         }
         if ($response2->successful()) {
-            $resp[] = $response2[1]->json(); // Extract JSON data from the response
-           $resp_h[] = $response2[0]->json(); 
+            $resp[] = $response2[1]; // Extract JSON data from the response
+           $resp_h[] = $response2[0]; 
         } else {
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
