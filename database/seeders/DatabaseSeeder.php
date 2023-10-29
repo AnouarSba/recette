@@ -38,11 +38,25 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('pr-caisse2023')
         ]);
         DB::table('users')->insert([
-            'username' => 'Caisse',
+            'username' => 'Caisse_M',
             'firstname' => 'Caisse',
             'lastname' => 'Caisse',
-            'email' => 'caisse@gmail.com',
-            'password' => bcrypt('caisse2023')
+            'email' => 'caisseM@gmail.com',
+            'password' => bcrypt('caisse2023123')
+        ]);
+        DB::table('users')->insert([
+            'username' => 'Caisse_N',
+            'firstname' => 'Caisse',
+            'lastname' => 'Caisse',
+            'email' => 'caisseN@gmail.com',
+            'password' => bcrypt('caisse2023258')
+        ]);
+        DB::table('users')->insert([
+            'username' => 'Caisse_D',
+            'firstname' => 'Caisse',
+            'lastname' => 'Caisse',
+            'email' => 'caisseD@gmail.com',
+            'password' => bcrypt('caisse2023357')
         ]);
 
 
