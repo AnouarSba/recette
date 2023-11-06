@@ -18,6 +18,7 @@ use App\Models\Ligne;
 use App\Models\Arret;
 use App\Models\Recette;
 use App\Models\Validation;
+use App\Models\Carnet;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -110,6 +111,23 @@ public function confirm(Request $request)
    // DB::statement("SET SQL_MODE=''");
    
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
+
+}
+public function ticket_show(Request $request)
+
+{
+
+        
+$emp20 = Carnet::where('type',1)->where('status',$request->id)->pluck("name","id");
+$emp25 = Carnet::where('type',2)->where('status',$request->id)->pluck("name","id");
+$emp30 = Carnet::where('type',3)->where('status',$request->id)->pluck("name","id");
+
+
+ $data20 = view('t20-ajax-select',compact('emp20'))->render();
+ $data25 = view('t25-ajax-select',compact('emp25'))->render();
+ $data30 = view('t30-ajax-select',compact('emp30'))->render();
+return response()->json(['options20'=>$data20, 'options25'=>$data25, 'options30'=>$data30]);
+
 
 }
     public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp,$resp,$resp_h){

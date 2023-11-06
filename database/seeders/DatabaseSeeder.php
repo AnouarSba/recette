@@ -65,5 +65,31 @@ class DatabaseSeeder extends Seeder
         $this->call(Lignes::class);
         $this->call(Buses::class);
         $this->call(Kabids::class);
+/*
+
+        for ($i=0; $i < 1000 ; $i++) { 
+            DB::table('carnets')->insert([
+                'name' => 't'.$i,
+                'type' => 1,
+                'status' => 1,
+                
+            ]);
+        }
+        for ($i=0; $i < 300 ; $i++) { 
+            DB::table('carnets')->insert([
+                'name' => 't'.$i,
+                'type' => 2,
+                'status' => 1,
+                
+            ]);
+        }
+        for ($i=0; $i < 200 ; $i++) { 
+            DB::table('carnets')->insert([
+                'name' => 't'.$i,
+                'type' => 3,
+                'status' => 1,
+                
+            ]);
+        }*/
     }
 }

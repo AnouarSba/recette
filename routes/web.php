@@ -32,6 +32,7 @@ Route::get('delete',[ ControlController::class, 'delete'])->name('delete')->midd
 Route::post('confirm',[ ControlController::class, 'confirm'])->name('confirm')->middleware('auth'); 
 Route::post('Export',[ ControlController::class, 'exportData'])->name('etat')->middleware('auth'); 
 	Route::get('logout', [ControlController::class, 'logout'])->name('logout')->middleware('auth');
+	Route::get('/ticket_show/{id}',[ ControlController::class, 'ticket_show'])->name('ticket_show'); 
   
 Route::post('Infraction_list',[ ControlController::class, 'Infra_list'])->name('Infra_list')->middleware('auth');
 Route::post('Infraction_t',[ ControlController::class, 'infra_trait'])->name('Infra_trait')->middleware('auth');

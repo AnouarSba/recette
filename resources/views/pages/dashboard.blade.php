@@ -697,7 +697,7 @@
                                 </div>
                             </form>
                     @if (Illuminate\Support\Facades\Auth::user()->id ==3)
-                            <div class="row" hidden style="color: black" dir="rtl">
+                            <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
@@ -707,11 +707,9 @@
                                     <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
                                     <div class="col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
-                                    الدفاتر الخاصة ب  <select class="" required id="name" form="myform" required name="name">
+                                    الدفاتر الخاصة ب  <select class="" required id="nameC" form="myform" required name="nameC">
                                         <option value="" required> --- </option>
-                                        @foreach (App\Models\User::where('id','>','3')->get() as $k)
-                                        <option value="{{$k->id}}">{{$k->username}}</option>
-                                        @endforeach
+                                        <option value="2">Caisse</option>
                                     </select>
                                       </h4>
                                     </div>
@@ -720,7 +718,7 @@
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 20دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',1)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',1)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach
                                         </optgroup> 
@@ -728,14 +726,14 @@
                                       </select>
                                       <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 25دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',2)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',2)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>
                                       </select>
                                     <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 30دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',3)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',3)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>                         
@@ -760,16 +758,16 @@
                                     <div class="col-xs-4" style="width: 40%;">
                                         <form action="" method="POST" id="myform">
                                             @csrf
-                                        <select style="display: inline; width: 30%" id="right_box" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="right_box" name="tc20" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 20دج">
                                             </optgroup> 
                                             
                                           </select>
-                                          <select style="display: inline; width: 30%" id="right_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 25دج">
                                             </optgroup>
                                           </select>
-                                        <select style="display: inline; width: 30%" id="right_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 30دج">
                                             </optgroup>                         
                                          </select>
@@ -979,7 +977,35 @@ $('#btnLeft_multi').click(function (e) {
     $("#right_box2").find('option').remove().appendTo('#left_box2');
 });
 
+$('#nameC').on( "change", function() {
 
+var x = $('#nameC').val();
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+    
+$.ajax({
+    method: "GET",
+    url: "/ticket_show/" + x,
+
+}).done(function(data) {
+    $("select[name='tc20'").html('');
+    $("select[name='tc25'").html('');
+    $("select[name='tc30'").html('');
+    $("#hidden_right_box").html('');
+    $("#hidden_right_box1").html('');
+    $("#hidden_right_box2").html('');
+    
+    $("select[name='tc20'").html(data.options20);
+    $("#hidden_right_box").html(data.options20);
+    $("select[name='tc25'").html(data.options25);
+    $("#hidden_right_box1").html(data.options25);
+    $("select[name='tc30'").html(data.options30);
+    $("#hidden_right_box2").html(data.options30);
+}); 
+} );
         checkCookie();
 
         function ck() {
@@ -1013,14 +1039,14 @@ $('#btnLeft_multi').click(function (e) {
         }
 
         function checkCookie() {
-            let user = getCookie("date");
+            var user = getCookie("date");
             if (user != "") {
                 document.getElementById("dd").value = user;
                 document.getElementById("name").focus();
             } else {
                 document.getElementById("dd").focus();
             }
-            let br = getCookie("brigade");
+            var br = getCookie("brigade");
             if (br != "") {
                 document.getElementById("brigad").value = br;
             } else {
@@ -1070,6 +1096,7 @@ $('#btnLeft_multi').click(function (e) {
                 document.getElementById("flexy").value = 0;
             }
         }
+ 
     </script>
     <!-- partial -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js'></script>
