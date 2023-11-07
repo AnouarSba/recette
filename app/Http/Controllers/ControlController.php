@@ -46,6 +46,32 @@ class ControlController extends Controller
 
 }
 
+public function caisse(Request $request){
+
+    $t20= $request->tc20;
+    $t25= $request->tc25;
+    $t30= $request->tc30;
+  if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => 2]);
+  if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => 2]);
+  if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => 2]);
+    
+
+    $r = explode(' ',Carbon::today())[0];
+    $kabid = Kabid::where('id','>','2')->get();
+    $ligne = Ligne::get();
+    $bus = Bus::get();
+    $day = '';
+    if($request->month)
+    $m = $request->month;
+    else{
+    $m = date('m',strtotime("-1 days"));
+    $day = 'ليوم '.date('d/m/y',strtotime("-1 days"));
+    }
+ //   $d = Validation::whereMonth('c_date',$m)->select('sum(sbm) as ssbm','sum(sbm) as ssbm',)->get();
+    $data = Validation::whereMonth('c_date',$m)->get();
+    
+    return view('pages.dashboard', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
+}
 public function recette(Request $request)
 {
 

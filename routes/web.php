@@ -40,6 +40,7 @@ Route::post('Infraction_s',[ ControlController::class, 'Infra_save'])->name('Inf
 Route::get('Infraction_r/{infra}',[ ControlController::class, 'Infra_rapport'])->name('Infra_rapport')->middleware('auth');
 Route::get('Coffre/{c}',[ ControlController::class, 'Coffre_rapport'])->name('Coffre_rapport')->middleware('auth');
 
+Route::post('caisse',[ ControlController::class, 'caisse'])->name('caisse')->middleware('auth'); 
 Route::post('list',[ ControlController::class, 'list'])->name('list')->middleware('auth'); 
 Route::get('list',[ ControlController::class, 'list'])->name('get_list')->middleware('auth'); 
   

@@ -708,7 +708,6 @@
                                     <div class="col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
                                     الدفاتر الخاصة ب  <select class="" required id="nameC" form="myform" required name="nameC">
-                                        <option value="" required> --- </option>
                                         <option value="2">Caisse</option>
                                     </select>
                                       </h4>
@@ -756,19 +755,28 @@
                                       </div>
                                     </div>
                                     <div class="col-xs-4" style="width: 40%;">
-                                        <form action="" method="POST" id="myform">
+                                        <form method="POST" id="myform" action="{{ route('caisse') }}">
                                             @csrf
-                                        <select style="display: inline; width: 30%" id="right_box" name="tc20" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="right_box" name="tc20[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 20دج">
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
+                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup> 
                                             
                                           </select>
-                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25" multiple="" class="form-control multi-select-box">
+                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 25دج">
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
+                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup>
                                           </select>
-                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 30دج">
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
+                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup>                         
                                          </select>
                                         </form>
