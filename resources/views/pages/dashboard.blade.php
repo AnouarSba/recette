@@ -551,6 +551,94 @@
                                         الديون
                                         <input type="number" name="dette" id="dette" disabled>
                                         <input type="hidden" name="dettes" id="dettes">
+                                        @if (Illuminate\Support\Facades\Auth::user()->id >3)
+                            <div class="row"  style="color: black" dir="rtl">
+                                <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                        مخزون دفاتر جامع الأموال 
+                                      </h4>
+                                    </div>
+                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                    الدفاتر الخاصة ب   <span id="nameR"></span>
+                                    
+                                    <input hidden type="text" id="nameC" form="myform" required name="nameC">
+                                    
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 20دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach
+                                        </optgroup> 
+                                        
+                                      </select>
+                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 25دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach                                        
+                                        </optgroup>
+                                      </select>
+                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 30دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach                                        
+                                        </optgroup>                         
+                                     </select>
+                                    </div>
+                                  
+                                    <div class="col-xs-1 override-padding" style="width: 20%;">
+                                      <div class="multi-select-button-container">
+                                        <input type="button" id="btnRight_multi" class="btn btn-warning btn-block" value=" >>> ">
+                                        <br>
+                                        <input type="button" id="btnRight_single" class="btn btn-default btn-block" value="  >">
+                                        <br>
+                                        <input type="button" id="btnLeft_single" class="btn btn-default btn-block" value="  <  ">
+                                        <br>
+                                        <input type="button" id="btnLeft_multi" class="btn btn-danger btn-block" value="<<<">
+                                        <br><br>
+                                        <input type="button" id="btn_reset" class="btn btn-secondary btn-block" value="reset">
+                                        <br><br>
+                                        <input type="submit" form="myform" id="btn_confirm" class="btn btn-success btn-block" value="confirm">
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                        <select style="display: inline; width: 30%" id="right_box" name="tc20[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 20دج">
+                                               
+                                            </optgroup> 
+                                            
+                                          </select>
+                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 25دج">
+                                              
+                                            </optgroup>
+                                          </select>
+                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 30دج" >
+                                              
+                                            </optgroup>                         
+                                         </select>
+                                    </div>
+                                    <div style="display:none">
+                                      <select id="hidden_left_box"></select>
+                                      <select id="hidden_left_box1"></select>
+                                      <select id="hidden_left_box2"></select>
+                                      <select id="hidden_right_box"></select>
+                                      <select id="hidden_right_box1"></select>
+                                      <select id="hidden_right_box2"></select>
+                                    </div>
+                                  </div>
+                            </div>
+                    @endif
                                         <input type="submit" onclick="empty()" value="تأكيد">
                                     </div>
                                 </form>
@@ -701,13 +789,14 @@
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
-                                        مخزون الدفاتر
+                                      مخزون دفاتر جامع الأموال الرئيسي
                                       </h4>
                                     </div>
                                     <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
                                     <div class="col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
-                                    الدفاتر الخاصة ب  <select class="" required id="nameC" form="myform" required name="nameC">
+                                       مخزون دفاتر جامع الأموال 
+                                    <select hidden class="" required id="nameC" form="myform" required name="nameC">
                                         <option value="2">Caisse</option>
                                     </select>
                                       </h4>
@@ -760,7 +849,7 @@
                                         <select style="display: inline; width: 30%" id="right_box" name="tc20[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 20دج">
                                                 @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
-                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
                                                 @endforeach
                                             </optgroup> 
                                             
@@ -768,14 +857,14 @@
                                           <select style="display: inline; width: 30%" id="right_box1" name="tc25[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 25دج">
                                                 @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
-                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
                                                 @endforeach
                                             </optgroup>
                                           </select>
                                         <select style="display: inline; width: 30%" id="right_box2" name="tc30[]" multiple="" class="form-control multi-select-box">
-                                            <optgroup label="دفاتر 30دج">
+                                            <optgroup label="دفاتر 30دج" >
                                                 @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
-                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
                                                 @endforeach
                                             </optgroup>                         
                                          </select>
@@ -951,12 +1040,17 @@ $("#left_box2").on('dblclick', 'option', function () {
 });
 $("#right_box").on('dblclick', 'option', function () {
   $("#right_box").find('option:selected').remove().appendTo('#left_box');
+  $("#right_box option").prop("selected", "selected");
 });
 $("#right_box1").on('dblclick', 'option', function () {
   $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
+  $("#right_box1 option").prop("selected", "selected");
+
 });
 $("#right_box2").on('dblclick', 'option', function () {
   $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
+  $("#right_box2 option").prop("selected", "selected");
+
 });
 
 /* Button click handlers */
@@ -1019,8 +1113,32 @@ $.ajax({
         function ck() {
             var x = document.getElementById("dd").value;
             var y = document.getElementById("brigad").value;
-            setCookie("date", x, 365);
+            var z = $("#name option:selected").text();
+             document.getElementById("nameR").innerHTML = z;
+             var z = $("#name").val();
+             document.getElementById("nameC").value = z;
+           setCookie("date", x, 365);
             setCookie("brigade", y, 365);
+              
+$.ajax({
+    method: "GET",
+    url: "/ticket_show/" + z,
+
+}).done(function(data) {
+    $("select[name='tc20'").html('');
+    $("select[name='tc25'").html('');
+    $("select[name='tc30'").html('');
+    $("#hidden_right_box").html('');
+    $("#hidden_right_box1").html('');
+    $("#hidden_right_box2").html('');
+    console.log(data.options20);
+    $("select[name='tc20'").html(data.options20);
+    $("#hidden_right_box").html(data.options20);
+    $("select[name='tc25'").html(data.options25);
+    $("#hidden_right_box1").html(data.options25);
+    $("select[name='tc30'").html(data.options30);
+    $("#hidden_right_box2").html(data.options30);
+}); 
 
         }
 

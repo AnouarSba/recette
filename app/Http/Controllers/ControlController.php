@@ -49,11 +49,18 @@ class ControlController extends Controller
 public function caisse(Request $request){
 
     $t20= $request->tc20;
+    $c20= $request->t20;
     $t25= $request->tc25;
+    $c25= $request->t25;
     $t30= $request->tc30;
+    $c30= $request->t30;
+    Carnet::where('id', '!=', 0)->update(['status' => 1]);
   if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => 2]);
+  if($c20 != [])   Carnet::whereIn('id', $c20)->update(['status' => 2]);
   if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => 2]);
+  if($c25 != [])   Carnet::whereIn('id', $c25)->update(['status' => 2]);
   if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => 2]);
+  if($c30 != [])    Carnet::whereIn('id', $c30)->update(['status' => 2]);
     
 
     $r = explode(' ',Carbon::today())[0];
@@ -69,7 +76,7 @@ public function caisse(Request $request){
     }
  //   $d = Validation::whereMonth('c_date',$m)->select('sum(sbm) as ssbm','sum(sbm) as ssbm',)->get();
     $data = Validation::whereMonth('c_date',$m)->get();
-    
+    return redirect('/dashboard#section-2');
     return view('pages.dashboard', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
 }
 public function recette(Request $request)

@@ -4,7 +4,7 @@
 
   @foreach($emp30 as $key => $value)
 
-    <option value="{{ $key }}">{{ $value }}</option>
+    <option selected value="{{ $key }}">{{ $value }}</option>
 
   @endforeach
 @endif
