@@ -597,17 +597,16 @@
                                   
                                     <div class="col-xs-1 override-padding" style="width: 20%;">
                                       <div class="multi-select-button-container">
-                                        <input type="button" id="btnRight_multi" class="btn btn-warning btn-block" value=" >>> ">
+                                        <input type="button" id="btnRight_multi" class="btn btn-danger btn-block" value=" >>> ">
                                         <br>
                                         <input type="button" id="btnRight_single" class="btn btn-default btn-block" value="  >">
                                         <br>
                                         <input type="button" id="btnLeft_single" class="btn btn-default btn-block" value="  <  ">
                                         <br>
-                                        <input type="button" id="btnLeft_multi" class="btn btn-danger btn-block" value="<<<">
+                                        <input type="button" id="btnLeft_multi" class="btn btn-success btn-block" value="<<<">
                                         <br><br>
                                         <input type="button" id="btn_reset" class="btn btn-secondary btn-block" value="reset">
                                         <br><br>
-                                        <input type="submit" form="myform" id="btn_confirm" class="btn btn-success btn-block" value="confirm">
                                       </div>
                                     </div>
                                     <div class="col-xs-4" style="width: 40%;">
@@ -635,6 +634,85 @@
                                       <select id="hidden_right_box"></select>
                                       <select id="hidden_right_box1"></select>
                                       <select id="hidden_right_box2"></select>
+                                    </div>
+                                  </div>
+                            </div>
+                            <br>
+                            <div class="row"  style="color: black" dir="rtl">
+                                <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                        التذاكر الخاصة ب <span id="nameRT"></span> 
+                                      </h4>
+                                    </div>
+                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                التذاكر المباعة
+                                    
+                                    
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 20دج">
+                                            
+                                        </optgroup> 
+                                        
+                                      </select>
+                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 25دج">
+                                                                                 
+                                        </optgroup>
+                                      </select>
+                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 30دج">
+                                                                                  
+                                        </optgroup>                         
+                                     </select>
+                                    </div>
+                                  
+                                    <div class="col-xs-1 override-padding" style="width: 20%;">
+                                      <div class="multi-select-button-container">
+                                        <input type="button" id="btnRight_multiT" class="btn btn-danger btn-block" value=" >>> ">
+                                        <br>
+                                        <input type="button" id="btnRight_singleT" class="btn btn-default btn-block" value="  >">
+                                        <br>
+                                        <input type="button" id="btnLeft_singleT" class="btn btn-default btn-block" value="  <  ">
+                                        <br>
+                                        <input type="button" id="btnLeft_multiT" class="btn btn-success btn-block" value="<<<">
+                                        <br><br>
+                                        <input type="button" id="btn_resetT" class="btn btn-secondary btn-block" value="reset">
+                                        <br><br>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                        <select style="display: inline; width: 30%" id="right_boxT" name="tt20[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 20دج">
+                                               
+                                            </optgroup> 
+                                            
+                                          </select>
+                                          <select style="display: inline; width: 30%" id="right_boxT1" name="tt25[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 25دج">
+                                              
+                                            </optgroup>
+                                          </select>
+                                        <select style="display: inline; width: 30%" id="right_boxT2" name="tt30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 30دج" >
+                                              
+                                            </optgroup>                         
+                                         </select>
+                                    </div>
+                                    <div style="display:none">
+                                      <select id="hidden_Tleft_box"></select>
+                                      <select id="hidden_Tleft_box1"></select>
+                                      <select id="hidden_Tleft_box2"></select>
+                                      <select id="hidden_right_boxT"></select>
+                                      <select id="hidden_right_boxT1"></select>
+                                      <select id="hidden_right_boxT2"></select>
                                     </div>
                                   </div>
                             </div>
@@ -1031,26 +1109,96 @@ $('#btn_reset').click(function (e) {
 
 $("#left_box").on('dblclick', 'option', function () {
   $("#left_box").find('option:selected').remove().appendTo('#right_box');
+  var txt= $(this).text();
+  var s = $("#right_box option").length-$("#hidden_right_box option").length;
+  $('#s20').val(s);
+  if (  $('#r20').val()) {
+  $('#r20').val($('#r20').val()+'-'+txt);
+    
+  } else {
+    $('#r20').val(txt)
+  }
 });
 $("#left_box1").on('dblclick', 'option', function () {
   $("#left_box1").find('option:selected').remove().appendTo('#right_box1');
+  var txt= $(this).text();
+  var s = $("#right_box1 option").length-$("#hidden_right_box1 option").length;
+  $('#s25').val(s);
+  if (  $('#r25').val()) {
+  $('#r25').val($('#r25').val()+'-'+txt);
+    
+  } else {
+    $('#r25').val(txt)
+  }
 });
 $("#left_box2").on('dblclick', 'option', function () {
   $("#left_box2").find('option:selected').remove().appendTo('#right_box2');
+  var txt= $(this).text();
+  var s = $("#right_box2 option").length-$("#hidden_right_box2 option").length;
+  $('#s30').val(s);
+  if (  $('#r30').val()) {
+  $('#r30').val($('#r30').val()+'-'+txt);
+    
+  } else {
+    $('#r30').val(txt)
+  }
 });
+Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 $("#right_box").on('dblclick', 'option', function () {
   $("#right_box").find('option:selected').remove().appendTo('#left_box');
   $("#right_box option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);  
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
 });
 $("#right_box1").on('dblclick', 'option', function () {
   $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
   $("#right_box1 option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
 
 });
 $("#right_box2").on('dblclick', 'option', function () {
   $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
   $("#right_box2 option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
 
+             diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
 });
 
 /* Button click handlers */
@@ -1059,24 +1207,206 @@ $('#btnRight_multi').click(function (e) {
     $("#left_box").find('option').remove().appendTo('#right_box');
     $("#left_box1").find('option').remove().appendTo('#right_box1');
     $("#left_box2").find('option').remove().appendTo('#right_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+        
 });
 
 $('#btnRight_single').click(function (e) {
     $("#left_box").find('option:selected').remove().appendTo('#right_box');
     $("#left_box1").find('option:selected').remove().appendTo('#right_box1');
     $("#left_box2").find('option:selected').remove().appendTo('#right_box2');
+
+    $(function () {
+        arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+        
+        });
+        Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 });
 
 $('#btnLeft_single').click(function (e) {
     $("#right_box").find('option:selected').remove().appendTo('#left_box');
     $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
     $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
+    $(function () {
+             arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+        });
+        Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 });
 
 $('#btnLeft_multi').click(function (e) {
     $("#right_box").find('option').remove().appendTo('#left_box');
     $("#right_box1").find('option').remove().appendTo('#left_box1');
     $("#right_box2").find('option').remove().appendTo('#left_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+        
 });
 
 $('#nameC').on( "change", function() {
@@ -1093,21 +1423,97 @@ $.ajax({
     url: "/ticket_show/" + x,
 
 }).done(function(data) {
-    $("select[name='tc20'").html('');
-    $("select[name='tc25'").html('');
-    $("select[name='tc30'").html('');
+    $("select[name='tc20[]']").html('');
+    $("select[name='tc25[]']").html('');
+    $("select[name='tc30[]']").html('');
     $("#hidden_right_box").html('');
     $("#hidden_right_box1").html('');
     $("#hidden_right_box2").html('');
     
-    $("select[name='tc20'").html(data.options20);
+    $("select[name='tc20[]']").html(data.options20);
     $("#hidden_right_box").html(data.options20);
-    $("select[name='tc25'").html(data.options25);
+    $("select[name='tc25[]']").html(data.options25);
     $("#hidden_right_box1").html(data.options25);
-    $("select[name='tc30'").html(data.options30);
+    $("select[name='tc30[]']").html(data.options30);
     $("#hidden_right_box2").html(data.options30);
 }); 
 } );
+$("#Tleft_box").find('option').clone().appendTo('#hidden_Tleft_box');
+$("#Tleft_box1").find('option').clone().appendTo('#hidden_Tleft_box1');
+$("#Tleft_box2").find('option').clone().appendTo('#hidden_Tleft_box2');
+$("#right_boxT").find('option').clone().appendTo('#hidden_right_boxT');
+$("#right_boxT1").find('option').clone().appendTo('#hidden_right_boxT1');
+$("#right_boxT2").find('option').clone().appendTo('#hidden_right_boxT2');
+
+
+/* Reset button handler */
+$('#btn_resetT').click(function (e) {
+		$("#Tleft_box").find('option').remove();
+		$("#Tleft_box1").find('option').remove();
+		$("#Tleft_box2").find('option').remove();
+    $("#right_boxT").find('option').remove();
+    $("#right_boxT1").find('option').remove();
+    $("#right_boxT2").find('option').remove();
+    $("#hidden_Tleft_box").find('option').clone().appendTo('#Tleft_box');
+    $("#hidden_Tleft_box1").find('option').clone().appendTo('#Tleft_box1');
+    $("#hidden_Tleft_box2").find('option').clone().appendTo('#Tleft_box2');
+		$("#hidden_right_boxT").find('option').clone().appendTo('#right_boxT');
+		$("#hidden_right_boxT1").find('option').clone().appendTo('#right_boxT1');
+		$("#hidden_right_boxT2").find('option').clone().appendTo('#right_boxT2');
+});
+
+/* Double click hander */
+
+$("#Tleft_box").on('dblclick', 'option', function () {
+  $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
+});
+$("#Tleft_box1").on('dblclick', 'option', function () {
+  $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
+});
+$("#Tleft_box2").on('dblclick', 'option', function () {
+  $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+});
+$("#right_boxT").on('dblclick', 'option', function () {
+  $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
+  $("#right_boxT option").prop("selected", "selected");
+});
+$("#right_boxT1").on('dblclick', 'option', function () {
+  $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
+  $("#right_boxT1 option").prop("selected", "selected");
+
+});
+$("#right_boxT2").on('dblclick', 'option', function () {
+  $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
+  $("#right_boxT2 option").prop("selected", "selected");
+
+});
+
+/* Button click handlers */
+
+$('#btnRight_multiT').click(function (e) {
+    $("#Tleft_box").find('option').remove().appendTo('#right_boxT');
+    $("#Tleft_box1").find('option').remove().appendTo('#right_boxT1');
+    $("#Tleft_box2").find('option').remove().appendTo('#right_boxT2');
+});
+
+$('#btnRight_singleT').click(function (e) {
+    $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
+    $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
+    $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+});
+
+$('#btnLeft_singleT').click(function (e) {
+    $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
+    $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
+    $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
+});
+
+$('#btnLeft_multiT').click(function (e) {
+    $("#right_boxT").find('option').remove().appendTo('#Tleft_box');
+    $("#right_boxT1").find('option').remove().appendTo('#Tleft_box1');
+    $("#right_boxT2").find('option').remove().appendTo('#Tleft_box2');
+});
+
         checkCookie();
 
         function ck() {
@@ -1115,6 +1521,7 @@ $.ajax({
             var y = document.getElementById("brigad").value;
             var z = $("#name option:selected").text();
              document.getElementById("nameR").innerHTML = z;
+             document.getElementById("nameRT").innerHTML = z;
              var z = $("#name").val();
              document.getElementById("nameC").value = z;
            setCookie("date", x, 365);
@@ -1125,19 +1532,45 @@ $.ajax({
     url: "/ticket_show/" + z,
 
 }).done(function(data) {
-    $("select[name='tc20'").html('');
-    $("select[name='tc25'").html('');
-    $("select[name='tc30'").html('');
+    $("select[name='tc20[]']").html('');
+    $("select[name='tc25[]']").html('');
+    $("select[name='tc30[]']").html('');
     $("#hidden_right_box").html('');
     $("#hidden_right_box1").html('');
     $("#hidden_right_box2").html('');
-    console.log(data.options20);
-    $("select[name='tc20'").html(data.options20);
+    $("select[name='tc20[]']").html(data.options20);
     $("#hidden_right_box").html(data.options20);
-    $("select[name='tc25'").html(data.options25);
+    $("select[name='tc25[]']").html(data.options25);
     $("#hidden_right_box1").html(data.options25);
-    $("select[name='tc30'").html(data.options30);
+    $("select[name='tc30[]']").html(data.options30);
     $("#hidden_right_box2").html(data.options30);
+  $("#right_box option").prop("selected", "selected");
+  $("#right_box1 option").prop("selected", "selected");
+  $("#right_box2 option").prop("selected", "selected");
+
+
+  $("select[name='ttc20[]']").html('');
+    $("select[name='ttc25[]']").html('');
+    $("select[name='ttc30[]']").html('');
+    $("#hidden_Tleft_box").html('');
+    $("#hidden_Tleft_box1").html('');
+    $("#hidden_Tleft_box2").html('');
+    console.log(data.tickets20);
+    $("select[name='ttc20[]']").html(data.tickets20);
+    $("#hidden_Tleft_box").html(data.tickets20);
+    $("select[name='ttc25[]']").html(data.tickets25);
+    $("#hidden_Tleft_box1").html(data.tickets25);
+    $("select[name='ttc30[]']").html(data.tickets30);
+    $("#hidden_Tleft_box2").html(data.tickets30);
+  
+   $("#Tleft_box option").prop("selected", "selected");
+  $("#Tleft_box1 option").prop("selected", "selected");
+  $("#Tleft_box2 option").prop("selected", "selected");
+
+
+  $("select[name='tt20[]']").html('');
+    $("select[name='tt25[]']").html('');
+    $("select[name='tt30[]']").html('');
 }); 
 
         }

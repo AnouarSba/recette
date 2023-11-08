@@ -32,6 +32,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Client;
 use App\Models\Flixy;
+use App\Models\Ticket;
 use App\Models\Vent;
 use \PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\carbon;
@@ -54,7 +55,7 @@ public function caisse(Request $request){
     $c25= $request->t25;
     $t30= $request->tc30;
     $c30= $request->t30;
-    Carnet::where('id', '!=', 0)->update(['status' => 1]);
+    Carnet::where('id', '!=', 0)->where('status',2)->update(['status' => 1]);
   if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => 2]);
   if($c20 != [])   Carnet::whereIn('id', $c20)->update(['status' => 2]);
   if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => 2]);
@@ -154,12 +155,21 @@ public function ticket_show(Request $request)
 $emp20 = Carnet::where('type',1)->where('status',$request->id)->pluck("name","id");
 $emp25 = Carnet::where('type',2)->where('status',$request->id)->pluck("name","id");
 $emp30 = Carnet::where('type',3)->where('status',$request->id)->pluck("name","id");
-
-
+$arr20= array_keys($emp20->toArray());
+$arr25= array_keys($emp25->toArray());
+$arr30= array_keys($emp30->toArray());
+$temp20 = Ticket::whereIn('carnet_id',$arr20)->where('status',0)->pluck("name","id");
+$temp25 = Ticket::whereIn('carnet_id',$arr25)->where('status',0)->pluck("name","id");
+$temp30 = Ticket::whereIn('carnet_id',$arr30)->where('status',0)->pluck("name","id");
  $data20 = view('t20-ajax-select',compact('emp20'))->render();
  $data25 = view('t25-ajax-select',compact('emp25'))->render();
  $data30 = view('t30-ajax-select',compact('emp30'))->render();
-return response()->json(['options20'=>$data20, 'options25'=>$data25, 'options30'=>$data30]);
+
+ $tick20 = view('tk20-ajax-select',compact('temp20'))->render();
+ $tick25 = view('tk25-ajax-select',compact('temp25'))->render();
+ $tick30 = view('tk30-ajax-select',compact('temp30'))->render();
+
+return response()->json(['options20'=>$data20, 'options25'=>$data25, 'options30'=>$data30,'tickets20'=>$tick20, 'tickets25'=>$tick25, 'tickets30'=>$tick30]);
 
 
 }
