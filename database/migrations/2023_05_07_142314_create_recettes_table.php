@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('ligne_id')->length(2);
             $table->integer('brigade')->length(1);
             $table->float('flexy', 8,2)->default(0);
+            $table->float('dettes', 8,2)->default(0);
             $table->integer('recette')->length(5);
             
             $table->integer('t20')->length(3)->default(0);

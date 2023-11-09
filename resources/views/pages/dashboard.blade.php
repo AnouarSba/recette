@@ -546,11 +546,13 @@
                                         </table>
                                         <br>
                                         المداخيل
-                                        <input type="number" name="somme" id="somme" disabled>
-                                        <input type="hidden" name="recette" id="recette">
+                                        <input type="number" name="somme" id="somme" disabled value="0">
+                                        <input type="number" name="recette" id="recette">
                                         الديون
-                                        <input type="number" name="dette" id="dette" disabled>
-                                        <input type="hidden" name="dettes" id="dettes">
+                                        <input type="number" name="dette" id="dette" disabled value="0">
+                                        <input type="number" name="dettes" id="dettes">
+                                        الديون القديمة
+                                        <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
                             <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
@@ -564,7 +566,7 @@
                                       <h4 class="multi-select-heading">
                                     الدفاتر الخاصة ب   <span id="nameR"></span>
                                     
-                                    <input hidden type="text" id="nameC" form="myform" required name="nameC">
+                                    <input  type="hidden" id="nameC" required name="nameC">
                                     
                                       </h4>
                                     </div>
@@ -603,7 +605,7 @@
                                         <br>
                                         <input type="button" id="btnLeft_single" class="btn btn-default btn-block" value="  <  ">
                                         <br>
-                                        <input type="button" id="btnLeft_multi" class="btn btn-success btn-block" value="<<<">
+                                        <input type="button" id="btnLeft_multi" class="btn btn-warning btn-block" value="<<<">
                                         <br><br>
                                         <input type="button" id="btn_reset" class="btn btn-secondary btn-block" value="reset">
                                         <br><br>
@@ -682,7 +684,7 @@
                                         <br>
                                         <input type="button" id="btnLeft_singleT" class="btn btn-default btn-block" value="  <  ">
                                         <br>
-                                        <input type="button" id="btnLeft_multiT" class="btn btn-success btn-block" value="<<<">
+                                        <input type="button" id="btnLeft_multiT" class="btn btn-warning btn-block" value="<<<">
                                         <br><br>
                                         <input type="button" id="btn_resetT" class="btn btn-secondary btn-block" value="reset">
                                         <br><br>
@@ -717,7 +719,8 @@
                                   </div>
                             </div>
                     @endif
-                                        <input type="submit" onclick="empty()" value="تأكيد">
+                    <br>
+                                        <input type="submit" onclick="empty()"  class="btn btn-success "  style="width: 200px;font-size: 22px" value="تأكيد">
                                     </div>
                                 </form>
                             </div>
@@ -1117,7 +1120,7 @@ $("#left_box").on('dblclick', 'option', function () {
     
   } else {
     $('#r20').val(txt)
-  }
+  } ch(0)
 });
 $("#left_box1").on('dblclick', 'option', function () {
   $("#left_box1").find('option:selected').remove().appendTo('#right_box1');
@@ -1129,7 +1132,7 @@ $("#left_box1").on('dblclick', 'option', function () {
     
   } else {
     $('#r25').val(txt)
-  }
+  } ch(0)
 });
 $("#left_box2").on('dblclick', 'option', function () {
   $("#left_box2").find('option:selected').remove().appendTo('#right_box2');
@@ -1142,6 +1145,7 @@ $("#left_box2").on('dblclick', 'option', function () {
   } else {
     $('#r30').val(txt)
   }
+  ch(0)
 });
 Array.prototype.difference = function (a) {
             return this.filter(function (i) {
@@ -1164,6 +1168,7 @@ $("#right_box").on('dblclick', 'option', function () {
   $('#s20').val(diff1.length);
           
   $('#r20').val(diff1.join('-'));
+  ch(0)
 });
 $("#right_box1").on('dblclick', 'option', function () {
   $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
@@ -1181,7 +1186,7 @@ $("#right_box1").on('dblclick', 'option', function () {
   $('#s25').val(diff1.length);
           
   $('#r25').val(diff1.join('-'));
-
+  ch(0)
 });
 $("#right_box2").on('dblclick', 'option', function () {
   $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
@@ -1199,6 +1204,7 @@ $("#right_box2").on('dblclick', 'option', function () {
   $('#s30').val(diff1.length);
           
   $('#r30').val(diff1.join('-'));
+  ch(0)
 });
 
 /* Button click handlers */
@@ -1248,7 +1254,7 @@ $('#btnRight_multi').click(function (e) {
   $('#s30').val(diff1.length);
           
   $('#r30').val(diff1.join('-'));
-        
+  ch(0)
 });
 
 $('#btnRight_single').click(function (e) {
@@ -1298,7 +1304,7 @@ $('#btnRight_single').click(function (e) {
   $('#s30').val(diff1.length);
           
   $('#r30').val(diff1.join('-'));
-        
+  ch(0)
         });
         Array.prototype.difference = function (a) {
             return this.filter(function (i) {
@@ -1353,6 +1359,7 @@ $('#btnLeft_single').click(function (e) {
   $('#s30').val(diff1.length);
           
   $('#r30').val(diff1.join('-'));
+  ch(0)
         });
         Array.prototype.difference = function (a) {
             return this.filter(function (i) {
@@ -1406,7 +1413,7 @@ $('#btnLeft_multi').click(function (e) {
   $('#s30').val(diff1.length);
           
   $('#r30').val(diff1.join('-'));
-        
+  ch(0)    
 });
 
 $('#nameC').on( "change", function() {
@@ -1437,6 +1444,7 @@ $.ajax({
     $("select[name='tc30[]']").html(data.options30);
     $("#hidden_right_box2").html(data.options30);
 }); 
+
 } );
 $("#Tleft_box").find('option').clone().appendTo('#hidden_Tleft_box');
 $("#Tleft_box1").find('option').clone().appendTo('#hidden_Tleft_box1');
@@ -1466,12 +1474,52 @@ $('#btn_resetT').click(function (e) {
 
 $("#Tleft_box").on('dblclick', 'option', function () {
   $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
+  arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+  ch(0)    
 });
 $("#Tleft_box1").on('dblclick', 'option', function () {
   $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
+ 
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+  ch(0)
 });
+
 $("#Tleft_box2").on('dblclick', 'option', function () {
   $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+ 
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)
 });
 $("#right_boxT").on('dblclick', 'option', function () {
   $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
@@ -1480,12 +1528,12 @@ $("#right_boxT").on('dblclick', 'option', function () {
 $("#right_boxT1").on('dblclick', 'option', function () {
   $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
   $("#right_boxT1 option").prop("selected", "selected");
-
+  ch(0)
 });
 $("#right_boxT2").on('dblclick', 'option', function () {
   $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
   $("#right_boxT2 option").prop("selected", "selected");
-
+  ch(0)
 });
 
 /* Button click handlers */
@@ -1494,26 +1542,176 @@ $('#btnRight_multiT').click(function (e) {
     $("#Tleft_box").find('option').remove().appendTo('#right_boxT');
     $("#Tleft_box1").find('option').remove().appendTo('#right_boxT1');
     $("#Tleft_box2").find('option').remove().appendTo('#right_boxT2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)    
 });
 
 $('#btnRight_singleT').click(function (e) {
     $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
     $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
     $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0) 
 });
 
 $('#btnLeft_singleT').click(function (e) {
     $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
     $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
     $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
-});
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
 
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)
+});
 $('#btnLeft_multiT').click(function (e) {
     $("#right_boxT").find('option').remove().appendTo('#Tleft_box');
     $("#right_boxT1").find('option').remove().appendTo('#Tleft_box1');
     $("#right_boxT2").find('option').remove().appendTo('#Tleft_box2');
-});
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
 
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+          ch(0)
+});
         checkCookie();
 
         function ck() {
@@ -1535,6 +1733,35 @@ $.ajax({
     $("select[name='tc20[]']").html('');
     $("select[name='tc25[]']").html('');
     $("select[name='tc30[]']").html('');
+
+    $("#r20").val('');
+    $("#r25").val('');
+    $("#r30").val('');
+    $("#s20").val('');
+    $("#s25").val('');
+    $("#s30").val('');
+    $("#t20").val('');
+    $("#t25").val('');
+    $("#t30").val('');
+    $("#dette").val(0);
+    $("#dettes").val(0);
+    $("#odette").val(0);
+    $("#recette").val(0);
+    $("#somme").val(0);
+
+    $("#left_box").find('option').remove();
+		$("#left_box1").find('option').remove();
+		$("#left_box2").find('option').remove();
+    $("#right_box").find('option').remove();
+    $("#right_box1").find('option').remove();
+    $("#right_box2").find('option').remove();
+    $("#hidden_left_box").find('option').clone().appendTo('#left_box');
+    $("#hidden_left_box1").find('option').clone().appendTo('#left_box1');
+    $("#hidden_left_box2").find('option').clone().appendTo('#left_box2');
+		$("#hidden_right_box").find('option').clone().appendTo('#right_box');
+		$("#hidden_right_box1").find('option').clone().appendTo('#right_box1');
+		$("#hidden_right_box2").find('option').clone().appendTo('#right_box2');
+    
     $("#hidden_right_box").html('');
     $("#hidden_right_box1").html('');
     $("#hidden_right_box2").html('');
@@ -1555,24 +1782,35 @@ $.ajax({
     $("#hidden_Tleft_box").html('');
     $("#hidden_Tleft_box1").html('');
     $("#hidden_Tleft_box2").html('');
-    console.log(data.tickets20);
+    console.log(data.tickets30);
     $("select[name='ttc20[]']").html(data.tickets20);
     $("#hidden_Tleft_box").html(data.tickets20);
     $("select[name='ttc25[]']").html(data.tickets25);
     $("#hidden_Tleft_box1").html(data.tickets25);
     $("select[name='ttc30[]']").html(data.tickets30);
     $("#hidden_Tleft_box2").html(data.tickets30);
-  
+  /*
    $("#Tleft_box option").prop("selected", "selected");
   $("#Tleft_box1 option").prop("selected", "selected");
-  $("#Tleft_box2 option").prop("selected", "selected");
+  $("#Tleft_box2 option").prop("selected", "selected");*/
 
 
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
     $("select[name='tt30[]']").html('');
 }); 
+$.ajax({
+    method: "GET",
+    url: "/dette/" + z,
 
+}).done(function(data) {
+    if (data) {
+        $("#odette").val(data);
+    } else {
+        $("#odette").val(0);
+    }
+   
+}); 
         }
 
         function setCookie(cname, cvalue, exdays) {
@@ -1628,8 +1866,8 @@ $.ajax({
 
             document.getElementById("somme").value = x + y + z;
             document.getElementById("recette").value = x + y + z;
-            document.getElementById("dette").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
-            document.getElementById("dettes").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
+            document.getElementById("dette").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
+            document.getElementById("dettes").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
         }
 
         function empty() {

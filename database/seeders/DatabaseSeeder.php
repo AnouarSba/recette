@@ -65,31 +65,62 @@ class DatabaseSeeder extends Seeder
         $this->call(Lignes::class);
         $this->call(Buses::class);
         $this->call(Kabids::class);
-/*
+        
 
-        for ($i=0; $i < 1000 ; $i++) { 
+        for ($i=1; $i <= 100 ; $i++) { 
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 1,
-                'status' => 1,
+                'status' => rand(0, 65),
                 
             ]);
+            for ($j=1; $j <= 100 ; $j++) { 
+                DB::table('tickets')->insert([
+                    'name' => 'c'.$j,
+                    'type' => 1,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
         }
-        for ($i=0; $i < 300 ; $i++) { 
+        for ($i=101; $i <= 150 ; $i++) { 
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 2,
-                'status' => 1,
+                'status' => rand(0, 65),
                 
             ]);
+            for ($j=1; $j <= 100 ; $j++) { 
+                DB::table('tickets')->insert([
+                    'name' => 'c'.$j,
+                    'type' => 2,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
         }
-        for ($i=0; $i < 200 ; $i++) { 
+        for ($i=151; $i <= 180 ; $i++) { 
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 3,
-                'status' => 1,
+                'status' => rand(0, 65),
                 
             ]);
-        }*/
+            for ($j=1; $j <= 100 ; $j++) { 
+                DB::table('tickets')->insert([
+                    'name' => 'c'.$j,
+                    'type' => 3,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
+        }
+       
     }
 }

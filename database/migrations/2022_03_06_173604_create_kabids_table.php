@@ -24,6 +24,8 @@ class CreateKabidsTable extends Migration
             $table->string('photo')->nullable();
             $table->string('authtoken')->nullable();
             $table->boolean('ban')->default(false);
+            $table->float('dettes', 8,2)->default(0);
+
             $table->softDeletes();
             $table->timestamps();
         });

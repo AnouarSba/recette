@@ -82,7 +82,20 @@ public function caisse(Request $request){
 }
 public function recette(Request $request)
 {
-
+    $t20= $request->tc20;
+    $c20= $request->tt20;
+    $t25= $request->tc25;
+    $c25= $request->tt25;
+    $t30= $request->tc30;
+    $c30= $request->tt30;
+    if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => $request->nameC]);
+    if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => $request->nameC]);
+    if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => $request->nameC]);
+ 
+    if($c20 != [])   Ticket::whereIn('id', $c20)->update(['status' => 1]);
+    if($c25 != [])   Ticket::whereIn('id', $c25)->update(['status' => 1]);
+    if($c30 != [])    Ticket::whereIn('id', $c30)->update(['status' => 1]);
+        
 
     $y = Auth::id();
     $name = $request->name;
@@ -90,6 +103,9 @@ public function recette(Request $request)
     $recette = $request->recette;
     $flexy = $request->flexy;
     $dette = $request->dettes;
+   
+      Kabid::where('id', $name)->update(['dettes' => $dette]);
+
     $ligne = $request->ligne_id;
     $bus_id = $request->bus_id;
     $type = $request->type;
@@ -105,7 +121,7 @@ public function recette(Request $request)
     $date = $request->date;
     $rotation = $request->rotation;
    // DB::statement("SET SQL_MODE=''");
-    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
+    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
    
     $r = explode(' ',Carbon::today())[0];
     $kabid = Kabid::where('id','>','2')->get();
@@ -170,6 +186,20 @@ $temp30 = Ticket::whereIn('carnet_id',$arr30)->where('status',0)->pluck("name","
  $tick30 = view('tk30-ajax-select',compact('temp30'))->render();
 
 return response()->json(['options20'=>$data20, 'options25'=>$data25, 'options30'=>$data30,'tickets20'=>$tick20, 'tickets25'=>$tick25, 'tickets30'=>$tick30]);
+
+
+}
+public function dette(Request $request)
+
+{
+
+        
+$d = Kabid::where('id',$request->id)->first();
+if($d){
+    return $d->dettes;
+}
+else return 0;
+
 
 
 }
@@ -1155,7 +1185,7 @@ $c=[4,5,8,10,8,12,12,3,9];
         ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
         ->join('buses', 'buses.id', '=', 'recettes.bus_id')
         ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "rotation","t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
+        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "rotation","recettes.dettes","t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
         ->get();
         $s=0;
         foreach($data as $d){
