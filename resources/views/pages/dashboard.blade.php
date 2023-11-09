@@ -554,6 +554,86 @@
                                         الديون القديمة
                                         <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
+                            
+                            <div class="row"  style="color: black" dir="rtl">
+                                <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                        التذاكر الخاصة ب <span id="nameRT"></span> 
+                                      </h4>
+                                    </div>
+                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                التذاكر المباعة
+                                    
+                                    
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 20دج">
+                                            
+                                        </optgroup> 
+                                        
+                                      </select>
+                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 25دج">
+                                                                                 
+                                        </optgroup>
+                                      </select>
+                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 30دج">
+                                                                                  
+                                        </optgroup>                         
+                                     </select>
+                                    </div>
+                                  
+                                    <div class="col-xs-1 override-padding" style="width: 20%;">
+                                      <div class="multi-select-button-container">
+                                        <input type="button" id="btnRight_multiT" class="btn btn-danger btn-block" value=" >>> ">
+                                        <br>
+                                        <input type="button" id="btnRight_singleT" class="btn btn-default btn-block" value="  >">
+                                        <br>
+                                        <input type="button" id="btnLeft_singleT" class="btn btn-default btn-block" value="  <  ">
+                                        <br>
+                                        <input type="button" id="btnLeft_multiT" class="btn btn-warning btn-block" value="<<<">
+                                        <br><br>
+                                        <input type="button" id="btn_resetT" class="btn btn-secondary btn-block" value="reset">
+                                        <br><br>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                        <select style="display: inline; width: 30%" id="right_boxT" name="tt20[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 20دج">
+                                               
+                                            </optgroup> 
+                                            
+                                          </select>
+                                          <select style="display: inline; width: 30%" id="right_boxT1" name="tt25[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 25دج">
+                                              
+                                            </optgroup>
+                                          </select>
+                                        <select style="display: inline; width: 30%" id="right_boxT2" name="tt30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 30دج" >
+                                              
+                                            </optgroup>                         
+                                         </select>
+                                    </div>
+                                    <div style="display:none">
+                                      <select id="hidden_Tleft_box"></select>
+                                      <select id="hidden_Tleft_box1"></select>
+                                      <select id="hidden_Tleft_box2"></select>
+                                      <select id="hidden_right_boxT"></select>
+                                      <select id="hidden_right_boxT1"></select>
+                                      <select id="hidden_right_boxT2"></select>
+                                    </div>
+                                  </div>
+                            </div>
+                            <br>
                             <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
@@ -640,84 +720,6 @@
                                   </div>
                             </div>
                             <br>
-                            <div class="row"  style="color: black" dir="rtl">
-                                <div class="row multi-select-row">
-                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
-                                      <h4 class="multi-select-heading">
-                                        التذاكر الخاصة ب <span id="nameRT"></span> 
-                                      </h4>
-                                    </div>
-                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
-                                    <div class="col-xs-4" style="width: 40%;">
-                                      <h4 class="multi-select-heading">
-                                التذاكر المباعة
-                                    
-                                    
-                                      </h4>
-                                    </div>
-                                  </div>
-                                  <div class="row multi-select-row">
-                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
-                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" multiple="" class="form-control multi-select-box">
-                                        <optgroup label="تذاكر 20دج">
-                                            
-                                        </optgroup> 
-                                        
-                                      </select>
-                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" multiple="" class="form-control multi-select-box">
-                                        <optgroup label="تذاكر 25دج">
-                                                                                 
-                                        </optgroup>
-                                      </select>
-                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" multiple="" class="form-control multi-select-box">
-                                        <optgroup label="تذاكر 30دج">
-                                                                                  
-                                        </optgroup>                         
-                                     </select>
-                                    </div>
-                                  
-                                    <div class="col-xs-1 override-padding" style="width: 20%;">
-                                      <div class="multi-select-button-container">
-                                        <input type="button" id="btnRight_multiT" class="btn btn-danger btn-block" value=" >>> ">
-                                        <br>
-                                        <input type="button" id="btnRight_singleT" class="btn btn-default btn-block" value="  >">
-                                        <br>
-                                        <input type="button" id="btnLeft_singleT" class="btn btn-default btn-block" value="  <  ">
-                                        <br>
-                                        <input type="button" id="btnLeft_multiT" class="btn btn-warning btn-block" value="<<<">
-                                        <br><br>
-                                        <input type="button" id="btn_resetT" class="btn btn-secondary btn-block" value="reset">
-                                        <br><br>
-                                      </div>
-                                    </div>
-                                    <div class="col-xs-4" style="width: 40%;">
-                                        <select style="display: inline; width: 30%" id="right_boxT" name="tt20[]" multiple="" class="form-control multi-select-box">
-                                            <optgroup label="تذاكر 20دج">
-                                               
-                                            </optgroup> 
-                                            
-                                          </select>
-                                          <select style="display: inline; width: 30%" id="right_boxT1" name="tt25[]" multiple="" class="form-control multi-select-box">
-                                            <optgroup label="تذاكر 25دج">
-                                              
-                                            </optgroup>
-                                          </select>
-                                        <select style="display: inline; width: 30%" id="right_boxT2" name="tt30[]" multiple="" class="form-control multi-select-box">
-                                            <optgroup label="تذاكر 30دج" >
-                                              
-                                            </optgroup>                         
-                                         </select>
-                                    </div>
-                                    <div style="display:none">
-                                      <select id="hidden_Tleft_box"></select>
-                                      <select id="hidden_Tleft_box1"></select>
-                                      <select id="hidden_Tleft_box2"></select>
-                                      <select id="hidden_right_boxT"></select>
-                                      <select id="hidden_right_boxT1"></select>
-                                      <select id="hidden_right_boxT2"></select>
-                                    </div>
-                                  </div>
-                            </div>
                     @endif
                     <br>
                                         <input type="submit" onclick="empty()"  class="btn btn-success "  style="width: 200px;font-size: 22px" value="تأكيد">

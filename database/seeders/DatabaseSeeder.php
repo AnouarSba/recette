@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 1,
-                'status' => rand(0, 65),
+                'status' => rand(0, 10),
                 
             ]);
             for ($j=1; $j <= 100 ; $j++) { 
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 2,
-                'status' => rand(0, 65),
+                'status' => rand(0, 10),
                 
             ]);
             for ($j=1; $j <= 100 ; $j++) { 
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
             DB::table('carnets')->insert([
                 'name' => 't'.$i,
                 'type' => 3,
-                'status' => rand(0, 65),
+                'status' => rand(0, 10),
                 
             ]);
             for ($j=1; $j <= 100 ; $j++) { 
