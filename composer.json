@@ -14,6 +14,7 @@
         "laravel/ui": "^4.2",
         "phpoffice/phpspreadsheet": "^1.29",
         "phpoffice/phpword": "^1.0",
+        "spatie/laravel-backup": "^8.2",
         "stevebauman/location": "^6.6",
         "yajra/laravel-datatables-oracle": "^10.4"
     },

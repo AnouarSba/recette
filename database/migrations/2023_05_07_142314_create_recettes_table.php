@@ -31,9 +31,9 @@ return new class extends Migration
             $table->integer('s20')->length(3)->default(0);
             $table->integer('s25')->length(3)->default(0);
             $table->integer('s30')->length(3)->default(0);
-            $table->string('r20')->length(25)->nullable();
-            $table->string('r25')->length(25)->nullable();
-            $table->string('r30')->length(25)->nullable();
+            $table->text('r20')->length(25)->nullable();
+            $table->text('r25')->length(25)->nullable();
+            $table->text('r30')->length(25)->nullable();
             $table->date('b_date');
 
 
