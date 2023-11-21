@@ -65,5 +65,114 @@ class DatabaseSeeder extends Seeder
         $this->call(Lignes::class);
         $this->call(Buses::class);
         $this->call(Kabids::class);
+        
+
+        for ($i=1; $i <= 100 ; $i++) { 
+            $c=$i-1;
+            $begin=$c.'01';
+            $end=$i."00";
+            $c="Série ".$c."01-".$i."00";
+            
+            DB::table('carnets')->insert([
+                'name' => $c,
+                'type' => 1,
+                'status' => 1,
+                
+            ]);
+            for ($j=$begin; $j <= $end ; $j++) { 
+                if ($j>=2 && $j<10) {
+                    $t='00'.$j;
+                } elseif ($j<100) {
+                    $t='0'.$j;
+                }
+                else $t = $j;
+                DB::table('tickets')->insert([
+                    'name' => 'ticket '.$t,
+                    'type' => 2,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
+        }
+        for ($i=101; $i <= 200 ; $i++) { 
+            $c=$i-1;
+            $begin=$c.'01';
+            $end=$i."00";
+            $c="Série ".$c."01-".$i."00";
+            
+            DB::table('carnets')->insert([
+                'name' => $c,
+                'type' => 2,
+                'status' => 1,
+                
+            ]);
+            for ($j=$begin; $j <= $end ; $j++) { 
+                if ($j>=2 && $j<10) {
+                    $t='00'.$j;
+                } elseif ($j<100) {
+                    $t='0'.$j;
+                }
+                else $t = $j;
+                DB::table('tickets')->insert([
+                    'name' => 'ticket '.$t,
+                    'type' => 2,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
+        }
+        for ($i=201; $i <= 300 ; $i++) { 
+            $c=$i-1;
+            $begin=$c.'01';
+            $end=$i."00";
+            $c="Série ".$c."01-".$i."00";
+            
+            DB::table('carnets')->insert([
+                'name' => $c,
+                'type' => 3,
+                'status' => 1,
+                
+            ]);
+            for ($j=$begin; $j <= $end ; $j++) { 
+                if ($j>=2 && $j<10) {
+                    $t='00'.$j;
+                } elseif ($j<100) {
+                    $t='0'.$j;
+                }
+                else $t = $j;
+                DB::table('tickets')->insert([
+                    'name' => 'ticket '.$t,
+                    'type' => 3,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
+        }
+     /* 
+     for ($i=101; $i <= 150 ; $i++) { 
+            DB::table('carnets')->insert([
+                'name' => 't'.$i,
+                'type' => 2,
+                'status' => rand(0, 10),
+                
+            ]);
+            for ($j=1; $j <= 100 ; $j++) { 
+                DB::table('tickets')->insert([
+                    'name' => 'c'.$j,
+                    'type' => 2,
+                    'status' => 0,
+                    'carnet_id' => $i,
+                    
+                ]);
+    
+            }
+        }
+     */
     }
 }

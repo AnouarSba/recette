@@ -18,7 +18,6 @@ use App\Models\Ligne;
 use App\Models\Arret;
 use App\Models\Recette;
 use App\Models\Validation;
-use App\Models\Carnet;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -32,7 +31,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Client;
 use App\Models\Flixy;
-use App\Models\Ticket;
 use App\Models\Vent;
 use \PhpOffice\PhpWord\TemplateProcessor;
 use Carbon\carbon;
@@ -47,55 +45,9 @@ class ControlController extends Controller
 
 }
 
-public function caisse(Request $request){
-
-    $t20= $request->tc20;
-    $c20= $request->t20;
-    $t25= $request->tc25;
-    $c25= $request->t25;
-    $t30= $request->tc30;
-    $c30= $request->t30;
-    Carnet::where('id', '!=', 0)->where('status',2)->update(['status' => 1]);
-  if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => 2]);
-  if($c20 != [])   Carnet::whereIn('id', $c20)->update(['status' => 2]);
-  if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => 2]);
-  if($c25 != [])   Carnet::whereIn('id', $c25)->update(['status' => 2]);
-  if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => 2]);
-  if($c30 != [])    Carnet::whereIn('id', $c30)->update(['status' => 2]);
-    
-
-    $r = explode(' ',Carbon::today())[0];
-    $kabid = Kabid::where('id','>','2')->get();
-    $ligne = Ligne::get();
-    $bus = Bus::get();
-    $day = '';
-    if($request->month)
-    $m = $request->month;
-    else{
-    $m = date('m',strtotime("-1 days"));
-    $day = 'ليوم '.date('d/m/y',strtotime("-1 days"));
-    }
- //   $d = Validation::whereMonth('c_date',$m)->select('sum(sbm) as ssbm','sum(sbm) as ssbm',)->get();
-    $data = Validation::whereMonth('c_date',$m)->get();
-    return redirect('/dashboard#section-2');
-    return view('pages.dashboard', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
-}
 public function recette(Request $request)
 {
-    $t20= $request->tc20;
-    $c20= $request->tt20;
-    $t25= $request->tc25;
-    $c25= $request->tt25;
-    $t30= $request->tc30;
-    $c30= $request->tt30;
-    if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => $request->nameC]);
-    if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => $request->nameC]);
-    if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => $request->nameC]);
- 
-    if($c20 != [])   Ticket::whereIn('id', $c20)->update(['status' => 1]);
-    if($c25 != [])   Ticket::whereIn('id', $c25)->update(['status' => 1]);
-    if($c30 != [])    Ticket::whereIn('id', $c30)->update(['status' => 1]);
-        
+
 
     $y = Auth::id();
     $name = $request->name;
@@ -103,9 +55,6 @@ public function recette(Request $request)
     $recette = $request->recette;
     $flexy = $request->flexy;
     $dette = $request->dettes;
-   
-      Kabid::where('id', $name)->update(['dettes' => $dette]);
-
     $ligne = $request->ligne_id;
     $bus_id = $request->bus_id;
     $type = $request->type;
@@ -121,7 +70,7 @@ public function recette(Request $request)
     $date = $request->date;
     $rotation = $request->rotation;
    // DB::statement("SET SQL_MODE=''");
-    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
+    $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dette' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
    
     $r = explode(' ',Carbon::today())[0];
     $kabid = Kabid::where('id','>','2')->get();
@@ -163,56 +112,16 @@ public function confirm(Request $request)
     return redirect()->route('get_list',["start_date" => $date,'brigade' =>$brigade,'confirm' =>1]);
 
 }
-public function ticket_show(Request $request)
-
-{
-
-        
-$emp20 = Carnet::where('type',1)->where('status',$request->id)->pluck("name","id");
-$emp25 = Carnet::where('type',2)->where('status',$request->id)->pluck("name","id");
-$emp30 = Carnet::where('type',3)->where('status',$request->id)->pluck("name","id");
-$arr20= array_keys($emp20->toArray());
-$arr25= array_keys($emp25->toArray());
-$arr30= array_keys($emp30->toArray());
-$temp20 = Ticket::whereIn('carnet_id',$arr20)->where('status',0)->pluck("name","id");
-$temp25 = Ticket::whereIn('carnet_id',$arr25)->where('status',0)->pluck("name","id");
-$temp30 = Ticket::whereIn('carnet_id',$arr30)->where('status',0)->pluck("name","id");
- $data20 = view('t20-ajax-select',compact('emp20'))->render();
- $data25 = view('t25-ajax-select',compact('emp25'))->render();
- $data30 = view('t30-ajax-select',compact('emp30'))->render();
-
- $tick20 = view('tk20-ajax-select',compact('temp20'))->render();
- $tick25 = view('tk25-ajax-select',compact('temp25'))->render();
- $tick30 = view('tk30-ajax-select',compact('temp30'))->render();
-
-return response()->json(['options20'=>$data20, 'options25'=>$data25, 'options30'=>$data30,'tickets20'=>$tick20, 'tickets25'=>$tick25, 'tickets30'=>$tick30]);
-
-
-}
-public function dette(Request $request)
-
-{
-
-        
-$d = Kabid::where('id',$request->id)->first();
-if($d){
-    return $d->dettes;
-}
-else return 0;
-
-
-
-}
     public function ExportExcel($etat_rec, $etat_bus,$etat_bus2, $etat_ligne,$etat_ligne2,$rotation_b,$rotation_b2,$rotation_l,$rotation_l2,$d,$d2,$m,$y,$flexy,$cart,$sp,$resp,$resp_h){
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');        
         try {
 
-            $inputFileType = 'Xlsx';
-            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-            $reader->setIncludeCharts(true);
-            $spreadSheet = $reader->load('assets/word/Etat.xlsx');
-                        //change it
+$inputFileType = 'Xlsx';
+$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+$reader->setIncludeCharts(true);
+$spreadSheet = $reader->load('assets/word/Etat.xlsx');
+            //change it
            
             $spreadSheet->setActiveSheetIndex(0);
 
@@ -360,7 +269,7 @@ $spreadSheet->setActiveSheetIndex(8);
 $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
-$spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
+ $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
 $spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q44');
 
 
@@ -461,16 +370,6 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        $sp= [];
        $resp= [];
        $resp_h = [];
-       $r=0;
-       $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/'.$from.'/'.$to);
-        if ($response2->successful()) {
-             
-             $resp = $response2[1]; // Extract JSON data from the response
-            $resp_h = $response2[0]; 
-         } else {
-             // Handle unsuccessful response
-             return response()->json(['error' => 'Failed to send data to the other website'], 500);
-         }
         foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
             
@@ -486,7 +385,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
         }
- 
+       
             $data = Recette::query()
             ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
            /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
@@ -503,8 +402,6 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             $data_array [] = array("Num","Receveur","Recette");
         foreach($data as $data_item)
         { $i++;
-            $r+= $data_item->recette;
-
            $arr = array(
                 'Num' =>$i,
                 'Receveur' => $data_item->kname,
@@ -518,10 +415,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
         }}
         else $data_array[]=[];
     }
-    }
-    
-    $data_array[]=[];
-    $data_array[]=['','',$r];
+    } 
         $arr = array("15","20","25","30","40");
         $arrt=[];
         for($i=0;$i<29;$i++)
@@ -1195,7 +1089,7 @@ $c=[4,5,8,10,8,12,12,3,9];
         ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
         ->join('buses', 'buses.id', '=', 'recettes.bus_id')
         ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "rotation","recettes.dettes","t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
+        ->select("recettes.id as r_id", "kabids.name as kname", "buses.name as bname", "lignes.name as lname", "rotation","t20","t25","t30","s20","s25","s30","r20","r25","r30","brigade","recette","recettes.type","flexy")
         ->get();
         $s=0;
         foreach($data as $d){

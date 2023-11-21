@@ -129,7 +129,9 @@
                 @endphp
                 @foreach ($data as $data_item )
                 @php
-                    $dette = $data_item->s20*20*100 - $data_item->t20*20 + $data_item->s25*25*100 - $data_item->t25 * 25  + $data_item->s30*30*100 - $data_item->s30*30;
+                   $dette = $data_item->dettes;
+                   // $dette = App\Models\Kabid::where('name',$data_item->kname)->first()->dettes;
+                    // $data_item->s20*20*100 - $data_item->t20*20 + $data_item->s25*25*100 - $data_item->t25 * 25  + $data_item->s30*30*100 - $data_item->s30*30;
                     $types = ['','A','B','C','D'];
                     $brigades = ['','الصباحية','المسائية','الليلية'];
                     $tr+=$data_item->recette;

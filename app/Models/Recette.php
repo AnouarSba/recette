@@ -15,6 +15,7 @@ class Recette extends Model
         'ligne_id',
         'flexy',
         'rotation',
+        'dettes',
         't20',
         't25',
         't30',

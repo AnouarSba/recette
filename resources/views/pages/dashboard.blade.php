@@ -546,12 +546,183 @@
                                         </table>
                                         <br>
                                         المداخيل
-                                        <input type="number" name="somme" id="somme" disabled>
-                                        <input type="hidden" name="recette" id="recette">
+                                        <input type="number" name="somme" id="somme" disabled value="0">
+                                        <input type="number" hidden name="recette" id="recette">
                                         الديون
-                                        <input type="number" name="dette" id="dette" disabled>
-                                        <input type="hidden" name="dettes" id="dettes">
-                                        <input type="submit" onclick="empty()" value="تأكيد">
+                                        <input type="number" name="dette" id="dette" disabled value="0">
+                                        <input type="number" hidden name="dettes" id="dettes">
+                                        الديون القديمة
+                                        <input type="number" name="dette" id="odette" disabled value="0">
+                                        @if (Illuminate\Support\Facades\Auth::user()->id >3)
+                            
+                            <div class="row"  style="color: black" dir="rtl">
+                                <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                        التذاكر الخاصة ب <span id="nameRT"></span> 
+                                      </h4>
+                                    </div>
+                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                التذاكر المباعة
+                                    
+                                    
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 20دج">
+                                            
+                                        </optgroup> 
+                                        
+                                      </select>
+                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 25دج">
+                                                                                 
+                                        </optgroup>
+                                      </select>
+                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="تذاكر 30دج">
+                                                                                  
+                                        </optgroup>                         
+                                     </select>
+                                    </div>
+                                  
+                                    <div class="col-xs-1 override-padding" style="width: 20%;">
+                                      <div class="multi-select-button-container">
+                                        <input type="button" id="btnRight_multiT" class="btn btn-danger btn-block" value=" >>> ">
+                                        <br>
+                                        <input type="button" id="btnRight_singleT" class="btn btn-default btn-block" value="  >">
+                                        <br>
+                                        <input type="button" id="btnLeft_singleT" class="btn btn-default btn-block" value="  <  ">
+                                        <br>
+                                        <input type="button" id="btnLeft_multiT" class="btn btn-warning btn-block" value="<<<">
+                                        <br><br>
+                                        <input type="button" id="btn_resetT" class="btn btn-secondary btn-block" value="reset">
+                                        <br><br>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                        <select style="display: inline; width: 30%" id="right_boxT" name="tt20[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 20دج">
+                                               
+                                            </optgroup> 
+                                            
+                                          </select>
+                                          <select style="display: inline; width: 30%" id="right_boxT1" name="tt25[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 25دج">
+                                              
+                                            </optgroup>
+                                          </select>
+                                        <select style="display: inline; width: 30%" id="right_boxT2" name="tt30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="تذاكر 30دج" >
+                                              
+                                            </optgroup>                         
+                                         </select>
+                                    </div>
+                                    <div style="display:none">
+                                      <select id="hidden_Tleft_box"></select>
+                                      <select id="hidden_Tleft_box1"></select>
+                                      <select id="hidden_Tleft_box2"></select>
+                                      <select id="hidden_right_boxT"></select>
+                                      <select id="hidden_right_boxT1"></select>
+                                      <select id="hidden_right_boxT2"></select>
+                                    </div>
+                                  </div>
+                            </div>
+                            <br>
+                            <div class="row"  style="color: black" dir="rtl">
+                                <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                        مخزون دفاتر جامع الأموال 
+                                      </h4>
+                                    </div>
+                                    <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                      <h4 class="multi-select-heading">
+                                    الدفاتر الخاصة ب   <span id="nameR"></span>
+                                    
+                                    <input  type="hidden" id="nameC" required name="nameC">
+                                    
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div class="row multi-select-row">
+                                    <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
+                                      <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 20دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach
+                                        </optgroup> 
+                                        
+                                      </select>
+                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 25دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach                                        
+                                        </optgroup>
+                                      </select>
+                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <optgroup label="دفاتر 30دج">
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
+                                            <option value="{{$k->id}}">{{$k->name}}</option>
+                                            @endforeach                                        
+                                        </optgroup>                         
+                                     </select>
+                                    </div>
+                                  
+                                    <div class="col-xs-1 override-padding" style="width: 20%;">
+                                      <div class="multi-select-button-container">
+                                        <input type="button" id="btnRight_multi" class="btn btn-danger btn-block" value=" >>> ">
+                                        <br>
+                                        <input type="button" id="btnRight_single" class="btn btn-default btn-block" value="  >">
+                                        <br>
+                                        <input type="button" id="btnLeft_single" class="btn btn-default btn-block" value="  <  ">
+                                        <br>
+                                        <input type="button" id="btnLeft_multi" class="btn btn-warning btn-block" value="<<<">
+                                        <br><br>
+                                        <input type="button" id="btn_reset" class="btn btn-secondary btn-block" value="reset">
+                                        <br><br>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-4" style="width: 40%;">
+                                        <select style="display: inline; width: 30%" id="right_box" name="tc20[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 20دج">
+                                               
+                                            </optgroup> 
+                                            
+                                          </select>
+                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 25دج">
+                                              
+                                            </optgroup>
+                                          </select>
+                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 30دج" >
+                                              
+                                            </optgroup>                         
+                                         </select>
+                                    </div>
+                                    <div style="display:none">
+                                      <select id="hidden_left_box"></select>
+                                      <select id="hidden_left_box1"></select>
+                                      <select id="hidden_left_box2"></select>
+                                      <select id="hidden_right_box"></select>
+                                      <select id="hidden_right_box1"></select>
+                                      <select id="hidden_right_box2"></select>
+                                    </div>
+                                  </div>
+                            </div>
+                            <br>
+                    @endif
+                    <br>
+                                        <input type="submit" onclick="empty()"  class="btn btn-success "  style="width: 200px;font-size: 22px" value="تأكيد">
                                     </div>
                                 </form>
                             </div>
@@ -697,21 +868,19 @@
                                 </div>
                             </form>
                     @if (Illuminate\Support\Facades\Auth::user()->id ==3)
-                            <div class="row" hidden style="color: black" dir="rtl">
+                            <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
-                                        مخزون الدفاتر
+                                      مخزون دفاتر جامع الأموال الرئيسي
                                       </h4>
                                     </div>
                                     <div class="col-xs-1 override-padding" style="width: 20%;"> </div>
                                     <div class="col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
-                                    الدفاتر الخاصة ب  <select class="" required id="name" form="myform" required name="name">
-                                        <option value="" required> --- </option>
-                                        @foreach (App\Models\User::where('id','>','3')->get() as $k)
-                                        <option value="{{$k->id}}">{{$k->username}}</option>
-                                        @endforeach
+                                       مخزون دفاتر جامع الأموال 
+                                    <select hidden class="" required id="nameC" form="myform" required name="nameC">
+                                        <option value="2">Caisse</option>
                                     </select>
                                       </h4>
                                     </div>
@@ -720,7 +889,7 @@
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 20دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',1)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',1)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach
                                         </optgroup> 
@@ -728,14 +897,14 @@
                                       </select>
                                       <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 25دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',2)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',2)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>
                                       </select>
                                     <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
                                         <optgroup label="دفاتر 30دج">
-                                            @foreach (App\Models\Carnet::where('status',0)->where('type',3)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',1)->where('type',3)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>                         
@@ -758,19 +927,28 @@
                                       </div>
                                     </div>
                                     <div class="col-xs-4" style="width: 40%;">
-                                        <form action="" method="POST" id="myform">
+                                        <form method="POST" id="myform" action="{{ route('caisse') }}">
                                             @csrf
-                                        <select style="display: inline; width: 30%" id="right_box" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="right_box" name="tc20[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 20دج">
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup> 
                                             
                                           </select>
-                                          <select style="display: inline; width: 30%" id="right_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                          <select style="display: inline; width: 30%" id="right_box1" name="tc25[]" multiple="" class="form-control multi-select-box">
                                             <optgroup label="دفاتر 25دج">
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup>
                                           </select>
-                                        <select style="display: inline; width: 30%" id="right_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
-                                            <optgroup label="دفاتر 30دج">
+                                        <select style="display: inline; width: 30%" id="right_box2" name="tc30[]" multiple="" class="form-control multi-select-box">
+                                            <optgroup label="دفاتر 30دج" >
+                                                @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
+                                                <option value="{{$k->id}}" selected>{{$k->name}}</option>
+                                                @endforeach
                                             </optgroup>                         
                                          </select>
                                         </form>
@@ -936,21 +1114,99 @@ $('#btn_reset').click(function (e) {
 
 $("#left_box").on('dblclick', 'option', function () {
   $("#left_box").find('option:selected').remove().appendTo('#right_box');
+  var txt= $(this).text();
+  var s = $("#right_box option").length-$("#hidden_right_box option").length;
+  $('#s20').val(s);
+  if (  $('#r20').val()) {
+  $('#r20').val($('#r20').val()+'-'+txt);
+    
+  } else {
+    $('#r20').val(txt)
+  } ch(0)
 });
 $("#left_box1").on('dblclick', 'option', function () {
   $("#left_box1").find('option:selected').remove().appendTo('#right_box1');
+  var txt= $(this).text();
+  var s = $("#right_box1 option").length-$("#hidden_right_box1 option").length;
+  $('#s25').val(s);
+  if (  $('#r25').val()) {
+  $('#r25').val($('#r25').val()+'-'+txt);
+    
+  } else {
+    $('#r25').val(txt)
+  } ch(0)
 });
 $("#left_box2").on('dblclick', 'option', function () {
   $("#left_box2").find('option:selected').remove().appendTo('#right_box2');
+  var txt= $(this).text();
+  var s = $("#right_box2 option").length-$("#hidden_right_box2 option").length;
+  $('#s30').val(s);
+  if (  $('#r30').val()) {
+  $('#r30').val($('#r30').val()+'-'+txt);
+    
+  } else {
+    $('#r30').val(txt)
+  }
+  ch(0)
 });
+Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 $("#right_box").on('dblclick', 'option', function () {
   $("#right_box").find('option:selected').remove().appendTo('#left_box');
+  $("#right_box option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);  
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+  ch(0)
 });
 $("#right_box1").on('dblclick', 'option', function () {
   $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
+  $("#right_box1 option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+  ch(0)
 });
 $("#right_box2").on('dblclick', 'option', function () {
   $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
+  $("#right_box2 option").prop("selected", "selected");
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+  ch(0)
 });
 
 /* Button click handlers */
@@ -959,35 +1215,604 @@ $('#btnRight_multi').click(function (e) {
     $("#left_box").find('option').remove().appendTo('#right_box');
     $("#left_box1").find('option').remove().appendTo('#right_box1');
     $("#left_box2").find('option').remove().appendTo('#right_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+  ch(0)
 });
 
 $('#btnRight_single').click(function (e) {
     $("#left_box").find('option:selected').remove().appendTo('#right_box');
     $("#left_box1").find('option:selected').remove().appendTo('#right_box1');
     $("#left_box2").find('option:selected').remove().appendTo('#right_box2');
+
+    $(function () {
+        arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+  ch(0)
+        });
+        Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 });
 
 $('#btnLeft_single').click(function (e) {
     $("#right_box").find('option:selected').remove().appendTo('#left_box');
     $("#right_box1").find('option:selected').remove().appendTo('#left_box1');
     $("#right_box2").find('option:selected').remove().appendTo('#left_box2');
+    $(function () {
+             arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+  ch(0)
+        });
+        Array.prototype.difference = function (a) {
+            return this.filter(function (i) {
+                return a.indexOf(i) < 0;
+            });
+        };
 });
 
 $('#btnLeft_multi').click(function (e) {
     $("#right_box").find('option').remove().appendTo('#left_box');
     $("#right_box1").find('option').remove().appendTo('#left_box1');
     $("#right_box2").find('option').remove().appendTo('#left_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_box option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s20').val(diff1.length);
+          
+  $('#r20').val(diff1.join('-'));
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_box1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#s25').val(diff1.length);
+          
+  $('#r25').val(diff1.join('-'));
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_box2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_box2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#s30').val(diff1.length);
+          
+  $('#r30').val(diff1.join('-'));
+  ch(0)    
 });
 
+$('#nameC').on( "change", function() {
 
+var x = $('#nameC').val();
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+    
+$.ajax({
+    method: "GET",
+    url: "/ticket_show/" + x,
+
+}).done(function(data) {
+    $("select[name='tc20[]']").html('');
+    $("select[name='tc25[]']").html('');
+    $("select[name='tc30[]']").html('');
+    $("#hidden_right_box").html('');
+    $("#hidden_right_box1").html('');
+    $("#hidden_right_box2").html('');
+    
+    $("select[name='tc20[]']").html(data.options20);
+    $("#hidden_right_box").html(data.options20);
+    $("select[name='tc25[]']").html(data.options25);
+    $("#hidden_right_box1").html(data.options25);
+    $("select[name='tc30[]']").html(data.options30);
+    $("#hidden_right_box2").html(data.options30);
+}); 
+
+} );
+$("#Tleft_box").find('option').clone().appendTo('#hidden_Tleft_box');
+$("#Tleft_box1").find('option').clone().appendTo('#hidden_Tleft_box1');
+$("#Tleft_box2").find('option').clone().appendTo('#hidden_Tleft_box2');
+$("#right_boxT").find('option').clone().appendTo('#hidden_right_boxT');
+$("#right_boxT1").find('option').clone().appendTo('#hidden_right_boxT1');
+$("#right_boxT2").find('option').clone().appendTo('#hidden_right_boxT2');
+
+
+/* Reset button handler */
+$('#btn_resetT').click(function (e) {
+		$("#Tleft_box").find('option').remove();
+		$("#Tleft_box1").find('option').remove();
+		$("#Tleft_box2").find('option').remove();
+    $("#right_boxT").find('option').remove();
+    $("#right_boxT1").find('option').remove();
+    $("#right_boxT2").find('option').remove();
+    $("#hidden_Tleft_box").find('option').clone().appendTo('#Tleft_box');
+    $("#hidden_Tleft_box1").find('option').clone().appendTo('#Tleft_box1');
+    $("#hidden_Tleft_box2").find('option').clone().appendTo('#Tleft_box2');
+		$("#hidden_right_boxT").find('option').clone().appendTo('#right_boxT');
+		$("#hidden_right_boxT1").find('option').clone().appendTo('#right_boxT1');
+		$("#hidden_right_boxT2").find('option').clone().appendTo('#right_boxT2');
+});
+
+/* Double click hander */
+
+$("#Tleft_box").on('dblclick', 'option', function () {
+  $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
+  arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+  ch(0)    
+});
+$("#Tleft_box1").on('dblclick', 'option', function () {
+  $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
+ 
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+  ch(0)
+});
+
+$("#Tleft_box2").on('dblclick', 'option', function () {
+  $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+ 
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)
+});
+$("#right_boxT").on('dblclick', 'option', function () {
+  $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
+  $("#right_boxT option").prop("selected", "selected");
+});
+$("#right_boxT1").on('dblclick', 'option', function () {
+  $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
+  $("#right_boxT1 option").prop("selected", "selected");
+  ch(0)
+});
+$("#right_boxT2").on('dblclick', 'option', function () {
+  $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
+  $("#right_boxT2 option").prop("selected", "selected");
+  ch(0)
+});
+
+/* Button click handlers */
+
+$('#btnRight_multiT').click(function (e) {
+    $("#Tleft_box").find('option').remove().appendTo('#right_boxT');
+    $("#Tleft_box1").find('option').remove().appendTo('#right_boxT1');
+    $("#Tleft_box2").find('option').remove().appendTo('#right_boxT2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)    
+});
+
+$('#btnRight_singleT').click(function (e) {
+    $("#Tleft_box").find('option:selected').remove().appendTo('#right_boxT');
+    $("#Tleft_box1").find('option:selected').remove().appendTo('#right_boxT1');
+    $("#Tleft_box2").find('option:selected').remove().appendTo('#right_boxT2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0) 
+});
+
+$('#btnLeft_singleT').click(function (e) {
+    $("#right_boxT").find('option:selected').remove().appendTo('#Tleft_box');
+    $("#right_boxT1").find('option:selected').remove().appendTo('#Tleft_box1');
+    $("#right_boxT2").find('option:selected').remove().appendTo('#Tleft_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+  ch(0)
+});
+$('#btnLeft_multiT').click(function (e) {
+    $("#right_boxT").find('option').remove().appendTo('#Tleft_box');
+    $("#right_boxT1").find('option').remove().appendTo('#Tleft_box1');
+    $("#right_boxT2").find('option').remove().appendTo('#Tleft_box2');
+    arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t20').val(diff1.length);
+          
+         arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT1 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT1 option'), function () {
+                arr2.push($(this).text());
+            });
+
+             diff1 = arr1.difference(arr2);
+  $('#t25').val(diff1.length);
+          
+
+
+   arr1 = [];
+             arr2 = [];
+            $.each($('#right_boxT2 option'), function () {
+                arr1.push($(this).text());
+            });
+            $.each($('#hidden_right_boxT2 option'), function () {
+                arr2.push($(this).text());
+            });
+
+            var diff1 = arr1.difference(arr2);
+  $('#t30').val(diff1.length);
+          ch(0)
+});
         checkCookie();
 
         function ck() {
             var x = document.getElementById("dd").value;
             var y = document.getElementById("brigad").value;
-            setCookie("date", x, 365);
+            var z = $("#name option:selected").text();
+             document.getElementById("nameR").innerHTML = z;
+             document.getElementById("nameRT").innerHTML = z;
+             var z = $("#name").val();
+             document.getElementById("nameC").value = z;
+           setCookie("date", x, 365);
             setCookie("brigade", y, 365);
+              
+$.ajax({
+    method: "GET",
+    url: "/ticket_show/" + z,
 
+}).done(function(data) {
+    $("select[name='tc20[]']").html('');
+    $("select[name='tc25[]']").html('');
+    $("select[name='tc30[]']").html('');
+
+    $("#r20").val('');
+    $("#r25").val('');
+    $("#r30").val('');
+    $("#s20").val('');
+    $("#s25").val('');
+    $("#s30").val('');
+    $("#t20").val('');
+    $("#t25").val('');
+    $("#t30").val('');
+    $("#dette").val(0);
+    $("#dettes").val(0);
+    $("#odette").val(0);
+    $("#recette").val(0);
+    $("#somme").val(0);
+
+    $("#left_box").find('option').remove();
+		$("#left_box1").find('option').remove();
+		$("#left_box2").find('option').remove();
+    $("#right_box").find('option').remove();
+    $("#right_box1").find('option').remove();
+    $("#right_box2").find('option').remove();
+    $("#hidden_left_box").find('option').clone().appendTo('#left_box');
+    $("#hidden_left_box1").find('option').clone().appendTo('#left_box1');
+    $("#hidden_left_box2").find('option').clone().appendTo('#left_box2');
+		$("#hidden_right_box").find('option').clone().appendTo('#right_box');
+		$("#hidden_right_box1").find('option').clone().appendTo('#right_box1');
+		$("#hidden_right_box2").find('option').clone().appendTo('#right_box2');
+    
+    $("#hidden_right_box").html('');
+    $("#hidden_right_box1").html('');
+    $("#hidden_right_box2").html('');
+    $("select[name='tc20[]']").html(data.options20);
+    $("#hidden_right_box").html(data.options20);
+    $("select[name='tc25[]']").html(data.options25);
+    $("#hidden_right_box1").html(data.options25);
+    $("select[name='tc30[]']").html(data.options30);
+    $("#hidden_right_box2").html(data.options30);
+  $("#right_box option").prop("selected", "selected");
+  $("#right_box1 option").prop("selected", "selected");
+  $("#right_box2 option").prop("selected", "selected");
+
+
+  $("select[name='ttc20[]']").html('');
+    $("select[name='ttc25[]']").html('');
+    $("select[name='ttc30[]']").html('');
+    $("#hidden_Tleft_box").html('');
+    $("#hidden_Tleft_box1").html('');
+    $("#hidden_Tleft_box2").html('');
+    console.log(data.tickets30);
+    $("select[name='ttc20[]']").html(data.tickets20);
+    $("#hidden_Tleft_box").html(data.tickets20);
+    $("select[name='ttc25[]']").html(data.tickets25);
+    $("#hidden_Tleft_box1").html(data.tickets25);
+    $("select[name='ttc30[]']").html(data.tickets30);
+    $("#hidden_Tleft_box2").html(data.tickets30);
+  /*
+   $("#Tleft_box option").prop("selected", "selected");
+  $("#Tleft_box1 option").prop("selected", "selected");
+  $("#Tleft_box2 option").prop("selected", "selected");*/
+
+
+  $("select[name='tt20[]']").html('');
+    $("select[name='tt25[]']").html('');
+    $("select[name='tt30[]']").html('');
+}); 
+$.ajax({
+    method: "GET",
+    url: "/dette/" + z,
+
+}).done(function(data) {
+    if (data) {
+        $("#odette").val(data);
+    } else {
+        $("#odette").val(0);
+    }
+   
+}); 
         }
 
         function setCookie(cname, cvalue, exdays) {
@@ -1013,14 +1838,14 @@ $('#btnLeft_multi').click(function (e) {
         }
 
         function checkCookie() {
-            let user = getCookie("date");
+            var user = getCookie("date");
             if (user != "") {
                 document.getElementById("dd").value = user;
                 document.getElementById("name").focus();
             } else {
                 document.getElementById("dd").focus();
             }
-            let br = getCookie("brigade");
+            var br = getCookie("brigade");
             if (br != "") {
                 document.getElementById("brigad").value = br;
             } else {
@@ -1043,8 +1868,8 @@ $('#btnLeft_multi').click(function (e) {
 
             document.getElementById("somme").value = x + y + z;
             document.getElementById("recette").value = x + y + z;
-            document.getElementById("dette").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
-            document.getElementById("dettes").value = xs * 100 - x + ys * 100 - y + zs * 100 - z;
+            document.getElementById("dette").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
+            document.getElementById("dettes").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
         }
 
         function empty() {
@@ -1070,6 +1895,7 @@ $('#btnLeft_multi').click(function (e) {
                 document.getElementById("flexy").value = 0;
             }
         }
+ 
     </script>
     <!-- partial -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js'></script>

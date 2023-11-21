@@ -32,6 +32,8 @@ Route::get('delete',[ ControlController::class, 'delete'])->name('delete')->midd
 Route::post('confirm',[ ControlController::class, 'confirm'])->name('confirm')->middleware('auth'); 
 Route::post('Export',[ ControlController::class, 'exportData'])->name('etat')->middleware('auth'); 
 	Route::get('logout', [ControlController::class, 'logout'])->name('logout')->middleware('auth');
+	Route::get('/ticket_show/{id}',[ ControlController::class, 'ticket_show'])->name('ticket_show'); 
+	Route::get('/dette/{id}',[ ControlController::class, 'dette'])->name('dette'); 
   
 Route::post('Infraction_list',[ ControlController::class, 'Infra_list'])->name('Infra_list')->middleware('auth');
 Route::post('Infraction_t',[ ControlController::class, 'infra_trait'])->name('Infra_trait')->middleware('auth');
@@ -39,6 +41,7 @@ Route::post('Infraction_s',[ ControlController::class, 'Infra_save'])->name('Inf
 Route::get('Infraction_r/{infra}',[ ControlController::class, 'Infra_rapport'])->name('Infra_rapport')->middleware('auth');
 Route::get('Coffre/{c}',[ ControlController::class, 'Coffre_rapport'])->name('Coffre_rapport')->middleware('auth');
 
+Route::post('caisse',[ ControlController::class, 'caisse'])->name('caisse')->middleware('auth'); 
 Route::post('list',[ ControlController::class, 'list'])->name('list')->middleware('auth'); 
 Route::get('list',[ ControlController::class, 'list'])->name('get_list')->middleware('auth'); 
   
