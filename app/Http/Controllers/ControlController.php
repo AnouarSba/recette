@@ -117,7 +117,11 @@ public function confirm(Request $request)
         ini_set('memory_limit', '4000M');        
         try {
 
-            $spreadSheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/word/Etat.xlsx');
+$inputFileType = 'Xlsx';
+$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+$reader->setIncludeCharts(true);
+$spreadSheet = $reader->load('assets/word/Etat.xlsx');
+
 
             //change it
            
@@ -267,7 +271,7 @@ $spreadSheet->setActiveSheetIndex(8);
 $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
-$spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
+ $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
 $spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q44');
 
 
@@ -291,7 +295,7 @@ $spreadSheet->setActiveSheetIndex(10);
 $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray(['  المداخيل الاجمالية '.$d.' - '.$d2.' '.$month_ar[$m].' '.$y ],Null,'C7');
-        $spreadSheet->setActiveSheetIndex(1);
+        $spreadSheet->setActiveSheetIndex(11);
 
 
 
@@ -310,6 +314,8 @@ header('Content-Disposition: attachment;filename="etat '.$d.'-'.$d2.' '.$month[$
 
 //create IOFactory object
 $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+$writer->setIncludeCharts(true);
+
 //save into php output
 $writer->save('php://output');
             exit();
@@ -366,12 +372,21 @@ $period = new DatePeriod($start_date, $interval, $end_date);
        $sp= [];
        $resp= [];
        $resp_h = [];
-      
+      $r=0;
+      $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/'.$from.'/'.$to);
+       if ($response2->successful()) {
+            
+            $resp = $response2[1]; // Extract JSON data from the response
+           $resp_h = $response2[0]; 
+        } else {
+            // Handle unsuccessful response
+            return response()->json(['error' => 'Failed to send data to the other website'], 500);
+        }
         foreach ($period as  $value) {
         if ( $value->format("Y-m-d") <= $date) {
             
         $response = Http::get('https://etus22.deepertech.dz/api/stat_site/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
-        $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/'.$value->format("Y-m-d").'T00:01/'.$value->format("Y-m-d").'T23:59');
+        
     
         if ($response->successful()) {
             $responseData = $response->json(); // Extract JSON data from the response
@@ -383,14 +398,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             // Handle unsuccessful response
             return response()->json(['error' => 'Failed to send data to the other website'], 500);
         }
-        if ($response2->successful()) {
-            
-            $resp[] = $response2[1]; // Extract JSON data from the response
-           $resp_h[] = array($response2[0]); 
-        } else {
-            // Handle unsuccessful response
-            return response()->json(['error' => 'Failed to send data to the other website'], 500);
-        }
+       
             $data = Recette::query()
             ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
            /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
@@ -407,6 +415,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             $data_array [] = array("Num","Receveur","Recette");
         foreach($data as $data_item)
         { $i++;
+        $r+= $data_item->recette;
            $arr = array(
                 'Num' =>$i,
                 'Receveur' => $data_item->kname,
@@ -420,7 +429,9 @@ $period = new DatePeriod($start_date, $interval, $end_date);
         }}
         else $data_array[]=[];
     }
-    }
+    } 
+    $data_array[]=[];
+    $data_array[]=['','',$r];
         $arr = array("15","20","25","30","40");
         $arrt=[];
         for($i=0;$i<29;$i++)
