@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('status')->length(2)->default(0);
+            $table->boolean('buy')->default(false);
             $table->integer('type')->length(2);
             $table->integer('begin')->nullable()->default(1);
             $table->integer('end')->nullable()->default(100);

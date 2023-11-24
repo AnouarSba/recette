@@ -88,6 +88,14 @@ public function recette(Request $request)
     $c25= $request->tt25;
     $t30= $request->tc30;
     $c30= $request->tt30;
+  $crnt = Carnet::where('status', $request->nameC)->get('id');
+    foreach ($crnt as $v) {
+      $count=  Ticket::where('status', 1)->where('carnet_id', $v->id)->count();
+      if($count == 100){
+        Carnet::where('id', $$v->id)->update(['buy' => 1]);  
+    }
+    }
+    
     if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => $request->nameC]);
     if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => $request->nameC]);
     if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => $request->nameC]);
@@ -168,9 +176,9 @@ public function ticket_show(Request $request)
 {
 
         
-$emp20 = Carnet::where('type',1)->where('status',$request->id)->pluck("name","id");
-$emp25 = Carnet::where('type',2)->where('status',$request->id)->pluck("name","id");
-$emp30 = Carnet::where('type',3)->where('status',$request->id)->pluck("name","id");
+$emp20 = Carnet::where('type',1)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
+$emp25 = Carnet::where('type',2)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
+$emp30 = Carnet::where('type',3)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
 $arr20= array_keys($emp20->toArray());
 $arr25= array_keys($emp25->toArray());
 $arr30= array_keys($emp30->toArray());

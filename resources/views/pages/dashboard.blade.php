@@ -339,6 +339,228 @@
   }
 
 </style>
+<style>
+    /* Add some styling to make the tooltip visible */
+    .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdown::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdown:hover::before {
+            opacity: 1;
+        }
+
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-select:focus {
+            outline: none;
+        }
+
+        .custom-dropdown1 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdown1::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdown1:hover::before {
+            opacity: 1;
+        }
+
+        .custom-select1 {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-select1:focus {
+            outline: none;
+        }
+
+
+        .custom-dropdown2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdown2::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdown2:hover::before {
+            opacity: 1;
+        }
+
+        .custom-select2 {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-select2:focus {
+            outline: none;
+        }
+
+
+
+        .custom-dropdownT {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdownT::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdownT:hover::before {
+            opacity: 1;
+        }
+
+        .custom-selectT {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-selectT:focus {
+            outline: none;
+        }
+
+        .custom-dropdownT1 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdownT1::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdownT1:hover::before {
+            opacity: 1;
+        }
+
+        .custom-selectT1 {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-selectT1:focus {
+            outline: none;
+        }
+
+
+        .custom-dropdownT2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-dropdownT2::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-dropdownT2:hover::before {
+            opacity: 1;
+        }
+
+        .custom-selectT2 {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .custom-selectT2:focus {
+            outline: none;
+        }
+</style>
 @section('content')
     <div class="container-fluid py-1">
         <div class="row">
@@ -573,22 +795,31 @@
                                   </div>
                                   <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
-                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" multiple="" class="form-control multi-select-box">
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdownT" data-tooltip="Selected items: 0">
+                                     
+                                      <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]" data-tooltip="Selected items: 0" multiple="" class="custom-selectT form-control multi-select-box">
                                         <optgroup label="تذاكر 20دج">
                                             
                                         </optgroup> 
                                         
                                       </select>
-                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" multiple="" class="form-control multi-select-box">
+                                        </div>
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdownT1" data-tooltip="Selected items: 0">
+
+                                      <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]" data-tooltip="Selected items: 0" multiple="" class="custom-selectT1 form-control multi-select-box">
                                         <optgroup label="تذاكر 25دج">
                                                                                  
                                         </optgroup>
                                       </select>
-                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" multiple="" class="form-control multi-select-box">
+                                        </div>
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdownT2" data-tooltip="Selected items: 0">
+
+                                    <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]" data-tooltip="Selected items: 0" multiple="" class="custom-selectT2 form-control multi-select-box">
                                         <optgroup label="تذاكر 30دج">
                                                                                   
                                         </optgroup>                         
                                      </select>
+                                        </div>
                                     </div>
                                   
                                     <div class="col-xs-1 override-padding" style="width: 20%;">
@@ -653,7 +884,10 @@
                                   </div>
                                   <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
-                                      <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                     
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdown" data-tooltip="Selected items: 0">
+                                     
+                                        <select style="display: inline; width: 30%" id="left_box" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select form-control multi-select-box">
                                         <optgroup label="دفاتر 20دج">
                                             @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
@@ -661,20 +895,27 @@
                                         </optgroup> 
                                         
                                       </select>
-                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        </div>
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdown1" data-tooltip="Selected items: 0">
+
+                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select1 form-control multi-select-box">
                                         <optgroup label="دفاتر 25دج">
                                             @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>
                                       </select>
-                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        </div>
+                                        <div  style="display: inline; width: 100%"  class="custom-dropdown2" data-tooltip="Selected items: 0">
+
+                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select2 form-control multi-select-box">
                                         <optgroup label="دفاتر 30دج">
                                             @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>                         
                                      </select>
+                                        </div>
                                     </div>
                                   
                                     <div class="col-xs-1 override-padding" style="width: 20%;">
@@ -887,28 +1128,38 @@
                                   </div>
                                   <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
-                                      <select style="display: inline; width: 30%" id="left_box" name="canselect_code" multiple="" class="form-control multi-select-box">
-                                        <optgroup label="دفاتر 20دج">
-                                            @foreach (App\Models\Carnet::where('status',1)->where('type',1)->get() as $k)
-                                            <option value="{{$k->id}}">{{$k->name}}</option>
-                                            @endforeach
-                                        </optgroup> 
+                                      
+                                      <div  style="display: inline; width: 100%"  class="custom-dropdown" data-tooltip="Selected items: 0">
                                         
-                                      </select>
-                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                        <select style="display: inline; width: 30%" id="left_box" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select form-control multi-select-box">
+                                            <optgroup label="دفاتر 20دج">
+                                                @foreach (App\Models\Carnet::where('status',1)->where('type',1)->get() as $k)
+                                                <option value="{{$k->id}}">{{$k->name}}</option>
+                                                @endforeach
+                                            </optgroup> 
+                                            
+                                          </select>
+                                    </div>
+                                    <div  style="display: inline; width: 100%"  class="custom-dropdown1" data-tooltip="Selected items: 0">
+
+                                      <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select1 form-control multi-select-box">
                                         <optgroup label="دفاتر 25دج">
                                             @foreach (App\Models\Carnet::where('status',1)->where('type',2)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>
                                       </select>
-                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" multiple="" class="form-control multi-select-box">
+                                    </div>
+                                    <div  style="display: inline; width: 100%"  class="custom-dropdown2" data-tooltip="Selected items: 0">
+
+                                    <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select2 form-control multi-select-box">
                                         <optgroup label="دفاتر 30دج">
                                             @foreach (App\Models\Carnet::where('status',1)->where('type',3)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach                                        
                                         </optgroup>                         
                                      </select>
+                                    </div>
                                     </div>
                                   
                                     <div class="col-xs-1 override-padding" style="width: 20%;">
@@ -1080,6 +1331,106 @@
 @push('js')
     <script src="./assets/js/plugins/chartjs.min.js"></script>
     <script src="http://github.hubspot.com/odometer/odometer.js"></script>
+    <script>
+        // Get the select element
+        var selectElement = document.getElementById("left_box");
+
+        // Get the paragraph element to display the count
+        var customDropdown = document.querySelector(".custom-dropdown");
+
+        // Add an event listener to the select element
+        selectElement.addEventListener("change", function() {
+            // Get the selected options
+            var selectedOptions = selectElement.selectedOptions;
+
+            // Update the count and set the tooltip text
+            var count = selectedOptions.length;
+            customDropdown.dataset.tooltip = "Selected items: " + count;
+        });
+
+
+        var selectElement2 = document.getElementById("left_box2");
+
+// Get the paragraph element to display the count
+var customDropdown2 = document.querySelector(".custom-dropdown2");
+
+// Add an event listener to the select element
+selectElement2.addEventListener("change", function() {
+    // Get the selected options
+    var selectedOptions = selectElement2.selectedOptions;
+
+    // Update the count and set the tooltip text
+    var count = selectedOptions.length;
+    customDropdown2.dataset.tooltip = "Selected items: " + count;
+});
+
+var selectElement1 = document.getElementById("left_box1");
+
+// Get the paragraph element to display the count
+var customDropdown1 = document.querySelector(".custom-dropdown1");
+
+// Add an event listener to the select element
+selectElement1.addEventListener("change", function() {
+    // Get the selected options
+    var selectedOptions = selectElement1.selectedOptions;
+
+    // Update the count and set the tooltip text
+    var count = selectedOptions.length;
+    customDropdown1.dataset.tooltip = "Selected items: " + count;
+});
+
+
+
+
+
+
+
+var selectElementT = document.getElementById("Tleft_box");
+
+// Get the paragraph element to display the count
+var customDropdownT = document.querySelector(".custom-dropdownT");
+
+// Add an event listener to the select element
+selectElementT.addEventListener("change", function() {
+    // Get the selected options
+    var selectedOptions = selectElementT.selectedOptions;
+
+    // Update the count and set the tooltip text
+    var count = selectedOptions.length;
+    customDropdownT.dataset.tooltip = "Selected items: " + count;
+});
+
+
+var selectElementT2 = document.getElementById("Tleft_box2");
+
+// Get the paragraph element to display the count
+var customDropdownT2 = document.querySelector(".custom-dropdownT2");
+
+// Add an event listener to the select element
+selectElementT2.addEventListener("change", function() {
+// Get the selected options
+var selectedOptions = selectElementT2.selectedOptions;
+
+// Update the count and set the tooltip text
+var count = selectedOptions.length;
+customDropdownT2.dataset.tooltip = "Selected items: " + count;
+});
+
+var selectElementT1 = document.getElementById("Tleft_box1");
+
+// Get the paragraph element to display the count
+var customDropdownT1 = document.querySelector(".custom-dropdownT1");
+
+// Add an event listener to the select element
+selectElementT1.addEventListener("change", function() {
+// Get the selected options
+var selectedOptions = selectElementT1.selectedOptions;
+
+// Update the count and set the tooltip text
+var count = selectedOptions.length;
+customDropdownT1.dataset.tooltip = "Selected items: " + count;
+});
+    </script>
     <script>
         /* Populates the hiddent selects for resetting */
         setTimeout(function(){
@@ -1784,7 +2135,6 @@ $.ajax({
     $("#hidden_Tleft_box").html('');
     $("#hidden_Tleft_box1").html('');
     $("#hidden_Tleft_box2").html('');
-    console.log(data.tickets30);
     $("select[name='ttc20[]']").html(data.tickets20);
     $("#hidden_Tleft_box").html(data.tickets20);
     $("select[name='ttc25[]']").html(data.tickets25);
