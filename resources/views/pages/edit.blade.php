@@ -48,7 +48,7 @@
 @section('content')
 
 
-    <div class="" dir="rtl">
+    <div class="" dir="rtl" style="overflow-x: scroll">
 
        <!-- <div class="row">
           <div class="col-md-12">
