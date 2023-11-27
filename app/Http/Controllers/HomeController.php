@@ -65,4 +65,10 @@ class HomeController extends Controller
         
         return view('pages.carnets', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
     }
+    public function indexApi(Request $request)
+    {
+        $kabid = Kabid::where('id','>','2')->get();
+       
+        return view('pages.tickets', ['kabids'=>$kabid]);
+    }
 }
