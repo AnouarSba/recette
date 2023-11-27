@@ -643,7 +643,7 @@
                             <div class="container-fluid">
 
 
-                                <form action="{{ route('recette') }}" dir="rtl"
+                                <form action="{{ route('recette_c') }}" dir="rtl"
                                     style="margin-left:10px; margin-top:10px;
                                              z-index: 99;
                                              position: relative;
@@ -652,7 +652,7 @@
                                     <input type="date" name="date" id="dd" value="{{ $today }}">
                                     <select name="brigade" id="brigad" required>
                                         <option value="">-- الفترة --</option>
-                                        <option value="1">صباح</option>
+                                        <option selected value="1">صباح</option>
                                         <option value="2">مساء</option>
                                         <!--   @php
 
@@ -682,16 +682,16 @@
                                         <div class="col-3">
 
 
-                                            <input type="number" name="flexy" id="flexy">
+                                            <input type="number" value="0" name="flexy" id="flexy">
                                         </div>
                                         <div class="col-1">
-                                            <label dir="rtl" for="rotation">rotation</label>
+                                            <label dir="rtl"  for="rotation">rotation</label>
                                         </div>
 
                                         <div class="col-3">
 
 
-                                            <input type="number" step='0.5' name="rotation" id="rotation">
+                                            <input type="number" value="0" step='0.5' name="rotation" id="rotation">
                                         </div>
                                     </div>
                                     <div>
@@ -718,7 +718,7 @@
                                                             <option value="">-- الخط --</option>
 
                                                             @foreach ($lignes as $ligne)
-                                                                <option value="{{ $ligne->id }}">{{ $ligne->name }}
+                                                                <option selected value="{{ $ligne->id }}">{{ $ligne->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select></td>
@@ -726,14 +726,14 @@
 
                                                             <option value="">-- الحافلة --</option>
                                                             @foreach ($buses as $bus)
-                                                                <option value="{{ $bus->id }}">{{ $bus->name }}
+                                                                <option selected value="{{ $bus->id }}">{{ $bus->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select></td>
                                                     <td><select name="type" id="type" required>
 
                                                             <option value="">-- اختر --</option>
-                                                            <option value="1">A</option>
+                                                            <option selected value="1">A</option>
                                                             <option value="2">B</option>
                                                             <option value="3">C</option>
                                                             <option value="4">D</option>
@@ -777,7 +777,7 @@
                                         <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
                             
-                            <div hidden class="row"  style="color: black" dir="rtl">
+                            <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
@@ -865,7 +865,7 @@
                                   </div>
                             </div>
                             <br>
-                            <div hidden class="row"  style="color: black" dir="rtl">
+                            <div class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">

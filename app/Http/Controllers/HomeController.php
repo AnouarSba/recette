@@ -46,4 +46,23 @@ class HomeController extends Controller
         
         return view('pages.dashboard', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
     }
+
+    public function index2(Request $request)
+    {
+        $r = explode(' ',Carbon::today())[0];
+        $kabid = Kabid::where('id','>','2')->get();
+        $ligne = Ligne::get();
+        $bus = Bus::get();
+        $day = '';
+        if($request->month)
+        $m = $request->month;
+        else{
+        $m = date('m',strtotime("-1 days"));
+        $day = 'ليوم '.date('d/m/y',strtotime("-1 days"));
+        }
+     //   $d = Validation::whereMonth('c_date',$m)->select('sum(sbm) as ssbm','sum(sbm) as ssbm',)->get();
+        $data = Validation::whereMonth('c_date',$m)->get();
+        
+        return view('pages.carnets', ['today'=>date('Y-m-d'),'data'=>$data,'kabids'=>$kabid,'lignes'=>$ligne, 'm' => $m, 'day' => $day, 'buses' => $bus]);
+    }
 }

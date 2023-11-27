@@ -138,7 +138,64 @@ public function recette(Request $request)
     return redirect()->route('home');
 
 }
+public function recette_c(Request $request)
+{
+    $t20= $request->tc20;
+    $c20= $request->tt20;
+    $t25= $request->tc25;
+    $c25= $request->tt25;
+    $t30= $request->tc30;
+    $c30= $request->tt30;
+  $crnt = Carnet::where('status', $request->nameC)->get('id');
+    foreach ($crnt as $v) {
+      $count=  Ticket::where('status', 1)->where('carnet_id', $v->id)->count();
+      if($count == 100){
+        Carnet::where('id', $$v->id)->update(['buy' => 1]);  
+    }
+    }
+    
+    if($t20 != [])   Carnet::whereIn('id', $t20)->update(['status' => $request->nameC]);
+    if($t25 != [])   Carnet::whereIn('id', $t25)->update(['status' => $request->nameC]);
+    if($t30 != [])    Carnet::whereIn('id', $t30)->update(['status' => $request->nameC]);
+ 
+    if($c20 != [])   Ticket::whereIn('id', $c20)->update(['status' => 1]);
+    if($c25 != [])   Ticket::whereIn('id', $c25)->update(['status' => 1]);
+    if($c30 != [])    Ticket::whereIn('id', $c30)->update(['status' => 1]);
+        
 
+    $y = Auth::id();
+    $name = $request->name;
+    $brigade = $request->brigade;
+    $recette = $request->recette;
+    $flexy = $request->flexy;
+    $dette = $request->dettes;
+   
+      Kabid::where('id', $name)->update(['dettes' => $dette]);
+
+    $ligne = $request->ligne_id;
+    $bus_id = $request->bus_id;
+    $type = $request->type;
+    $t20 = $request->t20;
+    $t25 = $request->t25;
+    $t30 = $request->t30;
+    $s20 = $request->s20;
+    $s25 = $request->s25;
+    $s30 = $request->s30;
+    $r20 = $request->r20;
+    $r25 = $request->r25;
+    $r30 = $request->r30;
+    $date = $request->date;
+    $rotation = $request->rotation;
+   // DB::statement("SET SQL_MODE=''");
+   // $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
+   
+    $r = explode(' ',Carbon::today())[0];
+    $kabid = Kabid::where('id','>','2')->get();
+    $ligne = Ligne::get();
+    $bus = Bus::get();
+    return redirect()->route('home2');
+
+}
 public function confirm(Request $request)
 {
 

@@ -27,6 +27,7 @@ use App\Http\Controllers\ChangePassword;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ControlController;
 Route::get('Recette',[ ControlController::class, 'recette'])->name('recette')->middleware('auth'); 
+Route::get('Recette_c',[ ControlController::class, 'recette_c'])->name('recette_c')->middleware('auth'); 
 Route::get('update',[ ControlController::class, 'update'])->name('update')->middleware('auth'); 
 Route::get('delete',[ ControlController::class, 'delete'])->name('delete')->middleware('auth'); 
 Route::post('confirm',[ ControlController::class, 'confirm'])->name('confirm')->middleware('auth'); 
@@ -68,6 +69,7 @@ Route::get('/', function () {return redirect('/dashboard');})->middleware('auth'
 	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+	Route::get('/carnet', [HomeController::class, 'index2'])->name('home2')->middleware('auth');
 	Route::post('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
