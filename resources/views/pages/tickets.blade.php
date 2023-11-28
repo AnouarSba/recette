@@ -571,7 +571,6 @@
             <!-- Page content wrapper-->
             <div id="page-content-wrapper">
 
-                @if (Illuminate\Support\Facades\Auth::user()->id > 3)
                     <!-- Page content-->
                     <section id="section-1" class="pt-5" dir="rtl">
                         <div class="container-fluid">
@@ -679,7 +678,6 @@
                             </div>
                             <br>
                             <br>
-                @endif
 
 
             </div>
