@@ -771,8 +771,8 @@
                                         <input type="number" name="somme" id="somme" disabled value="0">
                                         <input type="number" hidden name="recette" id="recette">
                                         الديون
-                                        <input type="number" name="dette" id="dette" disabled value="0">
-                                        <input type="number" hidden name="dettes" id="dettes">
+                                        <input type="number" hidden name="dette" id="dette" disabled value="0">
+                                        <input type="number"  name="dettes" id="dettes">
                                         الديون القديمة
                                         <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
