@@ -580,12 +580,12 @@
                             <br>
                             <br>
                             <div class="row">
-                                <div class="col-1">
-                                    <label dir="rtl" for="receveur">القابض</label>
+                                <div class="col-2">
+                                    <label dir="rtl" style="font-size: 22px" for="receveur">القابض</label>
 
                                 </div>
-                                <div class="col-3">
-                                    <select name="name" onchange="ck();" id="name" required>
+                                <div class="col-5">
+                                    <select name="name" style="font-size: 18px" onchange="ck();" id="name" required>
                                         <option value="">-- القابض --</option>
                                         @foreach ($kabids as $kabid)
                                             <option value="{{ $kabid->id }}">{{ $kabid->name }}</option>
@@ -602,7 +602,7 @@
 
                                 <div class="row" style="color: black" dir="rtl">
                                     
-                                    <div class="col-sm-10 col-lg-5">
+                                    <div class="col-sm-12 col-lg-5">
                                         <h4 class="multi-select-heading" style="position: relative">
                                             الدفاتر الخاصة ب <span id="nameR"></span>
 
@@ -610,20 +610,20 @@
 
                                         </h4>
                                         <div class="">
-                                            <select style="display: inline; width: 30%" id="right_box" name="tc20[]"
+                                            <select style="display: inline; width: 32%" id="right_box" name="tc20[]"
                                                 multiple="" class="form-control multi-select-box">
                                                 <optgroup label="دفاتر 20دج">
 
                                                 </optgroup>
 
                                             </select>
-                                            <select style="display: inline; width: 30%" id="right_box1" name="tc25[]"
+                                            <select style="display: inline; width: 32%" id="right_box1" name="tc25[]"
                                                 multiple="" class="form-control multi-select-box">
                                                 <optgroup label="دفاتر 25دج">
 
                                                 </optgroup>
                                             </select>
-                                            <select style="display: inline; width: 30%" id="right_box2" name="tc30[]"
+                                            <select style="display: inline; width: 32%" id="right_box2" name="tc30[]"
                                                 multiple="" class="form-control multi-select-box">
                                                 <optgroup label="دفاتر 30دج">
 
@@ -632,7 +632,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-lg-2 " > </div>
-                                    <div class="col-sm-10 col-lg-5">
+                                    <div class="col-sm-12 col-lg-5">
                                         <h4 class="multi-select-heading">
                                             التذاكر الخاصة ب <span id="nameRT"></span>
                                         </h4>
@@ -640,7 +640,7 @@
                                             <div style="display: inline; width: 100%" class="custom-dropdownT"
                                                 data-tooltip="Selected items: 0">
 
-                                                <select style="display: inline; width: 30%" id="Tleft_box" name="ttc20[]"
+                                                <select style="display: inline; width: 32%" id="Tleft_box" name="ttc20[]"
                                                     data-tooltip="Selected items: 0" multiple=""
                                                     class="custom-selectT form-control multi-select-box">
                                                     <optgroup label="تذاكر 20دج">
@@ -652,7 +652,7 @@
                                             <div style="display: inline; width: 100%" class="custom-dropdownT1"
                                                 data-tooltip="Selected items: 0">
 
-                                                <select style="display: inline; width: 30%" id="Tleft_box1" name="ttc25[]"
+                                                <select style="display: inline; width: 32%" id="Tleft_box1" name="ttc25[]"
                                                     data-tooltip="Selected items: 0" multiple=""
                                                     class="custom-selectT1 form-control multi-select-box">
                                                     <optgroup label="تذاكر 25دج">
@@ -663,7 +663,7 @@
                                             <div style="display: inline; width: 100%" class="custom-dropdownT2"
                                                 data-tooltip="Selected items: 0">
 
-                                                <select style="display: inline; width: 30%" id="Tleft_box2" name="ttc30[]"
+                                                <select style="display: inline; width: 32%" id="Tleft_box2" name="ttc30[]"
                                                     data-tooltip="Selected items: 0" multiple=""
                                                     class="custom-selectT2 form-control multi-select-box">
                                                     <optgroup label="تذاكر 30دج">
