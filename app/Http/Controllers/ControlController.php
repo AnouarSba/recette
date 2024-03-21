@@ -233,15 +233,15 @@ public function ticket_show(Request $request)
 {
 
         
-$emp20 = Carnet::where('type',1)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
-$emp25 = Carnet::where('type',2)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
-$emp30 = Carnet::where('type',3)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
-$arr20= array_keys($emp20->toArray());
-$arr25= array_keys($emp25->toArray());
-$arr30= array_keys($emp30->toArray());
-$temp20 = Ticket::whereIn('carnet_id',$arr20)->where('status',0)->pluck("name","id");
-$temp25 = Ticket::whereIn('carnet_id',$arr25)->where('status',0)->pluck("name","id");
-$temp30 = Ticket::whereIn('carnet_id',$arr30)->where('status',0)->pluck("name","id");
+ $emp20 = Carnet::where('type',1)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
+            $emp25 = Carnet::where('type',2)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
+            $emp30 = Carnet::where('type',3)->where('status',$request->id)->where('buy', 0)->pluck("name","id");
+            $arr20= array_keys($emp20->toArray());
+            $arr25= array_keys($emp25->toArray());
+            $arr30= array_keys($emp30->toArray());
+            $temp20 = Ticket::whereIn('carnet_id',$arr20)->where('status',0)->pluck("name","id");
+            $temp25 = Ticket::whereIn('carnet_id',$arr25)->where('status',0)->pluck("name","id");
+            $temp30 = Ticket::whereIn('carnet_id',$arr30)->where('status',0)->pluck("name","id");
  $data20 = view('t20-ajax-select',compact('emp20'))->render();
  $data25 = view('t25-ajax-select',compact('emp25'))->render();
  $data30 = view('t30-ajax-select',compact('emp30'))->render();
@@ -369,7 +369,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 }*/
 	  
         $spreadSheet->getActiveSheet()->fromArray($rotation_b,Null,'B5');
-        $spreadSheet->getActiveSheet()->fromArray($rotation_b2,Null,'AH5');
+        $spreadSheet->getActiveSheet()->fromArray($rotation_b2,Null,'AJ5');
         
        // $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
 
@@ -399,7 +399,7 @@ $spreadSheet->getActiveSheet()->getStyle($range[$i].'1')->getAlignment()->setVer
 }
 	*/  
         $spreadSheet->getActiveSheet()->fromArray($rotation_l,Null,'B5');
-        $spreadSheet->getActiveSheet()->fromArray($rotation_l2,Null,'AO5');
+        $spreadSheet->getActiveSheet()->fromArray($rotation_l2,Null,'AS5');
         
        // $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
 
@@ -426,7 +426,7 @@ $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
 $spreadSheet->getActiveSheet()->fromArray([$month[$m].' '.$y ],Null,'B4');
 $spreadSheet->getActiveSheet()->fromArray($resp,Null,'B8');
-$spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'Q44');
+$spreadSheet->getActiveSheet()->fromArray($resp_h,Null,'R44');
 
 
 
@@ -589,7 +589,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
     $data_array[]=['','',$r];
         $arr = array("15","20","25","30","40");
         $arrt=[];
-        for($i=0;$i<29;$i++)
+        for($i=0;$i<31;$i++)
         array_push($arrt, ...$arr);
         
       //  $data_array2 [] = $arrt;
@@ -619,7 +619,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
             array_push($arr_br,$data_item->rotation);
         }
         $data_array4[]= $arr_br;
-            for ($i=1; $i <=30 ; $i++) { 
+            for ($i=1; $i <=32 ; $i++) { 
                 $j= ($i<10)? "A0".$i : "A".$i; 
                 if (in_array($j, $arrs)) {
                     
@@ -680,7 +680,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
     }
     $data_array42[]= $arr_br;
 
-        for ($i=1; $i <=30 ; $i++) { 
+        for ($i=1; $i <=32 ; $i++) { 
             $j= ($i<10)? "A0".$i : "A".$i; 
             if (in_array($j, $arrs)) {
                 
@@ -712,7 +712,7 @@ $period = new DatePeriod($start_date, $interval, $end_date);
 }
 $arr = [];
             
-for ($i=0; $i <9 ;$i++) { 
+for ($i=0; $i <13 ;$i++) { 
 array_push($arr,20);
 }
 for ($i=0; $i <13 ;$i++) { 
@@ -804,10 +804,10 @@ foreach ($period as  $value) {
         $lr= [];
         $cl='cl';
             $k=1;
-            $j=0;
-         //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-$c=[4,5,8,10,8,12,12,3,9];
-            for ($i=1; $i <=9 ; $i++) { 
+            $j=-1;
+         //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+$c=[4,4,5,8,10,8,12,12,3,9];
+            for ($i=1; $i <=10 ; $i++) { 
                 $l=$c[$k-1];
                 $k++;
                 for ($j=0; $j < $l; $j++) { 
@@ -848,10 +848,10 @@ $c=[4,5,8,10,8,12,12,3,9];
                     }*/
                 }
                 $k=1;
-                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-       $c=[4,5,8,10,8,12,12,3,9];
-                   for ($i=1; $i <=9 ; $i++) { 
-                    if ($i==8) {
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+       $c=[4,4,5,8,10,8,12,12,3,9];
+                   for ($i=1; $i <=10 ; $i++) { 
+                    if ($i==9) {
                         array_push($arp,0);
                     }
                        $l=$c[$k-1];
@@ -866,9 +866,9 @@ $c=[4,5,8,10,8,12,12,3,9];
                    $clr='clr';
                    $kr=1;
                    $jr=0;
-                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr=[4,5,4,5,3,5,4,3,4];
-                for ($ir=1; $ir <=9 ; $ir++) { 
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $cr=[4,4,5,4,5,3,5,4,3,4];
+                for ($ir=1; $ir <=10 ; $ir++) { 
                        $l=$cr[$kr-1];
                        $kr++;
                        for ($jr=0; $jr < $l; $jr++) { 
@@ -876,7 +876,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                            ${$clr.$ir.$jr} =0;
                        }
                    } 
-                   $jr=0;
+                   $jr=-1;
                    foreach($datal as $data_item)
                        {   
                            if ($data_item->ordre != $jr) {
@@ -895,9 +895,9 @@ $c=[4,5,8,10,8,12,12,3,9];
                            }*/
                        }
                        $kr=1;
-                       //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                       $c=[4,5,4,5,3,5,4,3,4];
-                       for ($ir=1; $ir <=9 ; $ir++) { 
+                       //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                       $c=[4,4,5,4,5,3,5,4,3,4];
+                       for ($ir=1; $ir <=10 ; $ir++) { 
                               $l=$cr[$kr-1];
                               $kr++;
                               for ($jr=0; $jr < $l; $jr++) { 
@@ -980,10 +980,10 @@ $c=[4,5,8,10,8,12,12,3,9];
                         //$lr2= [];
                         $cl='cl';
                             $k=1;
-                            $j=0;
-                         //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c=[4,5,8,10,8,12,12,3,9];
-                            for ($i=1; $i <=9 ; $i++) { 
+                            $j=-1;
+                         //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $c=[4,4,5,8,10,8,12,12,3,9];
+                            for ($i=1; $i <=10 ; $i++) { 
                                 $l=$c[$k-1];
                                 $k++;
                                 for ($j=0; $j < $l; $j++) { 
@@ -1024,10 +1024,10 @@ $c=[4,5,8,10,8,12,12,3,9];
                                     }*/
                                 }
                                 $k=1;
-                                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                       $c=[4,5,8,10,8,12,12,3,9];
-                                   for ($i=1; $i <=9 ; $i++) { 
-                                    if ($i==8) {
+                                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                       $c=[4,4,5,8,10,8,12,12,3,9];
+                                   for ($i=1; $i <=10 ; $i++) { 
+                                    if ($i==9) {
                                         array_push($arp,0);
                                     }
                                        $l=$c[$k-1];
@@ -1042,9 +1042,9 @@ $c=[4,5,8,10,8,12,12,3,9];
                                    $clr2='clr2';
                                    $kr=1;
                                    $jr=0;
-                                //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                $cr=[4,5,4,5,3,5,4,3,4];
-                                for ($ir=1; $ir <=9 ; $ir++) { 
+                                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                                $cr=[4,4,5,4,5,3,5,4,3,4];
+                                for ($ir=1; $ir <=10 ; $ir++) { 
                                        $l=$cr[$kr-1];
                                        $kr++;
                                        for ($jr=0; $jr < $l; $jr++) { 
@@ -1052,7 +1052,7 @@ $c=[4,5,8,10,8,12,12,3,9];
                                            ${$clr2.$ir.$jr} =0;
                                        }
                                    } 
-                                   $jr=0;
+                                   $jr=-1;
                                    foreach($datal as $data_item)
                                        {   
                                            if ($data_item->ordre != $jr) {
@@ -1071,9 +1071,9 @@ $c=[4,5,8,10,8,12,12,3,9];
                                            }*/
                                        }
                                        $kr=1;
-                                       //   $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                       $c=[4,5,4,5,3,5,4,3,4];
-                                       for ($ir=1; $ir <=9 ; $ir++) { 
+                                       //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                                       $c=[4,4,5,4,5,3,5,4,3,4];
+                                       for ($ir=1; $ir <=10 ; $ir++) { 
                                               $l=$cr[$kr-1];
                                               $kr++;
                                               for ($jr=0; $jr < $l; $jr++) { 

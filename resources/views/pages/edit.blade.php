@@ -80,6 +80,7 @@
                     <option value="0" {{ ($brigade == 0)? 'selected' : ''}}>يوم كامل</option>
                     <option value="1" {{ ($brigade == 1)? 'selected' : ''}}>صباح</option>
                     <option value="2" {{ ($brigade == 2)? 'selected' : ''}}>مساء</option>
+                     <option value="3" {{ ($brigade == 3)? 'selected' : ''}}>ليل</option>
                    
                 </select>
                 @error('type_id') <span class="text-danger error">{{ $message }}</span>@enderror
@@ -541,8 +542,8 @@ function editTable(){
       knameid: k_array_ids,
       lname: l_array,
       lnameid: l_array_ids,
-      brigade: ['الصباحية', 'المسائية'],
-      brigadeid: [1, 2],
+      brigade: ['الصباحية', 'المسائية' ,'الليلية'],
+      brigadeid: [1, 2, 3],
       type: ['A', 'B','C','D'],
       typeid: [1, 2, 3, 4]
     },

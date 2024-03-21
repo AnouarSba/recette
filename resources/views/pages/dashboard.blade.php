@@ -654,11 +654,12 @@
                                         <option value="">-- الفترة --</option>
                                         <option value="1">صباح</option>
                                         <option value="2">مساء</option>
+                                        <option value="3">ليل</option
                                         <!--   @php
 
                                             for ($i = 1; $i <= 64; $i++) {
                                                 echo ' ';
-                                        } @endphp<option value="3">ليل</option> -->
+                                        } @endphp> -->
                                     </select>
                                     <br>
                                     <br>
@@ -1000,13 +1001,14 @@
                                     <thead style="background-color:lightgrey; font-size">
                                         <tr>
                                             <th rowspan="2" style="width:40px">يوم</th>
-                                            <th colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                                            <th colspan="3">مداخيل التذاكر الكلاسيكية</th>
                                             <th colspan="3">الدفع الالكتروني</th>
                                             <th rowspan="2">القيمة الاجمالية </th>
                                         </tr>
                                         <tr>
                                             <th>الفترة الصباحية</th>
                                             <th>الفترة المسائية</th>
+                                            <th>الفترة الليلية</th>
                                             <th>مداخيل بطافة رحلات </th>
                                             <th>مداخيل بطاقة المتمدرس </th>
                                             <th>مداخيل التعبئة </th>
@@ -1038,13 +1040,15 @@
                                                 <td rowspan="2" style="text-wrap: nowrap;">{{ $d->c_date }}</td>
                                                 <td>{{ $d->sbm }}</td>
                                                 <td>{{ $d->sbs }}</td>
+                                                                                <td>{{ $d->sbn }}</td>
+
                                                 <td>{{ $tc }}</td>
                                                 <td>{{ $tsc }}</td>
                                                 <td>{{ $f }}</td>
                                                 <td rowspan="2">{{ $t }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">{{ $d->money }}</td>
+                                                <td colspan="3">{{ $d->money }}</td>
                                                 <td colspan="3">{{ $tsc + $tc + $f }}</td>
 
                                             </tr>
@@ -1087,12 +1091,14 @@
                                         <select name="brigade" class="form-control" id="brigade" required>
                                             <option value="0">يوم كامل</option>
                                             <option value="1">صباح</option>
-                                            <option value="2">مساء</option>
+                                            <option value="2">مساء</optio>
+                                            <option value="3">ليل</option
                                             <!--   @php
 
                                                 for ($i = 1; $i <= 64; $i++) {
                                                     echo ' ';
-                                            } @endphp<option value="3">ليل</option> -->
+                                            } @endphp
+                                            > -->
                                         </select>
                                         @error('type_id')
                                             <span class="text-danger error">{{ $message }}</span>
@@ -1254,13 +1260,15 @@
                     <thead style="background-color:lightgrey; font-size">
                         <tr>
                             <th rowspan="2" style="width:40px">يوم</th>
-                            <th colspan="2">مداخيل التذاكر الكلاسيكية</th>
+                            <th colspan="3">مداخيل التذاكر الكلاسيكية</th>
                             <th colspan="3">الدفع الالكتروني</th>
                             <th rowspan="2">القيمة الاجمالية </th>
                         </tr>
                         <tr>
                             <th>الفترة الصباحية</th>
                             <th>الفترة المسائية</th>
+
+                                            <th>الفترة الليلية</th>
                             <th>مداخيل بطافة رحلات </th>
                             <th>مداخيل بطاقة المتمدرس </th>
                             <th>مداخيل التعبئة </th>
@@ -1292,13 +1300,14 @@
                                 <td rowspan="2" style="text-wrap: nowrap;">{{ $d->c_date }}</td>
                                 <td>{{ $d->sbm }}</td>
                                 <td>{{ $d->sbs }}</td>
+                                <td>{{ $d->sbn }}</td>
                                 <td>{{ $tc }}</td>
                                 <td>{{ $tsc }}</td>
                                 <td>{{ $f }}</td>
                                 <td rowspan="2">{{ $t }}</td>
                             </tr>
                             <tr>
-                                <td colspan="2">{{ $d->money }}</td>
+                                <td colspan="3">{{ $d->money }}</td>
                                 <td colspan="3">{{ $tsc + $tc + $f }}</td>
 
                             </tr>
