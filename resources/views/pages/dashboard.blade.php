@@ -1055,7 +1055,7 @@
                                         @endforeach
                                         <tr>
                                             <td colspan="1">المجموع</td>
-                                            <td colspan="2">{{ $totalc }}</td>
+                                            <td colspan="3">{{ $totalc }}</td>
                                             <td colspan="3">{{ $tf }}</td>
                                             <td>{{ $totalc + $tf }}</td>
                                         </tr>
@@ -1314,7 +1314,7 @@
                         @endforeach
                         <tr>
                             <td colspan="1">المجموع</td>
-                            <td colspan="2">{{ $totalc }}</td>
+                            <td colspan="3">{{ $totalc }}</td>
                             <td colspan="3">{{ $tf }}</td>
                             <td>{{ $totalc +$tf  }}</td>
                         </tr>
