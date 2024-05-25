@@ -370,6 +370,8 @@ $data_m = Recette::select('b_date', "buses.name as bname","lignes.name as lname"
 ->groupBy('recettes.ligne_id');
 $merge= [];
 $i=1;
+$total = 0;
+$total_nb_vt = 0;
 foreach ($data_m as $key => $ligneData) {
     $row =[];
 foreach ($ligneData as $record) {
@@ -383,7 +385,6 @@ if(in_array($record->ordre, [7,10])){
         'RECETTE' => $record->t20*20+$record->t25*25,
         'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
     );
-
     $arr2 = array(
         'DATE' => '',
         'LIGNE' => '',
@@ -395,6 +396,8 @@ if(in_array($record->ordre, [7,10])){
     array_push($excel_data_m, $arr);
     array_push($excel_data_m, $arr2);
     array_push($merge, $i);
+$total += $record->t20*20+$record->t25*25;
+$total_nb_vt += $record->t20+$record->t25;
     $i++;
 }elseif($record->ordre == 6){
     $arr = array(
@@ -417,6 +420,8 @@ if(in_array($record->ordre, [7,10])){
     array_push($excel_data_m, $arr);
     array_push($excel_data_m, $arr2);
     array_push($merge, $i);
+    $total += $record->t20*20+$record->t30*30;
+    $total_nb_vt += $record->t20+$record->t30;
 $i++;
 }else{
     $arr = array(
@@ -427,12 +432,23 @@ $i++;
         'RECETTE' => $record->t20*20,
         'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
     );
-
+    $total += $record->t20*20;
+    $total_nb_vt += $record->t20;
     array_push($excel_data_m, $arr);
 }
     
 }
+
 }
+$total_arr = array(
+    'DATE' => '',
+    'LIGNE' => '',
+    'BUS' => '',
+    'PRODUIT' => '',
+    'RECETTE' => $total,
+    'NOMBRE VOYAGEUR TRANSPOTE' =>$total_nb_vt,
+);
+array_push($excel_data_m, $total_arr);
 return $this->ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $month, $year);
 }
 public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
