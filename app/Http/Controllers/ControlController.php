@@ -143,6 +143,7 @@ class ControlController extends Controller
         $recette = $request->recette;
         $flexy = $request->flexy;
         $dette = $request->dettes;
+        $name_c = $request->name_c;
 
         Kabid::where('id', $name)->update(['dettes' => $dette]);
 
@@ -161,7 +162,7 @@ class ControlController extends Controller
         $date = $request->date;
         $rotation = $request->rotation;
         // DB::statement("SET SQL_MODE=''");
-        $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade, 'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette, 'bus_id' => $bus_id, 'ligne_id' => $ligne, 't20' => $t20, 't25' => $t25, 't30' => $t30, 's20' => $s20, 's25' => $s25, 's30' => $s30, 'r20' => $r20, 'r25' => $r25, 'r30' => $r30, 'b_date' => $date]);
+        $row = Recette::create(['user_id' => $y, 'emp_id' => $name,'ch_id' => $name_c, 'brigade' => $brigade, 'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette, 'bus_id' => $bus_id, 'ligne_id' => $ligne, 't20' => $t20, 't25' => $t25, 't30' => $t30, 's20' => $s20, 's25' => $s25, 's30' => $s30, 'r20' => $r20, 'r25' => $r25, 'r30' => $r30, 'b_date' => $date]);
 
         $r = explode(' ', Carbon::today())[0];
         $kabid = Kabid::where('id', '>', '2')->get();
@@ -307,6 +308,184 @@ class ControlController extends Controller
             return 0;
         }
 
+    }
+
+
+    public function exportAnalyticData(Request $request)
+    {
+              
+// Define the month and year for which you want to retrieve data
+if($request->month){
+    $month = $request->month;
+    $year = $request->year;}
+    else{
+    $month = date('m');
+    $year = date('Y');
+    }
+        // Retrieve data grouped by date and brigade
+$data_j = Recette::select('b_date', "buses.name as bname","lignes.name as lname", "kabids.matricule as k_matricule","chauffeurs.matricule as c_matricule",'bus_id', 'brigade', 'emp_id', 'recettes.ligne_id', 'rotation')
+->whereYear('b_date', $year)
+->whereMonth('b_date', $month)
+->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+->join('buses', 'buses.id', '=', 'recettes.bus_id')
+->leftjoin('kabids', 'kabids.id', '=', 'recettes.emp_id')
+->leftjoin('chauffeurs', 'chauffeurs.id', '=', 'recettes.ch_id')
+->orderBy('b_date')
+->orderBy('brigade')
+->orderBy('bus_id') // Add order by bus_id if needed
+->get()
+->groupBy('bus_id');
+$excel_data_j = [];
+$excel_data_j[] = array('DATE','LIGNE','BUS', 'BRIGADE'	,'MATRICULE RECEVEUR','MATRICULE CHAUFFEUR' , 'NOMBRE ROTATIONS');
+
+foreach ($data_j as $busId => $busData) {
+        $row =[];
+    foreach ($busData as $record) {
+
+        $arr = array(
+            'DATE' => $record->b_date,
+            'LIGNE' => $record->lname,
+            'BUS' => $record->bname,
+            'BRIGADE' =>$record->brigade == 1 ? 'matin' : 'soir',
+            'MATRICULE RECEVEUR' => $record->k_matricule,
+            'MATRICULE CHAUFFEUR' => $record->c_matricule,
+            'NOMBRE ROTATIONS' =>$record->rotation,
+        );
+       
+        
+        array_push($excel_data_j, $arr);
+    }
+}
+$excel_data_m = [];
+// $excel_data_m[] = array('DATE','LIGNE','BUS', 'PRODUIT'	,'RECETTE', 'NOMBRE VOYAGEUR TRANSPOTE');
+$data_m = Recette::select('b_date', "buses.name as bname","lignes.name as lname", 'ordre', 't20', 't25', 't30',  'recettes.ligne_id as l_id', 'rotation')
+->whereYear('b_date', $year)
+->whereMonth('b_date', $month)
+ ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+->join('buses', 'buses.id', '=', 'recettes.bus_id')
+->orderBy('b_date')
+->orderBy('brigade')
+->orderBy('recettes.ligne_id') // Add order by recettes.ligne_id if needed
+->get()
+->groupBy('recettes.ligne_id');
+$merge= [];
+$i=1;
+foreach ($data_m as $key => $ligneData) {
+    $row =[];
+foreach ($ligneData as $record) {
+$i++;
+if(in_array($record->ordre, [7,10])){
+    $arr = array(
+        'DATE' => $record->b_date,
+        'LIGNE' => $record->lname,
+        'BUS' => $record->bname,
+        'PRODUIT' => 'T20',
+        'RECETTE' => $record->t20*20+$record->t25*25,
+        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
+    );
+
+    $arr2 = array(
+        'DATE' => '',
+        'LIGNE' => '',
+        'BUS' => '',
+        'PRODUIT' => 'T25',
+        'RECETTE' => '',
+        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t25,
+    );
+    array_push($excel_data_m, $arr);
+    array_push($excel_data_m, $arr2);
+    array_push($merge, $i);
+    $i++;
+}elseif($record->ordre == 6){
+    $arr = array(
+        'DATE' => $record->b_date,
+        'LIGNE' => $record->lname,
+        'BUS' => $record->bname,
+        'PRODUIT' => 'T20',
+        'RECETTE' => $record->t20*20+$record->t30*30,
+        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
+    );
+    $arr2 = array(
+        'DATE' => '',
+        'LIGNE' => '',
+        'BUS' => '',
+        'PRODUIT' => 'T30',
+        'RECETTE' => '',
+        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t30,
+    );
+    
+    array_push($excel_data_m, $arr);
+    array_push($excel_data_m, $arr2);
+    array_push($merge, $i);
+$i++;
+}else{
+    $arr = array(
+        'DATE' => $record->b_date,
+        'LIGNE' => $record->lname,
+        'BUS' => $record->bname,
+        'PRODUIT' => 'T20',
+        'RECETTE' => $record->t20*20,
+        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
+    );
+
+    array_push($excel_data_m, $arr);
+}
+    
+}
+}
+return $this->ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $month, $year);
+}
+public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
+    {
+        ini_set('max_execution_time', -1);
+        ini_set('memory_limit', '40000M');
+        try {
+
+            $inputFileType = 'Xlsx';
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+            
+
+            $month = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
+            $month_ar = ["جانفي", "فيفري", "مارس", "أفريل", "ماي", "جوان", "جويلية", "أوت", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+            $month_abrv = ["Janv", "Févr", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Dec"];
+
+            $spreadSheet = $reader->load('assets/word/ComptabiliteAnalytique.xlsx');
+            $spreadSheet->setActiveSheetIndex(0);
+
+            // $spreadSheet->getActiveSheet()->fromArray(['Avance - ' . $month[(int)$m -1] . ' ' . $y], null, 'D2');
+            $spreadSheet->getActiveSheet()->fromArray($excel_data_j, null, 'A1');
+            $spreadSheet->setActiveSheetIndex(1);  
+            foreach ($merge as $key) {
+             $spreadSheet->getActiveSheet()->mergeCells('A'.$key.':A'.$key+1); // Span cell A1 across two rows
+             $spreadSheet->getActiveSheet()->mergeCells('B'.$key.':B'.$key+1); // Span cell A1 across two rows
+             $spreadSheet->getActiveSheet()->mergeCells('C'.$key.':C'.$key+1); // Span cell A1 across two rows
+             $spreadSheet->getActiveSheet()->mergeCells('E'.$key.':E'.$key+1); // Span cell A1 across two rows
+            } 
+
+
+            $row =2;
+            foreach ($excel_data_m as $rowData) {
+                $column = 1;
+                foreach ($rowData as $cellData) {
+                    $spreadSheet->getActiveSheet()->setCellValueByColumnAndRow($column, $row, $cellData);
+                    $column++;
+                }
+                $row++;
+            }
+          //  $spreadSheet->getActiveSheet()->fromArray($excel_data_m, null, 'A1');
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+            header('Content-Disposition: attachment;filename="ComptabiliteAnalytique-'. $month[(int)$m -1] . '-' . $y . '.xlsx"');
+
+            $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+
+            //save into php output
+            $writer->save('php://output');
+            exit();
+        } catch (Exception $e) {
+            return;
+        }
     }
     public function ExportExcel($etat_rec, $etat_bus, $etat_bus2, $etat_bus3, $etat_ligne, $etat_ligne2, $etat_ligne3, $rotation_b, $rotation_b2, $rotation_b3, $rotation_l, $rotation_l2, $rotation_l3, $d, $d2, $m, $y, $flexy, $cart, $sp, $resp, $resp_h)
     {

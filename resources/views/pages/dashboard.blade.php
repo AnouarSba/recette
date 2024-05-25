@@ -677,6 +677,18 @@
                                             </select>
                                         </div>
                                         <div class="col-1">
+                                            <label dir="rtl" for="receveur">السائق</label>
+
+                                        </div>
+                                        <div class="col-3">
+                                            <select name="name_c"  id="name_c" required>
+                                                <option value="">-- السائق --</option>
+                                                @foreach ($chauffeurs as $chauffeur)
+                                                    <option value="{{ $chauffeur->id }}">{{ $chauffeur->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
                                             <label dir="rtl" for="receveur">التعبئة</label>
                                         </div>
 
@@ -1246,6 +1258,12 @@
                             </option>
                         @endfor
                     </select>
+                    <select name="year" style=>
+                        @for ($i = 2023; $i <=2030; $i++)
+                            <option value="{{ $i}}" {{ $y == $i  ? 'selected' : '' }}>{{ $i }}
+                            </option>
+                        @endfor
+                    </select>
                     <input type="submit" class="btn btn-secondary" value="ابحث">
                 </form>
             </div>
@@ -1324,6 +1342,13 @@
 
                 @if (Illuminate\Support\Facades\Auth::user()->id <= 2)
                     <a href="{{ route('control') }}"><button class="btn btn-primary">الاحصاء</button></a>
+                        <form action="{{ route('exportAnalyticData') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="month" value="{{$m}}">
+                            <input type="hidden" name="year" value="{{$y}}">
+                            <button class="btn btn-primary" type="submit">المحاسبة التحليلية</button>
+
+                        </form>
                 @endif
             </div>
 
