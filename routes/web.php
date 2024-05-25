@@ -28,6 +28,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ControlController;
 
 Route::get('/ticket', [HomeController::class, 'indexApi'])->name('homeApi');
+Route::post('Export_data',[ ControlController::class, 'exportAnalyticData'])->name('exportAnalyticData')->middleware('auth'); 
 
 Route::get('Recette',[ ControlController::class, 'recette'])->name('recette')->middleware('auth'); 
 Route::get('Recette_c',[ ControlController::class, 'recette_c'])->name('recette_c')->middleware('auth'); 

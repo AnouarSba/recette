@@ -11,6 +11,7 @@ class Recette extends Model
     protected $fillable = [
         'user_id',
         'emp_id',
+        'ch_id',
         'bus_id',
         'ligne_id',
         'flexy',
