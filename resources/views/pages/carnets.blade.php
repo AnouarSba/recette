@@ -650,16 +650,7 @@
                                              font-size: 25px;">
 
                                     <input type="date" name="date" id="dd" value="{{ $today }}">
-                                    <select name="brigade" id="brigad" required>
-                                        <option value="">-- الفترة --</option>
-                                        <option selected value="1">صباح</option>
-                                        <option value="2">مساء</option>
-                                        <!--   @php
-
-                                            for ($i = 1; $i <= 64; $i++) {
-                                                echo ' ';
-                                        } @endphp<option value="3">ليل</option> -->
-                                    </select>
+                                    
                                     <br>
                                     <br>
                                     <div class="row">
@@ -675,69 +666,25 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-1">
-                                            <label dir="rtl" for="receveur">التعبئة</label>
-                                        </div>
-
-                                        <div class="col-3">
-
-
-                                            <input type="number" value="0" name="flexy" id="flexy">
-                                        </div>
-                                        <div class="col-1">
-                                            <label dir="rtl"  for="rotation">rotation</label>
-                                        </div>
-
-                                        <div class="col-3">
-
-
-                                            <input type="number" value="0" step='0.5' name="rotation" id="rotation">
-                                        </div>
                                     </div>
                                     <div>
                                         <table style="width:100%">
                                             <thead>
-                                                <th>الخط</th>
-                                                <th>الحافلة</th>
-                                                <th>الانطلاق</th>
                                                 <th>تذاكر 20دج</th>
                                                 <th>تذاكر 25دج</th>
                                                 <th>تذاكر 30دج</th>
                                                 <th>عدد دفاتر 20دج</th>
                                                 <th>عدد دفاتر 25دج</th>
                                                 <th>عدد دفاتر 30دج</th>
-                                                <th>رقم سلسلة 20دج</th>
-                                                <th>رقم سلسلة 25دج</th>
-                                                <th>رقم سلسلة 30دج</th>
+                                                <th hidden>رقم سلسلة 20دج</th>
+                                                <th hidden>رقم سلسلة 25دج</th>
+                                                <th hidden>رقم سلسلة 30دج</th>
                                             </thead>
                                             <tbody>
                                                 <tr>
 
 
-                                                    <td><select name="ligne_id" id="ligne_id" required>
-                                                            <option value="">-- الخط --</option>
-
-                                                            @foreach ($lignes as $ligne)
-                                                                <option selected value="{{ $ligne->id }}">{{ $ligne->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select></td>
-                                                    <td><select name="bus_id" id="bus_id" required>
-
-                                                            <option value="">-- الحافلة --</option>
-                                                            @foreach ($buses as $bus)
-                                                                <option selected value="{{ $bus->id }}">{{ $bus->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select></td>
-                                                    <td><select name="type" id="type" required>
-
-                                                            <option value="">-- اختر --</option>
-                                                            <option selected value="1">A</option>
-                                                            <option value="2">B</option>
-                                                            <option value="3">C</option>
-                                                            <option value="4">D</option>
-                                                        </select></td>
+                                                    
 
                                                     <td><input type="number" onkeyup="ch(1)" style="width:80px"
                                                             name="t20" id="t20">
@@ -757,11 +704,11 @@
                                                     <td><input type="number" onkeyup="ch(6)" style="width:80px"
                                                             name="s30" id="s30">
                                                     </td>
-                                                    <td><input type="text" style="width:100px" name="r20"
+                                                    <td hidden><input type="text" style="width:100px" name="r20"
                                                             id="r20"></td>
-                                                    <td><input type="text" style="width:100px" name="r25"
+                                                    <td hidden><input type="text" style="width:100px" name="r25"
                                                             id="r25"></td>
-                                                    <td><input type="text" style="width:100px" name="r30"
+                                                    <td hidden><input type="text" style="width:100px" name="r30"
                                                             id="r30"></td>
                                                 </tr>
                                             </tbody>
@@ -2069,14 +2016,12 @@ $('#btnLeft_multiT').click(function (e) {
 
         function ck() {
             var x = document.getElementById("dd").value;
-            var y = document.getElementById("brigad").value;
             var z = $("#name option:selected").text();
              document.getElementById("nameR").innerHTML = z;
              document.getElementById("nameRT").innerHTML = z;
              var z = $("#name").val();
              document.getElementById("nameC").value = z;
            setCookie("date", x, 365);
-            setCookie("brigade", y, 365);
               
 $.ajax({
     method: "GET",

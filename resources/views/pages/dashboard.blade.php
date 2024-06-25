@@ -563,6 +563,7 @@
 </style>
 @section('content')
     <div class="container-fluid py-1">
+        <a class="dropdown-item" href="{{ route('logout') }}">خروج</a>
         <div class="row">
             @if (Illuminate\Support\Facades\Auth::user()->id > 2)
             @else
