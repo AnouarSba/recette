@@ -684,7 +684,7 @@
                                             <select name="name_c"  id="name_c" required>
                                                 <option value="">-- السائق --</option>
                                                 @foreach ($chauffeurs as $chauffeur)
-                                                    <option value="{{ $chauffeur->id }}">{{ $chauffeur->name }}</option>
+                                                    <option value="{{ $chauffeur->id }}">{{ $chauffeur->fr_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
