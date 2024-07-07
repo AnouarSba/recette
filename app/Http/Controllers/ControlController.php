@@ -220,20 +220,20 @@ class ControlController extends Controller
 
         Kabid::where('id', $name)->update(['dettes' => $dette]);
 
-        $ligne = $request->ligne_id;
-        $bus_id = $request->bus_id;
-        $type = $request->type;
-        $t20 = $request->t20;
-        $t25 = $request->t25;
-        $t30 = $request->t30;
-        $s20 = $request->s20;
-        $s25 = $request->s25;
-        $s30 = $request->s30;
-        $r20 = $request->r20;
-        $r25 = $request->r25;
-        $r30 = $request->r30;
-        $date = $request->date;
-        $rotation = $request->rotation;
+        // $ligne = $request->ligne_id;
+        // $bus_id = $request->bus_id;
+        // $type = $request->type;
+        // $t20 = $request->t20;
+        // $t25 = $request->t25;
+        // $t30 = $request->t30;
+        // $s20 = $request->s20;
+        // $s25 = $request->s25;
+        // $s30 = $request->s30;
+        // $r20 = $request->r20;
+        // $r25 = $request->r25;
+        // $r30 = $request->r30;
+        // $date = $request->date;
+        // $rotation = $request->rotation;
         // DB::statement("SET SQL_MODE=''");
         // $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'brigade' => $brigade,'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette,'bus_id' => $bus_id,'ligne_id' => $ligne, 't20' => $t20,'t25' => $t25,'t30' => $t30,  's20' => $s20,'s25' => $s25,'s30' => $s30,  'r20' => $r20,'r25' => $r25,'r30' => $r30, 'b_date' => $date ]);
 
