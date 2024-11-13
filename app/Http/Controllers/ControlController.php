@@ -814,7 +814,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $data_array[] = ['', '', $r];
         $arr = array("20", "25", "30");
         $arrt = [];
-        for ($i = 0; $i < 31; $i++) {
+        for ($i = 0; $i < 35; $i++) {
             array_push($arrt, ...$arr);
         }
 
@@ -841,7 +841,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $arr[$data_item->bname] = [$data_item->t20, $data_item->t25, $data_item->t30, $data_item->rotation];
                     array_push($arrs, $data_item->bname);
                 }
-                for ($i = 1; $i <= 32; $i++) {
+                for ($i = 1; $i <= 35; $i++) {
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
@@ -902,7 +902,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $arr[$data_item->bname] = [$data_item->t20, $data_item->t25, $data_item->t30, $data_item->rotation];
                     array_push($arrs, $data_item->bname);
                 }
-                for ($i = 1; $i <= 32; $i++) {
+                for ($i = 1; $i <= 35; $i++) {
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
@@ -955,7 +955,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $arr[$data_item->bname] = [$data_item->t20, $data_item->t25, $data_item->t30, $data_item->rotation];
                     array_push($arrs, $data_item->bname);
                 }
-                for ($i = 1; $i <= 32; $i++) {
+                for ($i = 1; $i <= 35; $i++) {
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
@@ -989,10 +989,10 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         }
         $arr = [];
 
-        for ($i = 0; $i < 19; $i++) {
+        for ($i = 0; $i < 22; $i++) {
             array_push($arr, 20);
         }
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             array_push($arr, 20);
             array_push($arr, 30);
         }
@@ -1001,7 +1001,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             array_push($arr, 25);
         }
 
-        for ($i = 0; $i < 9; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             array_push($arr, 20);
         }
         for ($i = 0; $i < 3; $i++) {
@@ -1073,7 +1073,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
                     $l = $c[$k - 1];
                     $k++;
@@ -1113,8 +1113,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }*/
                 }
                 $k = 1;
-                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
                 for ($i = 1; $i <= 10; $i++) {
                     
                     $l = $c[$k - 1];
@@ -1129,7 +1128,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr = [3, 4, 4, 5, 3, 4, 4, 3, 5];
+                $cr = [3, 5, 4, 5, 5, 4, 4, 4, 6];
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
@@ -1158,7 +1157,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-               // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+               // $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
@@ -1233,7 +1232,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $cl = 'cl';
                     $k = 1;
                     //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                    $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                    $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                     for ($i = 1; $i <= 10; $i++) {
                         $l = $c[$k - 1];
                         $k++;
@@ -1274,7 +1273,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     }
                     $k = 1;
                     //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                    $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                    $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                     for ($i = 1; $i <= 10; $i++) {
                         
                         $l = $c[$k - 1];
@@ -1289,7 +1288,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $kr = 1;
                     $jr = 0;
                     //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                    $cr = [3, 4, 4, 5, 3, 4, 4, 3, 5];
+                                    $cr = [3, 5, 4, 5, 5, 4, 4, 4, 6];
 
                     for ($ir = 1; $ir <= 9; $ir++) {
                         $l = $cr[$kr - 1];
@@ -1395,7 +1394,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
                     $l = $c[$k - 1];
                     $k++;
@@ -1436,7 +1435,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
                     
                     $l = $c[$k - 1];
