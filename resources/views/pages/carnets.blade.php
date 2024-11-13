@@ -1,6 +1,5 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-<link href="http://github.hubspot.com/odometer/themes/odometer-theme-plaza.css" rel="stylesheet">
 <style>
     .news-container {
         display: flex;
@@ -333,10 +332,6 @@
   horizontal-align: center;
 }
 
-  .odometer{
-    font-size: 65px;
-    margin-top: 3em;
-  }
 
 </style>
 <style>
@@ -836,7 +831,7 @@
                                      
                                         <select style="display: inline; width: 30%" id="left_box" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select form-control multi-select-box">
                                         <optgroup label="دفاتر 20دج">
-                                            @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
+                                            @foreach (App\Models\Carnet::where('status',2)->where('type',1)->where('id','<=',13001)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach
                                         </optgroup> 
@@ -1192,7 +1187,7 @@
             </div>
 
             <div class="container" dir="rtl" style="color:black; height:100%; overflow:scroll">
-                <div id="odometer" style="font-size: xxx-large" dir="ltr" class="odometer">0000000000</div>
+                
                 <div style="    position: relative;
                 top: -53px;
                 right: 145px;
@@ -1277,7 +1272,6 @@
 
 @push('js')
     <script src="./assets/js/plugins/chartjs.min.js"></script>
-    <script src="http://github.hubspot.com/odometer/odometer.js"></script>
     <script>
         // Get the select element
         var selectElement = document.getElementById("left_box");
@@ -1379,10 +1373,7 @@ customDropdownT1.dataset.tooltip = "Selected items: " + count;
 });
     </script>
     <script>
-        /* Populates the hiddent selects for resetting */
-        setTimeout(function(){
-       odometer.innerHTML={{$totalc + $tf}};
-  }, 1000)
+     
  
 $("#left_box").find('option').clone().appendTo('#hidden_left_box');
 $("#left_box1").find('option').clone().appendTo('#hidden_left_box1');
@@ -2095,8 +2086,9 @@ $.ajax({
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
     $("select[name='tt30[]']").html('');
-}); 
-$.ajax({
+    // set timout before next ajax
+setTimeout(function () {
+  $.ajax({
     method: "GET",
     url: "/dette/" + z,
 
@@ -2107,7 +2099,11 @@ $.ajax({
         $("#odette").val(0);
     }
    
+});  
+}, 200);
+    
 }); 
+
         }
 
         function setCookie(cname, cvalue, exdays) {

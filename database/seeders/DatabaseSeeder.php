@@ -15,60 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'username' => 'DG',
-            'firstname' => 'DG',
-            'lastname' => 'DG',
-            'email' => 'DG@admin.com',
-            'password' => bcrypt('secret')
-        ]);
-        DB::table('users')->insert([
-            'username' => 'statistique',
-            'firstname' => 'Stat',
-            'lastname' => 'Stat',
-            'email' => 'CHEF@admin.com',
-            'password' => bcrypt('password')
-        ]);
-
-        DB::table('users')->insert([
-            'username' => 'CP',
-            'firstname' => 'Caisse',
-            'lastname' => 'principal',
-            'email' => 'caissep@gmail.com',
-            'password' => bcrypt('pr-caisse2023')
-        ]);
-        DB::table('users')->insert([
-            'username' => 'Caisse_M',
-            'firstname' => 'Caisse',
-            'lastname' => 'Caisse',
-            'email' => 'caisseM@gmail.com',
-            'password' => bcrypt('caisse2023123')
-        ]);
-        DB::table('users')->insert([
-            'username' => 'Caisse_N',
-            'firstname' => 'Caisse',
-            'lastname' => 'Caisse',
-            'email' => 'caisseN@gmail.com',
-            'password' => bcrypt('caisse2023258')
-        ]);
-        DB::table('users')->insert([
-            'username' => 'Caisse_D',
-            'firstname' => 'Caisse',
-            'lastname' => 'Caisse',
-            'email' => 'caisseD@gmail.com',
-            'password' => bcrypt('caisse2023357')
-        ]);
-
-
-
-        $this->call(Arrets::class);
-        $this->call(Lignes::class);
-        $this->call(Buses::class);
-        $this->call(Kabids::class);
         
 $id=1;
-        for ($i=48801; $i <= 51000 ; $i++) { 
-            $c="Série ".$i;
+        for ($i=1000; $i <= 25000 ; $i++) { 
+            $c="Série A ".$i;
             
             DB::table('carnets')->insert([
                 'name' => $c,
@@ -95,9 +45,9 @@ $id=1;
             }
             $id++;
         }
-        for ($i=251; $i <= 3300 ; $i++) { 
+        for ($i=1; $i <= 10000 ; $i++) { 
             
-            $c="Série ".$i;
+            $c="Série A ".$i;
             
             DB::table('carnets')->insert([
                 'name' => $c,
@@ -123,9 +73,9 @@ $id=1;
             }
             $id++;
         }
-        for ($i=301; $i <= 3200 ; $i++) { 
+        for ($i=1; $i <= 5000 ; $i++) { 
             
-            $c="Série ".$i;
+            $c="Série A ".$i;
             
             DB::table('carnets')->insert([
                 'name' => $c,

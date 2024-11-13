@@ -109,7 +109,7 @@ class ControlController extends Controller
         foreach ($crnt as $v) {
             $count = Ticket::where('status', 1)->where('carnet_id', $v->id)->count();
             if ($count == 100) {
-                Carnet::where('id', $$v->id)->update(['buy' => 1]);
+                Carnet::where('id', $v->id)->update(['buy' => 1]);
             }
         }
 
@@ -183,7 +183,7 @@ class ControlController extends Controller
         foreach ($crnt as $v) {
             $count = Ticket::where('status', 1)->where('carnet_id', $v->id)->count();
             if ($count == 100) {
-                Carnet::where('id', $$v->id)->update(['buy' => 1]);
+                Carnet::where('id', $v->id)->update(['buy' => 1]);
             }
         }
 

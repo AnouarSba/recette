@@ -792,18 +792,20 @@
                 $("select[name='tt25[]']").html('');
                 $("select[name='tt30[]']").html('');
             });
-            $.ajax({
-                method: "GET",
-                url: "/dette/" + z,
+           setTimeout(function () {
+  $.ajax({
+    method: "GET",
+    url: "/dette/" + z,
 
-            }).done(function(data) {
-                if (data) {
-                    $("#odette").val(data);
-                } else {
-                    $("#odette").val(0);
-                }
-
-            });
+}).done(function(data) {
+    if (data) {
+        $("#odette").val(data);
+    } else {
+        $("#odette").val(0);
+    }
+   
+});  
+}, 10000);
         }
 
         function setCookie(cname, cvalue, exdays) {

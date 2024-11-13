@@ -785,13 +785,13 @@
                                         <input type="number" name="somme" id="somme" disabled value="0">
                                         <input type="number" hidden name="recette" id="recette">
                                         الديون
-                                        <input type="number" name="dette" id="dette" disabled value="0">
-                                        <input type="number" hidden name="dettes" id="dettes">
+                                        <input type="number" name="dette" id="dette" disabled hidden value="0">
+                                        <input type="number"  name="dettes" id="dettes">
                                         الديون القديمة
                                         <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
                             
-                            <div hidden class="row"  style="color: black" dir="rtl">
+                            <div  class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
@@ -879,7 +879,7 @@
                                   </div>
                             </div>
                             <br>
-                            <div hidden class="row"  style="color: black" dir="rtl">
+                            <div  class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
@@ -2185,8 +2185,8 @@ $.ajax({
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
     $("select[name='tt30[]']").html('');
-}); 
-$.ajax({
+    setTimeout(function () {
+  $.ajax({
     method: "GET",
     url: "/dette/" + z,
 
@@ -2197,6 +2197,8 @@ $.ajax({
         $("#odette").val(0);
     }
    
+});  
+}, 200);
 }); 
         }
 
