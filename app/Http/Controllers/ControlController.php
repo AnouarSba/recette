@@ -1113,7 +1113,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }*/
                 }
                 $k = 1;
-                $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
                     
                     $l = $c[$k - 1];
