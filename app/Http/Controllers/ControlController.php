@@ -604,8 +604,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             }*/
 
             $spreadSheet->getActiveSheet()->fromArray($rotation_b, null, 'B5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_b2, null, 'AJ5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_b3, null, 'BR5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_b2, null, 'AM5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_b3, null, 'BX5');
 
             // $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
 
@@ -631,8 +631,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             }
              */
             $spreadSheet->getActiveSheet()->fromArray($rotation_l, null, 'B5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_l2, null, 'AM5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_l3, null, 'BX5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_l2, null, 'AS5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_l3, null, 'CI5');
 
             // $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
 
@@ -1128,7 +1128,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr = [3, 5, 4, 5, 5, 4, 4, 4, 6];
+                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
@@ -1288,7 +1288,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $kr = 1;
                     $jr = 0;
                     //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                    $cr = [3, 5, 4, 5, 5, 4, 4, 4, 6];
+                                    $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
 
                     for ($ir = 1; $ir <= 9; $ir++) {
                         $l = $cr[$kr - 1];
