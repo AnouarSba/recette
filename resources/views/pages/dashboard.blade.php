@@ -1139,8 +1139,12 @@
                                     <div class="col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
                                        مخزون دفاتر جامع الأموال 
-                                    <select hidden class="" required id="nameC" form="myform" required name="nameC">
-                                        <option value="2">Caisse</option>
+
+                                    <select class="" required id="nameC" form="myform" required name="nameC">
+                                        <!-- <option value="2">Caisse</option> -->
+                                        @foreach(\App\Models\User::where('id' ,">", 3)->get() as $caisse)
+                                            <option value="2">{{$caisse->username}}</option>
+                                        @endforeach
                                     </select>
                                       </h4>
                                     </div>
