@@ -44,7 +44,6 @@ class ControlController extends Controller
     {
         $users = User::where('id', '>', 2)->get();
         return view('controls.control', ['users' => $users]);
-
     }
 
     public function caisse(Request $request)
@@ -162,14 +161,13 @@ class ControlController extends Controller
         $date = $request->date;
         $rotation = $request->rotation;
         // DB::statement("SET SQL_MODE=''");
-        $row = Recette::create(['user_id' => $y, 'emp_id' => $name,'ch_id' => $name_c, 'brigade' => $brigade, 'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette, 'bus_id' => $bus_id, 'ligne_id' => $ligne, 't20' => $t20, 't25' => $t25, 't30' => $t30, 's20' => $s20, 's25' => $s25, 's30' => $s30, 'r20' => $r20, 'r25' => $r25, 'r30' => $r30, 'b_date' => $date]);
+        $row = Recette::create(['user_id' => $y, 'emp_id' => $name, 'ch_id' => $name_c, 'brigade' => $brigade, 'rotation' => $rotation, 'type' => $type, 'recette' => $recette, 'flexy' => $flexy, 'dettes' => $dette, 'bus_id' => $bus_id, 'ligne_id' => $ligne, 't20' => $t20, 't25' => $t25, 't30' => $t30, 's20' => $s20, 's25' => $s25, 's30' => $s30, 'r20' => $r20, 'r25' => $r25, 'r30' => $r30, 'b_date' => $date]);
 
         $r = explode(' ', Carbon::today())[0];
         $kabid = Kabid::where('id', '>', '2')->get();
         $ligne = Ligne::get();
         $bus = Bus::get();
         return redirect()->route('home');
-
     }
     public function recette_c(Request $request)
     {
@@ -242,7 +240,6 @@ class ControlController extends Controller
         $ligne = Ligne::get();
         $bus = Bus::get();
         return redirect()->route('home2');
-
     }
     public function confirm(Request $request)
     {
@@ -257,7 +254,8 @@ class ControlController extends Controller
 
         $valid = Validation::updateOrCreate(
             ['c_date' => $request->input('date')],
-            ['user_id' => $y,
+            [
+                'user_id' => $y,
 
                 'sbm' => $smm,
                 'sbs' => $sms,
@@ -266,14 +264,14 @@ class ControlController extends Controller
 
                 'tsc' => $request->input('tsc'),
                 'tc' => $request->input('tc'),
-                'flexy' => $request->input('flexy') + $request->input('cf')]
+                'flexy' => $request->input('flexy') + $request->input('cf')
+            ]
         );
         $brigade = $request->brigade;
         $date = $request->date;
         // DB::statement("SET SQL_MODE=''");
 
         return redirect()->route('get_list', ["start_date" => $date, 'brigade' => $brigade, 'confirm' => 1]);
-
     }
     public function ticket_show(Request $request)
     {
@@ -296,7 +294,6 @@ class ControlController extends Controller
         $tick30 = view('tk30-ajax-select', compact('temp30'))->render();
 
         return response()->json(['options20' => $data20, 'options25' => $data25, 'options30' => $data30, 'tickets20' => $tick20, 'tickets25' => $tick25, 'tickets30' => $tick30]);
-
     }
     public function dette(Request $request)
     {
@@ -307,151 +304,148 @@ class ControlController extends Controller
         } else {
             return 0;
         }
-
     }
 
 
     public function exportAnalyticData(Request $request)
     {
-              
-// Define the month and year for which you want to retrieve data
-if($request->month){
-    $month = $request->month;
-    $year = $request->year;}
-    else{
-    $month = date('m');
-    $year = date('Y');
-    }
+
+        // Define the month and year for which you want to retrieve data
+        if ($request->month) {
+            $month = $request->month;
+            $year = $request->year;
+        } else {
+            $month = date('m');
+            $year = date('Y');
+        }
         // Retrieve data grouped by date and brigade
-$data_j = Recette::select('b_date', "buses.name as bname","lignes.name as lname", "kabids.matricule as k_matricule","chauffeurs.matricule as c_matricule",'bus_id', 'brigade', 'emp_id', 'recettes.ligne_id', 'rotation')
-->whereYear('b_date', $year)
-->whereMonth('b_date', $month)
-->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-->join('buses', 'buses.id', '=', 'recettes.bus_id')
-->leftjoin('kabids', 'kabids.id', '=', 'recettes.emp_id')
-->leftjoin('chauffeurs', 'chauffeurs.id', '=', 'recettes.ch_id')
-->orderBy('b_date')
-->orderBy('brigade')
-->orderBy('bus_id') // Add order by bus_id if needed
-->get()
-->groupBy('bus_id');
-$excel_data_j = [];
-$excel_data_j[] = array('DATE','LIGNE','BUS', 'BRIGADE'	,'MATRICULE RECEVEUR','MATRICULE CHAUFFEUR' , 'NOMBRE ROTATIONS');
+        $data_j = Recette::select('b_date', "buses.name as bname", "lignes.name as lname", "kabids.matricule as k_matricule", "chauffeurs.matricule as c_matricule", 'bus_id', 'brigade', 'emp_id', 'recettes.ligne_id', 'rotation')
+            ->whereYear('b_date', $year)
+            ->whereMonth('b_date', $month)
+            ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+            ->join('buses', 'buses.id', '=', 'recettes.bus_id')
+            ->leftjoin('kabids', 'kabids.id', '=', 'recettes.emp_id')
+            ->leftjoin('chauffeurs', 'chauffeurs.id', '=', 'recettes.ch_id')
+            ->orderBy('b_date')
+            ->orderBy('brigade')
+            ->orderBy('bus_id') // Add order by bus_id if needed
+            ->get()
+            ->groupBy('bus_id');
+        $excel_data_j = [];
+        $excel_data_j[] = array('DATE', 'LIGNE', 'BUS', 'BRIGADE', 'MATRICULE RECEVEUR', 'MATRICULE CHAUFFEUR', 'NOMBRE ROTATIONS');
 
-foreach ($data_j as $busId => $busData) {
-        $row =[];
-    foreach ($busData as $record) {
+        foreach ($data_j as $busId => $busData) {
+            $row = [];
+            foreach ($busData as $record) {
 
-        $arr = array(
-            'DATE' => $record->b_date,
-            'LIGNE' => $record->lname,
-            'BUS' => $record->bname,
-            'BRIGADE' =>$record->brigade == 1 ? 'matin' : 'soir',
-            'MATRICULE RECEVEUR' => $record->k_matricule,
-            'MATRICULE CHAUFFEUR' => $record->c_matricule,
-            'NOMBRE ROTATIONS' =>$record->rotation,
+                $arr = array(
+                    'DATE' => $record->b_date,
+                    'LIGNE' => $record->lname,
+                    'BUS' => $record->bname,
+                    'BRIGADE' => $record->brigade == 1 ? 'matin' : 'soir',
+                    'MATRICULE RECEVEUR' => $record->k_matricule,
+                    'MATRICULE CHAUFFEUR' => $record->c_matricule,
+                    'NOMBRE ROTATIONS' => $record->rotation,
+                );
+
+
+                array_push($excel_data_j, $arr);
+            }
+        }
+        $excel_data_m = [];
+        // $excel_data_m[] = array('DATE','LIGNE','BUS', 'PRODUIT'	,'RECETTE', 'NOMBRE VOYAGEUR TRANSPOTE');
+        $data_m = Recette::select('b_date', "buses.name as bname", "lignes.name as lname", 'ordre', 't20', 't25', 't30',  'recettes.ligne_id as l_id', 'rotation')
+            ->whereYear('b_date', $year)
+            ->whereMonth('b_date', $month)
+            ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+            ->join('buses', 'buses.id', '=', 'recettes.bus_id')
+            ->orderBy('b_date')
+            ->orderBy('brigade')
+            ->orderBy('recettes.ligne_id') // Add order by recettes.ligne_id if needed
+            ->get()
+            ->groupBy('recettes.ligne_id');
+        $merge = [];
+        $i = 1;
+        $total = 0;
+        $total_nb_vt = 0;
+        foreach ($data_m as $key => $ligneData) {
+            $row = [];
+            foreach ($ligneData as $record) {
+                $i++;
+                if (in_array($record->ordre, [7, 10])) {
+                    $arr = array(
+                        'DATE' => $record->b_date,
+                        'LIGNE' => $record->lname,
+                        'BUS' => $record->bname,
+                        'PRODUIT' => 'T20',
+                        'RECETTE' => $record->t20 * 20 + $record->t25 * 25,
+                        'NOMBRE VOYAGEUR TRANSPOTE' => $record->t20,
+                    );
+                    $arr2 = array(
+                        'DATE' => '',
+                        'LIGNE' => '',
+                        'BUS' => '',
+                        'PRODUIT' => 'T25',
+                        'RECETTE' => '',
+                        'NOMBRE VOYAGEUR TRANSPOTE' => $record->t25,
+                    );
+                    array_push($excel_data_m, $arr);
+                    array_push($excel_data_m, $arr2);
+                    array_push($merge, $i);
+                    $total += $record->t20 * 20 + $record->t25 * 25;
+                    $total_nb_vt += $record->t20 + $record->t25;
+                    $i++;
+                } elseif ($record->ordre == 6) {
+                    $arr = array(
+                        'DATE' => $record->b_date,
+                        'LIGNE' => $record->lname,
+                        'BUS' => $record->bname,
+                        'PRODUIT' => 'T20',
+                        'RECETTE' => $record->t20 * 20 + $record->t30 * 30,
+                        'NOMBRE VOYAGEUR TRANSPOTE' => $record->t20,
+                    );
+                    $arr2 = array(
+                        'DATE' => '',
+                        'LIGNE' => '',
+                        'BUS' => '',
+                        'PRODUIT' => 'T30',
+                        'RECETTE' => '',
+                        'NOMBRE VOYAGEUR TRANSPOTE' => $record->t30,
+                    );
+
+                    array_push($excel_data_m, $arr);
+                    array_push($excel_data_m, $arr2);
+                    array_push($merge, $i);
+                    $total += $record->t20 * 20 + $record->t30 * 30;
+                    $total_nb_vt += $record->t20 + $record->t30;
+                    $i++;
+                } else {
+                    $arr = array(
+                        'DATE' => $record->b_date,
+                        'LIGNE' => $record->lname,
+                        'BUS' => $record->bname,
+                        'PRODUIT' => 'T20',
+                        'RECETTE' => $record->t20 * 20,
+                        'NOMBRE VOYAGEUR TRANSPOTE' => $record->t20,
+                    );
+                    $total += $record->t20 * 20;
+                    $total_nb_vt += $record->t20;
+                    array_push($excel_data_m, $arr);
+                }
+            }
+        }
+        $total_arr = array(
+            'DATE' => '',
+            'LIGNE' => '',
+            'BUS' => '',
+            'PRODUIT' => '',
+            'RECETTE' => $total,
+            'NOMBRE VOYAGEUR TRANSPOTE' => $total_nb_vt,
         );
-       
-        
-        array_push($excel_data_j, $arr);
+        array_push($excel_data_m, $total_arr);
+        return $this->ExportExcelAnalytic($excel_data_j, $excel_data_m, $merge, $month, $year);
     }
-}
-$excel_data_m = [];
-// $excel_data_m[] = array('DATE','LIGNE','BUS', 'PRODUIT'	,'RECETTE', 'NOMBRE VOYAGEUR TRANSPOTE');
-$data_m = Recette::select('b_date', "buses.name as bname","lignes.name as lname", 'ordre', 't20', 't25', 't30',  'recettes.ligne_id as l_id', 'rotation')
-->whereYear('b_date', $year)
-->whereMonth('b_date', $month)
- ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-->join('buses', 'buses.id', '=', 'recettes.bus_id')
-->orderBy('b_date')
-->orderBy('brigade')
-->orderBy('recettes.ligne_id') // Add order by recettes.ligne_id if needed
-->get()
-->groupBy('recettes.ligne_id');
-$merge= [];
-$i=1;
-$total = 0;
-$total_nb_vt = 0;
-foreach ($data_m as $key => $ligneData) {
-    $row =[];
-foreach ($ligneData as $record) {
-$i++;
-if(in_array($record->ordre, [7,10])){
-    $arr = array(
-        'DATE' => $record->b_date,
-        'LIGNE' => $record->lname,
-        'BUS' => $record->bname,
-        'PRODUIT' => 'T20',
-        'RECETTE' => $record->t20*20+$record->t25*25,
-        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
-    );
-    $arr2 = array(
-        'DATE' => '',
-        'LIGNE' => '',
-        'BUS' => '',
-        'PRODUIT' => 'T25',
-        'RECETTE' => '',
-        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t25,
-    );
-    array_push($excel_data_m, $arr);
-    array_push($excel_data_m, $arr2);
-    array_push($merge, $i);
-$total += $record->t20*20+$record->t25*25;
-$total_nb_vt += $record->t20+$record->t25;
-    $i++;
-}elseif($record->ordre == 6){
-    $arr = array(
-        'DATE' => $record->b_date,
-        'LIGNE' => $record->lname,
-        'BUS' => $record->bname,
-        'PRODUIT' => 'T20',
-        'RECETTE' => $record->t20*20+$record->t30*30,
-        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
-    );
-    $arr2 = array(
-        'DATE' => '',
-        'LIGNE' => '',
-        'BUS' => '',
-        'PRODUIT' => 'T30',
-        'RECETTE' => '',
-        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t30,
-    );
-    
-    array_push($excel_data_m, $arr);
-    array_push($excel_data_m, $arr2);
-    array_push($merge, $i);
-    $total += $record->t20*20+$record->t30*30;
-    $total_nb_vt += $record->t20+$record->t30;
-$i++;
-}else{
-    $arr = array(
-        'DATE' => $record->b_date,
-        'LIGNE' => $record->lname,
-        'BUS' => $record->bname,
-        'PRODUIT' => 'T20',
-        'RECETTE' => $record->t20*20,
-        'NOMBRE VOYAGEUR TRANSPOTE' =>$record->t20,
-    );
-    $total += $record->t20*20;
-    $total_nb_vt += $record->t20;
-    array_push($excel_data_m, $arr);
-}
-    
-}
-
-}
-$total_arr = array(
-    'DATE' => '',
-    'LIGNE' => '',
-    'BUS' => '',
-    'PRODUIT' => '',
-    'RECETTE' => $total,
-    'NOMBRE VOYAGEUR TRANSPOTE' =>$total_nb_vt,
-);
-array_push($excel_data_m, $total_arr);
-return $this->ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $month, $year);
-}
-public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
+    public function ExportExcelAnalytic($excel_data_j, $excel_data_m, $merge, $m, $y)
     {
         ini_set('max_execution_time', -1);
         ini_set('memory_limit', '40000M');
@@ -459,7 +453,7 @@ public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
 
             $inputFileType = 'Xlsx';
             $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-            
+
 
             $month = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
             $month_ar = ["جانفي", "فيفري", "مارس", "أفريل", "ماي", "جوان", "جويلية", "أوت", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
@@ -470,16 +464,16 @@ public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
 
             // $spreadSheet->getActiveSheet()->fromArray(['Avance - ' . $month[(int)$m -1] . ' ' . $y], null, 'D2');
             $spreadSheet->getActiveSheet()->fromArray($excel_data_j, null, 'A1');
-            $spreadSheet->setActiveSheetIndex(1);  
+            $spreadSheet->setActiveSheetIndex(1);
             foreach ($merge as $key) {
-             $spreadSheet->getActiveSheet()->mergeCells('A'.$key.':A'.$key+1); // Span cell A1 across two rows
-             $spreadSheet->getActiveSheet()->mergeCells('B'.$key.':B'.$key+1); // Span cell A1 across two rows
-             $spreadSheet->getActiveSheet()->mergeCells('C'.$key.':C'.$key+1); // Span cell A1 across two rows
-             $spreadSheet->getActiveSheet()->mergeCells('E'.$key.':E'.$key+1); // Span cell A1 across two rows
-            } 
+                $spreadSheet->getActiveSheet()->mergeCells('A' . $key . ':A' . $key + 1); // Span cell A1 across two rows
+                $spreadSheet->getActiveSheet()->mergeCells('B' . $key . ':B' . $key + 1); // Span cell A1 across two rows
+                $spreadSheet->getActiveSheet()->mergeCells('C' . $key . ':C' . $key + 1); // Span cell A1 across two rows
+                $spreadSheet->getActiveSheet()->mergeCells('E' . $key . ':E' . $key + 1); // Span cell A1 across two rows
+            }
 
 
-            $row =2;
+            $row = 2;
             foreach ($excel_data_m as $rowData) {
                 $column = 1;
                 foreach ($rowData as $cellData) {
@@ -488,11 +482,11 @@ public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
                 }
                 $row++;
             }
-          //  $spreadSheet->getActiveSheet()->fromArray($excel_data_m, null, 'A1');
+            //  $spreadSheet->getActiveSheet()->fromArray($excel_data_m, null, 'A1');
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-            header('Content-Disposition: attachment;filename="ComptabiliteAnalytique-'. $month[(int)$m -1] . '-' . $y . '.xlsx"');
+            header('Content-Disposition: attachment;filename="ComptabiliteAnalytique-' . $month[(int)$m - 1] . '-' . $y . '.xlsx"');
 
             $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
 
@@ -524,11 +518,11 @@ public function ExportExcelAnalytic($excel_data_j,$excel_data_m,$merge, $m, $y)
             //$spreadSheet->createSheet();
 
             /* Add some data */
-           $spreadSheet->setActiveSheetIndex(1);
+            $spreadSheet->setActiveSheetIndex(1);
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
 
-// Add some data
-/*
+            // Add some data
+            /*
 $range = $this->create_columns_range('A', 'ZZ');
 $k=0;
 for ($i=0; $i <150 ; $i+=5) {
@@ -560,7 +554,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             /* Add some data */
             $spreadSheet->setActiveSheetIndex(2);
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
-     /*             $k=0;
+            /*             $k=0;
             $l=[16,9,11,25,27,26,28,' ',03,'-T lac'];
             $c=[4,5,8,10,8,12,12,1,3,9];
             for ($i=0; $i <64 ;$i+=$c[$k-1]) {
@@ -614,7 +608,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             /* Add some data */
             $spreadSheet->setActiveSheetIndex(4);
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(8);
-     /*           $k=0;
+            /*           $k=0;
             $l=[16,9,11,27,25,26,28,03,'-T lac'];
             $c=[4,5,4,3,5,5,4,3,4];
             for ($i=0; $i <37 ;$i+=$c[$k-1]) {
@@ -676,25 +670,25 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             $spreadSheet->getActiveSheet()->fromArray(['  المداخيل الاجمالية ' . $d . ' - ' . $d2 . ' ' . $month_ar[$m] . ' ' . $y], null, 'C7');
             $spreadSheet->setActiveSheetIndex(11);
 
-          /*    $Excel_writer = new Xls($spreadSheet);
+            /*    $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="Etat_ExportedData.xls"');
             header('Cache-Control: max-age=0');
             ob_end_clean();
             $Excel_writer->save('php://output');*/
 
-//set the header first, so the result will be treated as an xlsx file.
-        //               dd($etat_bus);
- header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            //set the header first, so the result will be treated as an xlsx file.
+            //               dd($etat_bus);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-//make it an attachment so we can define filename
+            //make it an attachment so we can define filename
             header('Content-Disposition: attachment;filename="etat ' . $d . '-' . $d2 . ' ' . $month[$m] . ' ' . $y . '.xlsx"');
 
-//create IOFactory object
+            //create IOFactory object
             $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
             $writer->setIncludeCharts(true);
 
-//save into php output
+            //save into php output
             $writer->save('php://output');
             exit();
         } catch (Exception $e) {
@@ -734,10 +728,10 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $end_date = date_create($to);
 
         $end_date = $end_date->add(DateInterval::createFromDateString('tomorrow'));
-// Step 2: Defining the Date Interval
+        // Step 2: Defining the Date Interval
         $interval = new DateInterval('P1D');
 
-// Step 3: Creating the Date Range
+        // Step 3: Creating the Date Range
         $period = new DatePeriod($start_date, $interval, $end_date);
 
         //  $period = new DatePeriod($current_month_first_day, $interval, $current_month_last_day - 1);
@@ -751,7 +745,11 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $resp = [];
         $resp_h = [];
         $r = 0;
-        $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+        // $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+        $response2 = Http::withOptions([
+            'verify' => false // désactive la vérification SSL
+        ])->get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+
         if ($response2->successful()) {
 
             $resp = $response2[1]; // Extract JSON data from the response
@@ -763,7 +761,10 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         foreach ($period as $value) {
             if ($value->format("Y-m-d") <= $date) {
 
-                $response = Http::get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                // $response = Http::get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                $response = Http::withOptions([
+                    'verify' => false
+                ])->get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
 
                 if ($response->successful()) {
                     $responseData = $response->json(); // Extract JSON data from the response
@@ -778,7 +779,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data = Recette::query()
                     ->join('kabids', 'kabids.id', '=', 'recettes.emp_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("kabids.name as kname", DB::raw("sum(recette) as recette"))
@@ -790,7 +791,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $data_array[] = array($value->format("Y-m-d"));
                     $data_array[] = [];
                     $data_array[] = array("Num", "Receveur", "Recette");
-                    foreach ($data as $data_item) {$i++;
+                    foreach ($data as $data_item) {
+                        $i++;
                         $r += $data_item->recette;
 
                         $arr = array(
@@ -803,10 +805,10 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                         );
                         array_push($data_array, $arr);
-                    }} else {
+                    }
+                } else {
                     $data_array[] = [];
                 }
-
             }
         }
 
@@ -826,7 +828,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data = Recette::query()->where('brigade', 1)
                     ->join('buses', 'buses.id', '=', 'recettes.bus_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("buses.name as bname", DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"), DB::raw("sum(t25) as t25"), DB::raw("sum(t30) as t30"))
@@ -845,25 +847,22 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
-                       
+
                         $t20 = ($arr[$j][0] > 0) ? $arr[$j][0] * 20 : 0;
                         $t25 = ($arr[$j][1] > 0) ? $arr[$j][1] * 25 : 0;
                         $t30 = ($arr[$j][2] > 0) ? $arr[$j][2] * 30 : 0;
-                        $r = $arr[$j][3] ;
+                        $r = $arr[$j][3];
 
                         $s += $t20 + $t25 + $t30;
                         array_push($d, $t20);
                         array_push($d, $t25);
                         array_push($d, $t30);
                         array_push($arr_br, $r);
-
                     } else {
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($arr_br, 0);
-
-
                     }
                 }
 
@@ -871,7 +870,6 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data_array2[] = $d;
                 $data_array4[] = $arr_br;
-
             }
         }
 
@@ -886,7 +884,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data = Recette::query()->where('brigade', 2)
                     ->join('buses', 'buses.id', '=', 'recettes.bus_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("buses.name as bname", DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"), DB::raw("sum(t25) as t25"), DB::raw("sum(t30) as t30"))
@@ -906,25 +904,22 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
-                       
+
                         $t20 = ($arr[$j][0] > 0) ? $arr[$j][0] * 20 : 0;
                         $t25 = ($arr[$j][1] > 0) ? $arr[$j][1] * 25 : 0;
                         $t30 = ($arr[$j][2] > 0) ? $arr[$j][2] * 30 : 0;
-                        $r = $arr[$j][3] ;
+                        $r = $arr[$j][3];
 
                         $s += $t20 + $t25 + $t30;
                         array_push($d, $t20);
                         array_push($d, $t25);
                         array_push($d, $t30);
                         array_push($arr_br, $r);
-
                     } else {
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($arr_br, 0);
-
-
                     }
                 }
 
@@ -939,7 +934,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data = Recette::query()->where('brigade', 3)
                     ->join('buses', 'buses.id', '=', 'recettes.bus_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('buses', 'buses.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("buses.name as bname", DB::raw("sum(rotation) as rotation"), DB::raw("sum(t20) as t20"), DB::raw("sum(t25) as t25"), DB::raw("sum(t30) as t30"))
@@ -959,25 +954,22 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     $j = ($i < 10) ? "A0" . $i : "A" . $i;
                     if (in_array($j, $arrs)) {
 
-                       
+
                         $t20 = ($arr[$j][0] > 0) ? $arr[$j][0] * 20 : 0;
                         $t25 = ($arr[$j][1] > 0) ? $arr[$j][1] * 25 : 0;
                         $t30 = ($arr[$j][2] > 0) ? $arr[$j][2] * 30 : 0;
-                        $r = $arr[$j][3] ;
+                        $r = $arr[$j][3];
 
                         $s += $t20 + $t25 + $t30;
                         array_push($d, $t20);
                         array_push($d, $t25);
                         array_push($d, $t30);
                         array_push($arr_br, $r);
-
                     } else {
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($d, 0);
                         array_push($arr_br, 0);
-
-
                     }
                 }
 
@@ -1011,17 +1003,17 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
         $data_array5 = [];
         $data_array52 = [];
-//$data_array3 [] = $arr;
+        //$data_array3 [] = $arr;
         foreach ($period as $value) {
             if ($value->format("Y-m-d") <= $date) {
 
                 $datal = Recette::query()->where('brigade', 1)
                     ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("lignes.name as lname", "lignes.ordre as ordre", "type", "t20", "t25", "t30", "rotation")
-                // ->groupBy(['lname'])
+                    // ->groupBy(['lname'])
                     ->orderBy('lignes.ordre', 'ASC')
                     ->get();
                 $j = 0;
@@ -1115,7 +1107,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $k = 1;
                 $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
-                    
+
                     $l = $c[$k - 1];
                     $k++;
                     for ($j = 0; $j < $l; $j++) {
@@ -1157,7 +1149,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-               // $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
+                // $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
@@ -1169,23 +1161,24 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data_array3[] = $arp;
                 $data_array5[] = $lr;
-            }}
+            }
+        }
 
-            foreach ($period as $value) {
-                if ($value->format("Y-m-d") <= $date) {
-    
-                    $datal = Recette::query()->where('brigade', 2)
-                        ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+        foreach ($period as $value) {
+            if ($value->format("Y-m-d") <= $date) {
+
+                $datal = Recette::query()->where('brigade', 2)
+                    ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                     /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                     ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
-                        ->where('b_date', $value->format("Y-m-d"))
-                        ->select("lignes.name as lname", "lignes.ordre as ordre", "type", "t20", "t25", "t30", "rotation")
+                    ->where('b_date', $value->format("Y-m-d"))
+                    ->select("lignes.name as lname", "lignes.ordre as ordre", "type", "t20", "t25", "t30", "rotation")
                     // ->groupBy(['lname'])
-                        ->orderBy('lignes.ordre', 'ASC')
-                        ->get();
-                    $j = 0;
-                    $i = 0;
-                    /*               $end= end($data);
+                    ->orderBy('lignes.ordre', 'ASC')
+                    ->get();
+                $j = 0;
+                $i = 0;
+                /*               $end= end($data);
                     $endkey = key($end);
                     $count = [];
                     foreach($data as $key => $data_item)
@@ -1226,111 +1219,112 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     }
     
                     }*/
-    
-                    $arp = [];
-                    $lr = [];
-                    $cl = 'cl';
-                    $k = 1;
-                    //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                    $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                    for ($i = 1; $i <= 10; $i++) {
-                        $l = $c[$k - 1];
-                        $k++;
-                        for ($j = 0; $j < $l; $j++) {
-    
-                            ${$cl . $i . $j} = 0;
-                        }
+
+                $arp = [];
+                $lr = [];
+                $cl = 'cl';
+                $k = 1;
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
+                for ($i = 1; $i <= 10; $i++) {
+                    $l = $c[$k - 1];
+                    $k++;
+                    for ($j = 0; $j < $l; $j++) {
+
+                        ${$cl . $i . $j} = 0;
                     }
-                    $j = -1;
-    
-                    foreach ($datal as $key => $data_item) {
-                        if ($data_item->ordre != $j) {
-                            $j = $data_item->ordre;
-                            //  array_push($count,$i);
-    
-                            $i = 0;
-                            # code...
-                        } else {
-                            $i++;
-                        }
-    
-                        if ($j == 6) {
-                            ${$cl . $j . $i} = $data_item->t20 * 20;
-                            $i++;
-                            ${$cl . $j . $i} = $data_item->t30 * 30;
-                        } elseif (($j == 7 || $j == 10)) {
-                            ${$cl . $j . $i} = $data_item->t20 * 20;
-                            $i++;
-                            ${$cl . $j . $i} = $data_item->t25 * 25;
-                        } else {
-                            ${$cl . $j . $i} = $data_item->t20 * 20;
-                        }
-    
-                        /*    array_push($arrs,$j);
+                }
+                $j = -1;
+
+                foreach ($datal as $key => $data_item) {
+                    if ($data_item->ordre != $j) {
+                        $j = $data_item->ordre;
+                        //  array_push($count,$i);
+
+                        $i = 0;
+                        # code...
+                    } else {
+                        $i++;
+                    }
+
+                    if ($j == 6) {
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t30 * 30;
+                    } elseif (($j == 7 || $j == 10)) {
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t25 * 25;
+                    } else {
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                    }
+
+                    /*    array_push($arrs,$j);
                     if ($key == $endkey) {
                     array_push($count,$i);
                     }*/
-                    }
-                    $k = 1;
-                    //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                    $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                    for ($i = 1; $i <= 10; $i++) {
-                        
-                        $l = $c[$k - 1];
-                        $k++;
-                        for ($j = 0; $j < $l; $j++) {
-    
-                            array_push($arp, ${$cl . $i . $j});
-                        }
-                    }
-    
-                    $clr = 'clr';
-                    $kr = 1;
-                    $jr = 0;
-                    //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                    $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
+                }
+                $k = 1;
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
+                for ($i = 1; $i <= 10; $i++) {
 
-                    for ($ir = 1; $ir <= 9; $ir++) {
-                        $l = $cr[$kr - 1];
-                        $kr++;
-                        for ($jr = 0; $jr < $l; $jr++) {
-    
-                            ${$clr . $ir . $jr} = 0;
-                        }
+                    $l = $c[$k - 1];
+                    $k++;
+                    for ($j = 0; $j < $l; $j++) {
+
+                        array_push($arp, ${$cl . $i . $j});
                     }
-                    $jr = -1;
-                    foreach ($datal as $data_item) {
-                        if ($data_item->ordre != $jr) {
-                            $jr = $data_item->ordre;
-                            //  array_push($count,$ir);
-    
-                            $ir = 0;
-                            # code...
-                        } else {
-                            $ir++;
-                        }
-    
-                        ${$clr . $jr . $ir} = $data_item->rotation;
-                        /*    array_push($arrs,$jr);
+                }
+
+                $clr = 'clr';
+                $kr = 1;
+                $jr = 0;
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
+
+                for ($ir = 1; $ir <= 9; $ir++) {
+                    $l = $cr[$kr - 1];
+                    $kr++;
+                    for ($jr = 0; $jr < $l; $jr++) {
+
+                        ${$clr . $ir . $jr} = 0;
+                    }
+                }
+                $jr = -1;
+                foreach ($datal as $data_item) {
+                    if ($data_item->ordre != $jr) {
+                        $jr = $data_item->ordre;
+                        //  array_push($count,$ir);
+
+                        $ir = 0;
+                        # code...
+                    } else {
+                        $ir++;
+                    }
+
+                    ${$clr . $jr . $ir} = $data_item->rotation;
+                    /*    array_push($arrs,$jr);
                     if ($krey == $endkrey) {
                     array_push($count,$ir);
                     }*/
+                }
+                $kr = 1;
+                //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
+                // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                for ($ir = 1; $ir <= 9; $ir++) {
+                    $l = $cr[$kr - 1];
+                    $kr++;
+                    for ($jr = 0; $jr < $l; $jr++) {
+
+                        array_push($lr, ${$clr . $ir . $jr});
                     }
-                    $kr = 1;
-                    //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                   // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
-                    for ($ir = 1; $ir <= 9; $ir++) {
-                        $l = $cr[$kr - 1];
-                        $kr++;
-                        for ($jr = 0; $jr < $l; $jr++) {
-    
-                            array_push($lr, ${$clr . $ir . $jr});
-                        }
-                    }
-    
-                    $data_array32[] = $arp;
-                    $data_array52[] = $lr;
-                }}
+                }
+
+                $data_array32[] = $arp;
+                $data_array52[] = $lr;
+            }
+        }
 
 
         foreach ($period as $value) {
@@ -1338,11 +1332,11 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $datal = Recette::query()->where('brigade', 3)
                     ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
-                /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
+                    /* ->join('lignes', 'lignes.id', '=', 'recettes.ligne_id')
                 ->join('lignes', 'lignes.id', '=', 'recettes.bus_id')*/
                     ->where('b_date', $value->format("Y-m-d"))
                     ->select("lignes.name as lname", "lignes.ordre as ordre", "type", "t20", "t25", "t30", "rotation")
-                // ->groupBy(['lname'])
+                    // ->groupBy(['lname'])
                     ->orderBy('lignes.ordre', 'ASC')
                     ->get();
                 $j = 0;
@@ -1437,7 +1431,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
                 $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
                 for ($i = 1; $i <= 10; $i++) {
-                    
+
                     $l = $c[$k - 1];
                     $k++;
                     for ($j = 0; $j < $l; $j++) {
@@ -1450,7 +1444,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                                $cr = [3, 4, 4, 5, 3, 4, 4, 3, 5];
+                $cr = [3, 4, 4, 5, 3, 4, 4, 3, 5];
 
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
@@ -1480,7 +1474,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-               // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
+                // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
                 for ($ir = 1; $ir <= 9; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
@@ -1492,7 +1486,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $data_array33[] = $arp;
                 $data_array53[] = $lr;
-            }}
+            }
+        }
 
         /* $arr=[];
         $arr_t=[];
@@ -1617,7 +1612,6 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     'flexy' => $flexy,
                 ]);
                 return ['تم التحديث بنجاح', $brigade, $rc->b_date];
-
             }
         }
         return false;
@@ -1631,7 +1625,6 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 $rc->delete();
                 return ['تم الحذف ', $rc->brigade, $rc->b_date];
-
             }
         }
         return false;
@@ -1694,5 +1687,4 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
     {
         return view('pages.Controle_Bus');
     }
-
 }
