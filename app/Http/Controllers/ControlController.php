@@ -625,8 +625,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             }
              */
             $spreadSheet->getActiveSheet()->fromArray($rotation_l, null, 'B5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_l2, null, 'AS5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_l3, null, 'CI5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_l2, null, 'BC5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_l3, null, 'DD5');
 
             // $spreadSheet->getActiveSheet()->setTitle('Rotation_ligne');
 
@@ -648,7 +648,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
             $spreadSheet->getActiveSheet()->fromArray([$month[$m] . ' ' . $y], null, 'B4');
             $spreadSheet->getActiveSheet()->fromArray($resp, null, 'B8');
-            $spreadSheet->getActiveSheet()->fromArray($resp_h, null, 'R44');
+            $spreadSheet->getActiveSheet()->fromArray($resp_h, null, 'U44');
 
             $spreadSheet->setActiveSheetIndex(9);
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(10);
@@ -745,7 +745,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $resp = [];
         $resp_h = [];
         $r = 0;
-        // $response2 = Http::get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+        // $response2 = Http::get('https://app.etus22.dz/api/stat_site2/' . $from . '/' . $to);
         $response2 = Http::withOptions([
             'verify' => false // désactive la vérification SSL
         ])->get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
@@ -761,7 +761,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         foreach ($period as $value) {
             if ($value->format("Y-m-d") <= $date) {
 
-                // $response = Http::get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                // $response = Http::get('https://app.etus22.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
                 $response = Http::withOptions([
                     'verify' => false
                 ])->get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
@@ -1065,8 +1065,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
                     for ($j = 0; $j < $l; $j++) {
@@ -1105,8 +1105,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }*/
                 }
                 $k = 1;
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
                     $k++;
@@ -1120,8 +1120,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
-                for ($ir = 1; $ir <= 9; $ir++) {
+                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6, 6, 4];
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
@@ -1150,7 +1150,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
                 // $c = [3, 5, 4, 5, 5, 4, 4, 4, 6];
-                for ($ir = 1; $ir <= 9; $ir++) {
+                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6, 6, 4];
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
@@ -1225,8 +1226,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
                     for ($j = 0; $j < $l; $j++) {
@@ -1266,8 +1267,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
                     $k++;
@@ -1281,9 +1282,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6];
-
-                for ($ir = 1; $ir <= 9; $ir++) {
+                $cr = [3, 5, 4, 5, 5, 5, 4, 4, 6, 6, 4];
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
@@ -1312,7 +1312,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
                 // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
-                for ($ir = 1; $ir <= 9; $ir++) {
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
@@ -1388,8 +1388,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
                     for ($j = 0; $j < $l; $j++) {
@@ -1429,8 +1429,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 6];
-                for ($i = 1; $i <= 10; $i++) {
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
                     $k++;
@@ -1444,9 +1444,9 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 $jr = 0;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $cr = [3, 4, 4, 5, 3, 4, 4, 3, 5];
+                $cr = [3, 4, 4, 4, 3, 5, 4, 3, 3,3,3];
 
-                for ($ir = 1; $ir <= 9; $ir++) {
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
@@ -1475,7 +1475,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $kr = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
                 // $c = [3, 4, 4, 5, 3, 8, 8, 3, 6, 6];
-                for ($ir = 1; $ir <= 9; $ir++) {
+                for ($ir = 1; $ir <= 11; $ir++) {
                     $l = $cr[$kr - 1];
                     $kr++;
                     for ($jr = 0; $jr < $l; $jr++) {
