@@ -747,7 +747,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $r = 0;
         // $response2 = Http::get('https://app.etus22.dz/api/stat_site2/' . $from . '/' . $to);
         $response2 = Http::withOptions([
-            'verify' => false // désactive la vérification SSL
+            'verify' => false, // désactive la vérification SSL
+            'timeout' => 60,
         ])->get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
 
         if ($response2->successful()) {
@@ -763,7 +764,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
 
                 // $response = Http::get('https://app.etus22.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
                 $response = Http::withOptions([
-                    'verify' => false
+                    'verify' => false,
+                    'timeout' => 60,
                 ])->get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
 
                 if ($response->successful()) {
