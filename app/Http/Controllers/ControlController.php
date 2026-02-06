@@ -745,11 +745,15 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         $resp = [];
         $resp_h = [];
         $r = 0;
-        // $response2 = Http::get('https://app.etus22.dz/api/stat_site2/' . $from . '/' . $to);
-        $response2 = Http::withOptions([
-            'verify' => false, // désactive la vérification SSL
-            'timeout' => 60,
-        ])->get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+        $response2 = Http::get('https://app.etus22.dz/api/stat_site2/' . $from . '/' . $to);
+        // $response2 = Http::withOptions([
+        //     'verify' => false, // désactive la vérification SSL
+        //     'timeout' => 60,
+        // ])->get('https://etus22.deepertech.dz/api/stat_site2/' . $from . '/' . $to);
+        // $response2 = Http::withOptions([
+        //     'verify' => false, // désactive la vérification SSL
+        //     'timeout' => 60,
+        // ])->get('https://app.etus22.dz/api/stat_site2/' . $from . '/' . $to);
 
         if ($response2->successful()) {
 
@@ -762,11 +766,15 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
         foreach ($period as $value) {
             if ($value->format("Y-m-d") <= $date) {
 
-                // $response = Http::get('https://app.etus22.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
-                $response = Http::withOptions([
-                    'verify' => false,
-                    'timeout' => 60,
-                ])->get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                $response = Http::get('https://app.etus22.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                // $response = Http::withOptions([
+                //     'verify' => false,
+                //     'timeout' => 60,
+                // ])->get('https://etus22.deepertech.dz/api/stat_site/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
+                // $response = Http::withOptions([
+                //     'verify' => false,
+                //     'timeout' => 60,
+                // ])->get('https://app.etus22.dz/api/stat_site2/' . $value->format("Y-m-d") . 'T00:01/' . $value->format("Y-m-d") . 'T23:59');
 
                 if ($response->successful()) {
                     $responseData = $response->json(); // Extract JSON data from the response
