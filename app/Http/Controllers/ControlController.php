@@ -1028,6 +1028,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                     ->get();
                 $j = 0;
                 $i = 0;
+                // dd($datal);
                 /*               $end= end($data);
                 $endkey = key($end);
                 $count = [];
@@ -1075,7 +1076,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
@@ -1101,11 +1102,18 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
-                    } elseif (($j == 7 || $j == 10)) {
+                    } elseif (($j == 7 )) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t25 * 25;
-                    } else {
+                    } elseif( $j == 10){
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t25 * 25;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t30 * 30;
+                    }
+                     else {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                     }
 
@@ -1115,7 +1123,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }*/
                 }
                 $k = 1;
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
@@ -1236,7 +1244,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
@@ -1262,11 +1270,18 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
-                    } elseif (($j == 7 || $j == 10)) {
+                    } elseif (($j == 7 )) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t25 * 25;
-                    } else {
+                    } elseif( $j == 10){
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t25 * 25;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t30 * 30;
+                    }
+                     else {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                     }
 
@@ -1277,7 +1292,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
@@ -1398,7 +1413,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $cl = 'cl';
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
                     $l = $c[$k - 1];
                     $k++;
@@ -1424,11 +1439,18 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
-                    } elseif (($j == 7 || $j == 10)) {
+                    } elseif (($j == 7 )) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t25 * 25;
-                    } else {
+                    } elseif( $j == 10){
+                        ${$cl . $j . $i} = $data_item->t20 * 20;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t25 * 25;
+                        $i++;
+                        ${$cl . $j . $i} = $data_item->t30 * 30;
+                    }
+                     else {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                     }
 
@@ -1439,7 +1461,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 }
                 $k = 1;
                 //   $l=[1B,16,9,11,25,27,26,28,' ',03,'-T lac'];
-                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 8, 6];
+                $c = [3, 5, 4, 5, 5, 10, 8, 4, 6, 12, 6];
                 for ($i = 1; $i <= 11; $i++) {
 
                     $l = $c[$k - 1];
@@ -1498,7 +1520,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                 $data_array53[] = $lr;
             }
         }
-
+    // dd($data_array3,$data_array32,$data_array33);
         /* $arr=[];
         $arr_t=[];
         $k=0;
