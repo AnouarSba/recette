@@ -598,8 +598,8 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
             }*/
 
             $spreadSheet->getActiveSheet()->fromArray($rotation_b, null, 'B5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_b2, null, 'AM5');
-            $spreadSheet->getActiveSheet()->fromArray($rotation_b3, null, 'BX5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_b2, null, 'BV5');
+            $spreadSheet->getActiveSheet()->fromArray($rotation_b3, null, 'EP5');
 
             // $spreadSheet->getActiveSheet()->setTitle('Rotation_bus');
 
