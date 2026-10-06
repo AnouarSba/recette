@@ -2117,7 +2117,7 @@ $('#btnLeft_multiT').click(function (e) {
            setCookie("date", x, 365);
             setCookie("brigade", y, 365);
               
-$.ajax({
+/*$.ajax({
     method: "GET",
     url: "/ticket_show/" + z,
 
@@ -2185,7 +2185,7 @@ $.ajax({
   $("#Tleft_box1 option").prop("selected", "selected");
   $("#Tleft_box2 option").prop("selected", "selected");*/
 
-
+/*here
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
     $("select[name='tt30[]']").html('');
@@ -2203,7 +2203,7 @@ $.ajax({
    
 });  
 }, 200);
-}); 
+}); here*/
         }
 
         function setCookie(cname, cvalue, exdays) {
