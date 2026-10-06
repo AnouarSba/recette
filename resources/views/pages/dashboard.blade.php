@@ -791,7 +791,7 @@
                                         <input type="number" name="dette" id="odette" disabled value="0">
                                         @if (Illuminate\Support\Facades\Auth::user()->id >3)
                             
-                            <div  class="row"  style="color: black" dir="rtl">
+                            {{-- <div  class="row"  style="color: black" dir="rtl">
                                 <div class="row multi-select-row">
                                     <div class="col-xs-offset-1 col-xs-4" style="width: 40%;">
                                       <h4 class="multi-select-heading">
@@ -973,7 +973,7 @@
                                       <select id="hidden_right_box2"></select>
                                     </div>
                                   </div>
-                            </div>
+                            </div> --}}
                             <br>
                     @endif
                     <br>
