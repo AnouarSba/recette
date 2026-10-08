@@ -2117,7 +2117,7 @@ $('#btnLeft_multiT').click(function (e) {
            setCookie("date", x, 365);
             setCookie("brigade", y, 365);
               
-.ajax({
+$.ajax({
     method: "GET",
     url: "/ticket_show/" + z,
 
@@ -2184,6 +2184,7 @@ $('#btnLeft_multiT').click(function (e) {
    $("#Tleft_box option").prop("selected", "selected");
   $("#Tleft_box1 option").prop("selected", "selected");
   $("#Tleft_box2 option").prop("selected", "selected");*/
+
 
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
