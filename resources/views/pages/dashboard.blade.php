@@ -2117,7 +2117,7 @@ $('#btnLeft_multiT').click(function (e) {
            setCookie("date", x, 365);
             setCookie("brigade", y, 365);
               
-$.ajax({
+/*$.ajax({
     method: "GET",
     url: "/ticket_show/" + z,
 
@@ -2185,6 +2185,7 @@ $.ajax({
   $("#Tleft_box1 option").prop("selected", "selected");
   $("#Tleft_box2 option").prop("selected", "selected");*/
 
+/*here
   $("select[name='tt20[]']").html('');
     $("select[name='tt25[]']").html('');
     $("select[name='tt30[]']").html('');
@@ -2202,65 +2203,124 @@ $.ajax({
    
 });  
 }, 200);
+}); here*/
+        }
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+    const expires = "expires=" + d.toUTCString();
+    document.cookie =
+        cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    const name = cname + "=";
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i].trim();
+
+        if (c.indexOf(name) === 0) {
+            return decodeURIComponent(c.substring(name.length));
+        }
+    }
+
+    return "";
+}
+
+
+// SAVE COOKIES
+function saveCookies() {
+    const date = document.getElementById("dd").value;
+    const brigade = document.getElementById("brigad").value;
+
+    setCookie("date", date, 365);
+    setCookie("brigade", brigade, 365);
+}
+
+
+// LOAD COOKIES
+function checkCookie() {
+    const date = getCookie("date");
+    const brigade = getCookie("brigade");
+
+    if (date !== "") {
+        document.getElementById("dd").value = date;
+    }
+
+    if (brigade !== "") {
+        document.getElementById("brigad").value = brigade;
+    }
+}
+
+
+// CALL WHEN PAGE LOADS
+$(document).ready(function () {
+    checkCookie();
 });
-        }
 
-        function setCookie(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
 
-        function getCookie(cname) {
-            let name = cname + "=";
-            let ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
+// CALL WHEN YOU WANT TO SAVE
+$("#name").change(function () {
+    saveCookies();
+});
+        // function setCookie(cname, cvalue, exdays) {
+        //     const d = new Date();
+        //     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        //     let expires = "expires=" + d.toUTCString();
+        //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        // }
 
-        function checkCookie() {
-            var user = getCookie("date");
-            if (user != "") {
-                document.getElementById("dd").value = user;
-                document.getElementById("name").focus();
-            } else {
-                document.getElementById("dd").focus();
-            }
-            var br = getCookie("brigade");
-            if (br != "") {
-                document.getElementById("brigad").value = br;
-            } else {
-                document.getElementById("dd").focus();
-            }
-        }
+        // function getCookie(cname) {
+        //     let name = cname + "=";
+        //     let ca = document.cookie.split(';');
+        //     for (let i = 0; i < ca.length; i++) {
+        //         let c = ca[i];
+        //         while (c.charAt(0) == ' ') {
+        //             c = c.substring(1);
+        //         }
+        //         if (c.indexOf(name) == 0) {
+        //             return c.substring(name.length, c.length);
+        //         }
+        //     }
+        //     return "";
+        // }
 
-        function ch(v) {
+        // function checkCookie() {
+        //     var user = getCookie("date");
+        //     if (user != "") {
+        //         document.getElementById("dd").value = user;
+        //         document.getElementById("name").focus();
+        //     } else {
+        //         document.getElementById("dd").focus();
+        //     }
+        //     var br = getCookie("brigade");
+        //     if (br != "") {
+        //         document.getElementById("brigad").value = br;
+        //     } else {
+        //         document.getElementById("dd").focus();
+        //     }
+        // }
 
-            x = document.getElementById("t20").value * 20;
-            y = document.getElementById("t25").value * 25;
-            z = document.getElementById("t30").value * 30;
-            xs = document.getElementById("s20").value * 20;
-            ys = document.getElementById("s25").value * 25;
-            zs = document.getElementById("s30").value * 30;
-            /*document.getElementById("tp20").textContent = x;
-            document.getElementById("tp25").textContent = y;
-            document.getElementById("tp30").textContent = z;
-            */
+        // function ch(v) {
 
-            document.getElementById("somme").value = x + y + z;
-            document.getElementById("recette").value = x + y + z;
-            document.getElementById("dette").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
-            document.getElementById("dettes").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
-        }
+        //     x = document.getElementById("t20").value * 20;
+        //     y = document.getElementById("t25").value * 25;
+        //     z = document.getElementById("t30").value * 30;
+        //     xs = document.getElementById("s20").value * 20;
+        //     ys = document.getElementById("s25").value * 25;
+        //     zs = document.getElementById("s30").value * 30;
+        //     /*document.getElementById("tp20").textContent = x;
+        //     document.getElementById("tp25").textContent = y;
+        //     document.getElementById("tp30").textContent = z;
+        //     */
+
+        //     document.getElementById("somme").value = x + y + z;
+        //     document.getElementById("recette").value = x + y + z;
+        //     document.getElementById("dette").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
+        //     document.getElementById("dettes").value = parseInt(document.getElementById("odette").value) + xs * 100 - x + ys * 100 - y + zs * 100 - z;
+        // }
 
         function empty() {
             if (document.getElementById("t20").value == "") {
