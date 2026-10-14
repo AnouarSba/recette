@@ -902,11 +902,11 @@
                                         <div  style="display: inline; width: 100%"  class="custom-dropdown" data-tooltip="Selected items: 0">
                                      
                                         <select style="display: inline; width: 30%" id="left_box" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select form-control multi-select-box">
-                                        <optgroup label="دفاتر 20دج">
+                                        {{-- <optgroup label="دفاتر 20دج">
                                             @foreach (App\Models\Carnet::where('status',2)->where('type',1)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
                                             @endforeach
-                                        </optgroup> 
+                                        </optgroup>  --}}
                                         
                                       </select>
                                         </div>
@@ -914,9 +914,9 @@
 
                                       <select style="display: inline; width: 30%" id="left_box1" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select1 form-control multi-select-box">
                                         <optgroup label="دفاتر 25دج">
-                                            @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
+                                            {{-- @foreach (App\Models\Carnet::where('status',2)->where('type',2)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
-                                            @endforeach                                        
+                                            @endforeach                                         --}}
                                         </optgroup>
                                       </select>
                                         </div>
@@ -924,9 +924,9 @@
 
                                     <select style="display: inline; width: 30%" id="left_box2" name="canselect_code" data-tooltip="Selected items: 0" multiple="" class="custom-select2 form-control multi-select-box">
                                         <optgroup label="دفاتر 30دج">
-                                            @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
+                                            {{-- @foreach (App\Models\Carnet::where('status',2)->where('type',3)->get() as $k)
                                             <option value="{{$k->id}}">{{$k->name}}</option>
-                                            @endforeach                                        
+                                            @endforeach                                         --}}
                                         </optgroup>                         
                                      </select>
                                         </div>
