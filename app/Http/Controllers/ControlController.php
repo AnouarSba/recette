@@ -1098,7 +1098,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         $i++;
                     }
 
-                    if ($j == 6) {
+                    if ($j == 6 || $j == 13) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
@@ -1266,7 +1266,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         $i++;
                     }
 
-                    if ($j == 6) {
+                    if ($j == 6 || $j == 13) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
@@ -1435,7 +1435,7 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
                         $i++;
                     }
 
-                    if ($j == 6) {
+                    if ($j == 6 || $j == 13) {
                         ${$cl . $j . $i} = $data_item->t20 * 20;
                         $i++;
                         ${$cl . $j . $i} = $data_item->t30 * 30;
