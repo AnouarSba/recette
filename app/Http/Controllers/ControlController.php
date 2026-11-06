@@ -1719,4 +1719,87 @@ $spreadSheet->getActiveSheet()->mergeCells("{$begin}:{$end}");
     {
         return view('pages.Controle_Bus');
     }
+    public function daily_venue(Request $request){
+        $request->validate([
+            'date' => 'required|date',
+        ]);
+        $date = $request->date;
+
+        ini_set('max_execution_time', -1);
+        ini_set('memory_limit', '40000M');
+
+
+        $data = Ligne::leftJoin('recettes as m', function ($join) use ($date) {
+        $join->on('lignes.id', '=', 'm.ligne_id')
+             ->whereDate('m.b_date', $date);
+                })
+                ->select(
+                    'lignes.name',
+                    DB::raw('COALESCE(SUM(m.recette), 0) as total_recette')
+                )
+                ->groupBy('lignes.id', 'lignes.name')
+                ->orderByRaw("
+                    FIELD(TRIM(lignes.name),
+                        'ligne 01B',
+                        'Ligne 04B',
+                        'Ligne 03B',
+                        'Ligne 05B',
+                        'Ligne 23',
+                        'Ligne 09',
+                        'Ligne 16',
+                        'Ligne 11',
+                        'Ligne 25',
+                        'Ligne 25B',
+                        'ligne 26',
+                        'Ligne 27',
+                        'Ligne 28',
+                        'Ligne Touristique : Lac sidi mohamed benali'
+                    )
+                ")
+                ->get();
+            $data = $data->toArray();
+            $recettes = array_map(function ($item) {
+                return [$item['total_recette']];
+            }, $data);        
+            $elec = Http::get('https://app.etus22.dz/api/stat_site/' . $date. 'T00:01/'. $date  . 'T23:59');
+            if ($elec->successful()) {
+                $responseData = $elec->json(); 
+                $flexy = $responseData[0] + $responseData[1] * 200 + $responseData[2] * 300;
+            } else {
+                return response()->json(['error' => 'Failed to send data to the other website'], 500);
+            }
+        try {
+
+            $inputFileType = 'Xlsx';
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+            $reader->setIncludeCharts(true);
+            $spreadSheet = $reader->load('assets/word/moule journalier.xlsx');
+
+            $spreadSheet->setActiveSheetIndex(0);
+
+            $spreadSheet->getActiveSheet()->fromArray([$date], null, 'G2');
+            $spreadSheet->getActiveSheet()->fromArray(
+                $recettes,
+                null,
+                'F10'
+                );
+            $spreadSheet->getActiveSheet()->fromArray([$flexy], null, 'F24');
+
+
+
+
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+            header('Content-Disposition: attachment;filename="ETUS SBA - ' . $request->date .'.xlsx"');
+
+            $writer = IOFactory::createWriter($spreadSheet, 'Xlsx');
+            $writer->setIncludeCharts(true);
+
+            $writer->save('php://output');
+            exit();
+        } catch (Exception $e) {
+            return;
+        }
+    }
 }
